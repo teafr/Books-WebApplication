@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 using web_api_for_books_app.Enums;
 
 namespace web_api_for_books_app.Models
@@ -20,8 +21,10 @@ namespace web_api_for_books_app.Models
         [Column("status")]
         public Status Status { get; set; }
 
+        [JsonIgnore]
         public Book Book { get; set; }
 
+        [JsonIgnore]
         public User User { get; set; }
     }
 }

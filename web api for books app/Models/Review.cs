@@ -31,8 +31,10 @@ namespace web_api_for_books_app.Models
         [Required]
         public int BookId { get; set; }
 
+        [JsonIgnore]
         public Reviewer Reviewer { get; set; }
 
+        [JsonIgnore]
         public Book Book { get; set; }
     }
 }

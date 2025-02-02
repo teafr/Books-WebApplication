@@ -20,10 +20,7 @@ namespace web_api_for_books_app.Models
         [Required]
         public int AuthorId { get; set; }
 
-        [Column("publication_date")]
-        [Required]
-        public DateTime PublicationDate { get; set; }
-
+        [JsonIgnore]
         public Author Author { get; set; }
 
         [JsonIgnore]

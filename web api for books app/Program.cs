@@ -1,4 +1,5 @@
 using web_api_for_books_app.Contexts;
+using web_api_for_books_app.Models;
 using web_api_for_books_app.Repositories;
 
 namespace web_api_for_books_app
@@ -15,7 +16,7 @@ namespace web_api_for_books_app
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddTransient<BookContext>();
-            builder.Services.AddTransient<IBookRepository, BookRepository>();
+            builder.Services.AddTransient<IRepository<Book>, BookRepository>();
 
             var app = builder.Build();
 

@@ -9,10 +9,10 @@ namespace web_api_for_books_app.Controllers
     [ApiController]
     public class BookController : ControllerBase
     {
-        private readonly IBookRepository _bookRepository;
+        private readonly IRepository<Book> _bookRepository;
         private readonly ILogger<BookController> _logger;
 
-        public BookController(IBookRepository bookRepository, ILogger<BookController> logger)
+        public BookController(IRepository<Book> bookRepository, ILogger<BookController> logger)
         {
             _bookRepository = bookRepository;
             _logger = logger;
@@ -101,7 +101,6 @@ namespace web_api_for_books_app.Controllers
                 existingBook.Id = bookToUpdate.Id;
                 existingBook.Name = bookToUpdate.Name;
                 existingBook.Author = bookToUpdate.Author;
-                existingBook.PublicationDate = bookToUpdate.PublicationDate;
                 await _bookRepository.UpdateBookAsync(existingBook);
                 return NoContent();
             }

@@ -4,7 +4,7 @@ using web_api_for_books_app.Models;
 
 namespace web_api_for_books_app.Repositories
 {
-    public class BookRepository : IBookRepository
+    public class BookRepository : IRepository<Book>
     {
         private readonly BookContext _bookcontext;
 
