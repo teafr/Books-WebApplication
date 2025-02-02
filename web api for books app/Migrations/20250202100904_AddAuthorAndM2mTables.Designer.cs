@@ -10,7 +10,7 @@ using web_api_for_books_app.Contexts;
 
 namespace web_api_for_books_app.Migrations
 {
-    [DbContext(typeof(BookContext))]
+    [DbContext(typeof(LibraryContext))]
     [Migration("20250202100904_AddAuthorAndM2mTables")]
     partial class AddAuthorAndM2mTables
     {

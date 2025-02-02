@@ -8,7 +8,7 @@ using web_api_for_books_app.Contexts;
 
 namespace web_api_for_books_app.Migrations
 {
-    [DbContext(typeof(BookContext))]
+    [DbContext(typeof(LibraryContext))]
     partial class BookContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

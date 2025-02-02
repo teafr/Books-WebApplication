@@ -2,12 +2,12 @@
 using web_api_for_books_app.Models;
 
 namespace web_api_for_books_app.Contexts;
-public class BookContext : DbContext
+public class LibraryContext : DbContext
 {
     private readonly IConfiguration _configuration;
     private readonly string _connectionString;
 
-    public BookContext(IConfiguration configuration)
+    public LibraryContext(IConfiguration configuration)
     {
         _configuration = configuration;
         _connectionString = _configuration.GetConnectionString("default")!;

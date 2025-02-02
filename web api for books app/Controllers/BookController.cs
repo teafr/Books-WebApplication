@@ -22,7 +22,7 @@ namespace web_api_for_books_app.Controllers
         {
             try
             {
-                var books = await _bookRepository.GetBooksAsync();
+                var books = await _bookRepository.GetAsync();
                 return Ok(books);
             }
             catch (Exception exeption)
@@ -43,7 +43,7 @@ namespace web_api_for_books_app.Controllers
         {
             try
             {
-                var book = await _bookRepository.GetBookByIdAsync(id);
+                var book = await _bookRepository.GetByIdAsync(id);
                 if (book == null)
                 {
                     return NotFound(new
@@ -71,7 +71,7 @@ namespace web_api_for_books_app.Controllers
         {
             try
             {
-                var createdBook = await _bookRepository.CreateBookAsync(book);
+                var createdBook = await _bookRepository.CreateAsync(book);
                 return CreatedAtAction(nameof(AddBook), createdBook);
             }
             catch (Exception exeption)
@@ -90,18 +90,20 @@ namespace web_api_for_books_app.Controllers
         {
             try
             {
-                var existingBook = await _bookRepository.GetBookByIdAsync(bookToUpdate.Id);
+                var existingBook = await _bookRepository.GetByIdAsync(bookToUpdate.Id);
                 if (existingBook == null)
                 {
                     return NotFound(new {
-                        statusCode=404,
-                        message="record not found"
+                        statusCode = 404,
+                        message = "record not found"
                     });
                 }
+
                 existingBook.Id = bookToUpdate.Id;
                 existingBook.Name = bookToUpdate.Name;
-                existingBook.Author = bookToUpdate.Author;
-                await _bookRepository.UpdateBookAsync(existingBook);
+                existingBook.AuthorId = bookToUpdate.AuthorId;
+
+                await _bookRepository.UpdateAsync(existingBook);
                 return NoContent();
             }
             catch (Exception exeption)
@@ -120,7 +122,7 @@ namespace web_api_for_books_app.Controllers
         {
             try
             {
-                var existingBook = await _bookRepository.GetBookByIdAsync(id);
+                var existingBook = await _bookRepository.GetByIdAsync(id);
                 if (existingBook == null)
                 {
                     return NotFound(new
@@ -129,7 +131,7 @@ namespace web_api_for_books_app.Controllers
                         message = "record not found"
                     });
                 }
-                await _bookRepository.DeleteBookAsync(existingBook);
+                await _bookRepository.DeleteAsync(existingBook);
                 return NoContent();
             }
             catch (Exception exeption)

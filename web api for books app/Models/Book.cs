@@ -21,7 +21,7 @@ namespace web_api_for_books_app.Models
         public int AuthorId { get; set; }
 
         [JsonIgnore]
-        public Author Author { get; set; }
+        public Author? Author { get; set; }
 
         [JsonIgnore]
         public List<Review>? Reviews { get; set; }
