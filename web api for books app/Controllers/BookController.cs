@@ -28,6 +28,7 @@ namespace web_api_for_books_app.Controllers
             catch (Exception exeption)
             {
                 _logger.LogError(exeption.Message);
+
                 return StatusCode(StatusCodes.Status500InternalServerError,
                     new
                     {
@@ -100,7 +101,7 @@ namespace web_api_for_books_app.Controllers
                 existingBook.Id = bookToUpdate.Id;
                 existingBook.Name = bookToUpdate.Name;
                 existingBook.Author = bookToUpdate.Author;
-                existingBook.DateOfPublication = bookToUpdate.DateOfPublication;
+                existingBook.PublicationDate = bookToUpdate.PublicationDate;
                 await _bookRepository.UpdateBookAsync(existingBook);
                 return NoContent();
             }

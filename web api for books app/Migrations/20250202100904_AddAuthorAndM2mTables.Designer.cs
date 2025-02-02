@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using web_api_for_books_app.Contexts;
 
@@ -10,9 +11,11 @@ using web_api_for_books_app.Contexts;
 namespace web_api_for_books_app.Migrations
 {
     [DbContext(typeof(BookContext))]
-    partial class BookContextModelSnapshot : ModelSnapshot
+    [Migration("20250202100904_AddAuthorAndM2mTables")]
+    partial class AddAuthorAndM2mTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -63,27 +66,6 @@ namespace web_api_for_books_app.Migrations
                     b.ToTable("books");
                 });
 
-            modelBuilder.Entity("web_api_for_books_app.Models.BookAndUser", b =>
-                {
-                    b.Property<int>("BookId")
-                        .HasColumnType("int")
-                        .HasColumnName("book_id");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int")
-                        .HasColumnName("status");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int")
-                        .HasColumnName("user_id");
-
-                    b.HasIndex("BookId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("m2m_books_users");
-                });
-
             modelBuilder.Entity("web_api_for_books_app.Models.Review", b =>
                 {
                     b.Property<int>("Id")
@@ -104,6 +86,7 @@ namespace web_api_for_books_app.Migrations
                         .HasColumnName("reviewer_id");
 
                     b.Property<string>("Text")
+                        .IsRequired()
                         .HasColumnType("longtext")
                         .HasColumnName("text");
 
@@ -141,11 +124,6 @@ namespace web_api_for_books_app.Migrations
                         .HasColumnType("int")
                         .HasColumnName("id");
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("longtext")
-                        .HasColumnName("description");
-
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("longtext")
@@ -175,25 +153,6 @@ namespace web_api_for_books_app.Migrations
                         .IsRequired();
 
                     b.Navigation("Author");
-                });
-
-            modelBuilder.Entity("web_api_for_books_app.Models.BookAndUser", b =>
-                {
-                    b.HasOne("web_api_for_books_app.Models.Book", "Book")
-                        .WithMany()
-                        .HasForeignKey("BookId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("web_api_for_books_app.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Book");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("web_api_for_books_app.Models.Review", b =>
