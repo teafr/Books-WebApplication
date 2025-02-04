@@ -11,16 +11,13 @@ public class LibraryContext : DbContext
     {
         _configuration = configuration;
         _connectionString = _configuration.GetConnectionString("default")!;
-
-        //Database.EnsureDeletedAsync().Wait();
-        //Database.EnsureCreatedAsync().Wait();
     }
 
     public DbSet<Book> Books { get; set; }
     public DbSet<Review> Reviews { get; set; }
-    public DbSet<Reviewer> Reviewers { get; set; }
     public DbSet<User> Users { get; set; }
     public DbSet<BookAndUser> BooksAndUsers { get; set; }
+    public DbSet<Author> Authors { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace web_api_for_books_app.Models
 {
@@ -11,20 +12,20 @@ namespace web_api_for_books_app.Models
         [Column("id")]
         public int Id { get; set; }
 
-        [Required]
-        [Column("name")]
-        public string Name { get; set; }
-
-        [Required]
         [Column("username")]
-        public string Username { get; set; }
-        
-        [Column("description")]
-        public string Description { get; set; }
+        public required string Username { get; set; }
 
-        [Required]
+        [Column("name")]
+        public required string Name { get; set; }
+
         [EmailAddress]
         [Column("email")]
-        public string Email { get; set; }
+        public required string Email { get; set; }
+
+        [Column("description")]
+        public string? Description { get; set; }
+
+        [JsonIgnore]
+        public List<Review>? Reviews { get; set; }
     }
 }

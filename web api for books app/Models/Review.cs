@@ -22,9 +22,8 @@ namespace web_api_for_books_app.Models
         public Rate Rating { get; set; }
 
         [Column("reviewer_id")]
-        [ForeignKey("Reviewer")]
-        [Required]
-        public int ReviwerId { get; set; }
+        [ForeignKey("User")]
+        public required int ReviwerId { get; set; }
 
         [Column("book_id")]
         [ForeignKey("Book")]
@@ -32,9 +31,9 @@ namespace web_api_for_books_app.Models
         public int BookId { get; set; }
 
         [JsonIgnore]
-        public Reviewer Reviewer { get; set; }
+        public required User User { get; set; }
 
         [JsonIgnore]
-        public Book Book { get; set; }
+        public required Book Book { get; set; }
     }
 }

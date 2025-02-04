@@ -1,20 +1,21 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using web_api_for_books_app.Models;
 using web_api_for_books_app.Repositories;
+
+// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace web_api_for_books_app.Controllers
 {
     [Route("api/[controller]s")]
     [ApiController]
-    public class BookController : ControllerBase
+    public class AuthorController : ControllerBase
     {
-        private readonly IRepository<Book> _bookRepository;
-        private readonly ILogger<BookController> _logger;
+        private readonly IRepository<Author> _authorRepository;
+        private readonly ILogger<AuthorController> _logger;
 
-        public BookController(IRepository<Book> bookRepository, ILogger<BookController> logger)
+        public AuthorController(IRepository<Author> authorRepository, ILogger<AuthorController> logger)
         {
-            _bookRepository = bookRepository;
+            _authorRepository = authorRepository;
             _logger = logger;
         }
 
@@ -23,13 +24,12 @@ namespace web_api_for_books_app.Controllers
         {
             try
             {
-                var books = await _bookRepository.GetAsync();
-                return Ok(books);
+                var authors = await _authorRepository.GetAsync();
+                return Ok(authors);
             }
             catch (Exception exception)
             {
                 _logger.LogError(exception, exception.Message);
-
                 return StatusCode(StatusCodes.Status500InternalServerError, new
                 {
                     statusCode = 500,
@@ -43,9 +43,9 @@ namespace web_api_for_books_app.Controllers
         {
             try
             {
-                var book = await _bookRepository.GetByIdAsync(id);
+                var author = await _authorRepository.GetByIdAsync(id);
 
-                if (book == null)
+                if (author == null)
                 {
                     return NotFound(new
                     {
@@ -54,7 +54,7 @@ namespace web_api_for_books_app.Controllers
                     });
                 }
 
-                return Ok(book);
+                return Ok(author);
             }
             catch (Exception exception)
             {
@@ -68,11 +68,11 @@ namespace web_api_for_books_app.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(Book book)
+        public async Task<IActionResult> Post(Author author)
         {
             try
             {
-                var createdBook = await _bookRepository.CreateAsync(book);
+                var createdBook = await _authorRepository.CreateAsync(author);
                 return CreatedAtAction(nameof(Post), createdBook);
             }
             catch (Exception exception)
@@ -87,26 +87,25 @@ namespace web_api_for_books_app.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put(Book bookToUpdate)
+        public async Task<IActionResult> Put(Author authorToUpdate)
         {
             try
             {
-                var existingBook = await _bookRepository.GetByIdAsync(bookToUpdate.Id);
+                var author = await _authorRepository.GetByIdAsync(authorToUpdate.Id);
 
-                if (existingBook == null)
+                if (author == null)
                 {
-                    return NotFound(new 
+                    return NotFound(new
                     {
                         statusCode = 404,
                         message = "record not found"
                     });
                 }
 
-                existingBook.Id = bookToUpdate.Id;
-                existingBook.Name = bookToUpdate.Name;
-                existingBook.AuthorId = bookToUpdate.AuthorId;
+                author.Name = authorToUpdate.Name;
+                // books????????
 
-                await _bookRepository.UpdateAsync(existingBook);
+                await _authorRepository.UpdateAsync(authorToUpdate);
                 return NoContent();
             }
             catch (Exception exception)
@@ -121,13 +120,13 @@ namespace web_api_for_books_app.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteBook(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             try
             {
-                var existingBook = await _bookRepository.GetByIdAsync(id);
+                var author = await _authorRepository.GetByIdAsync(id);
 
-                if (existingBook == null)
+                if (author == null)
                 {
                     return NotFound(new
                     {
@@ -136,7 +135,7 @@ namespace web_api_for_books_app.Controllers
                     });
                 }
 
-                await _bookRepository.DeleteAsync(existingBook);
+                await _authorRepository.DeleteAsync(author);
                 return NoContent();
             }
             catch (Exception exception)

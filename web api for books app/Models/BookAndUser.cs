@@ -13,7 +13,6 @@ namespace web_api_for_books_app.Models
         [Column("book_id")]
         public int BookId { get; set; }
 
-        [Required]
         [ForeignKey("User")]
         [Column("user_id")]
         public int UserId { get; set; }
@@ -22,9 +21,9 @@ namespace web_api_for_books_app.Models
         public Status Status { get; set; }
 
         [JsonIgnore]
-        public Book Book { get; set; }
+        public Book? Book { get; set; }
 
         [JsonIgnore]
-        public User User { get; set; }
+        public User? User { get; set; }
     }
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 using MySql.EntityFrameworkCore.Metadata;
 
 #nullable disable
@@ -7,7 +6,7 @@ using MySql.EntityFrameworkCore.Metadata;
 namespace web_api_for_books_app.Migrations
 {
     /// <inheritdoc />
-    public partial class InitializationAndCreation : Migration
+    public partial class InitializationOfLibrary : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -16,18 +15,16 @@ namespace web_api_for_books_app.Migrations
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "books",
+                name: "authors",
                 columns: table => new
                 {
                     id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    name = table.Column<string>(type: "longtext", nullable: false),
-                    author = table.Column<string>(type: "longtext", nullable: false),
-                    publication_date = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                    full_name = table.Column<string>(type: "longtext", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_books", x => x.id);
+                    table.PrimaryKey("PK_authors", x => x.id);
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
@@ -37,9 +34,10 @@ namespace web_api_for_books_app.Migrations
                 {
                     id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    name = table.Column<string>(type: "longtext", nullable: false),
                     username = table.Column<string>(type: "longtext", nullable: false),
-                    email = table.Column<string>(type: "longtext", nullable: false)
+                    name = table.Column<string>(type: "longtext", nullable: false),
+                    email = table.Column<string>(type: "longtext", nullable: false),
+                    description = table.Column<string>(type: "longtext", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -48,18 +46,44 @@ namespace web_api_for_books_app.Migrations
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "reviewers",
+                name: "books",
                 columns: table => new
                 {
                     id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    user_id = table.Column<int>(type: "int", nullable: false)
+                    name = table.Column<string>(type: "longtext", nullable: false),
+                    author_id = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_reviewers", x => x.id);
+                    table.PrimaryKey("PK_books", x => x.id);
                     table.ForeignKey(
-                        name: "FK_reviewers_users_user_id",
+                        name: "FK_books_authors_author_id",
+                        column: x => x.author_id,
+                        principalTable: "authors",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "m2m_books_users",
+                columns: table => new
+                {
+                    book_id = table.Column<int>(type: "int", nullable: false),
+                    user_id = table.Column<int>(type: "int", nullable: false),
+                    status = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.ForeignKey(
+                        name: "FK_m2m_books_users_books_book_id",
+                        column: x => x.book_id,
+                        principalTable: "books",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_m2m_books_users_users_user_id",
                         column: x => x.user_id,
                         principalTable: "users",
                         principalColumn: "id",
@@ -73,7 +97,7 @@ namespace web_api_for_books_app.Migrations
                 {
                     id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    text = table.Column<string>(type: "longtext", nullable: false),
+                    text = table.Column<string>(type: "longtext", nullable: true),
                     rating = table.Column<int>(type: "int", nullable: false),
                     reviewer_id = table.Column<int>(type: "int", nullable: false),
                     book_id = table.Column<int>(type: "int", nullable: false)
@@ -88,17 +112,27 @@ namespace web_api_for_books_app.Migrations
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_reviews_reviewers_reviewer_id",
+                        name: "FK_reviews_users_reviewer_id",
                         column: x => x.reviewer_id,
-                        principalTable: "reviewers",
+                        principalTable: "users",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateIndex(
-                name: "IX_reviewers_user_id",
-                table: "reviewers",
+                name: "IX_books_author_id",
+                table: "books",
+                column: "author_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_m2m_books_users_book_id",
+                table: "m2m_books_users",
+                column: "book_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_m2m_books_users_user_id",
+                table: "m2m_books_users",
                 column: "user_id");
 
             migrationBuilder.CreateIndex(
@@ -112,9 +146,12 @@ namespace web_api_for_books_app.Migrations
                 column: "reviewer_id");
         }
 
-        // <inheritdoc //>
+        /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "m2m_books_users");
+
             migrationBuilder.DropTable(
                 name: "reviews");
 
@@ -122,10 +159,10 @@ namespace web_api_for_books_app.Migrations
                 name: "books");
 
             migrationBuilder.DropTable(
-                name: "reviewers");
+                name: "users");
 
             migrationBuilder.DropTable(
-                name: "users");
+                name: "authors");
         }
     }
 }

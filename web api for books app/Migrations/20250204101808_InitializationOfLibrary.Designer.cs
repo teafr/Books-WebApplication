@@ -10,8 +10,8 @@ using web_api_for_books_app.Contexts;
 namespace web_api_for_books_app.Migrations
 {
     [DbContext(typeof(LibraryContext))]
-    [Migration("20250202122058_RemoveBookField")]
-    partial class RemoveBookField
+    [Migration("20250204101808_InitializationOfLibrary")]
+    partial class InitializationOfLibrary
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -114,24 +114,6 @@ namespace web_api_for_books_app.Migrations
                     b.ToTable("reviews");
                 });
 
-            modelBuilder.Entity("web_api_for_books_app.Models.Reviewer", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("id");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int")
-                        .HasColumnName("user_id");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("reviewers");
-                });
-
             modelBuilder.Entity("web_api_for_books_app.Models.User", b =>
                 {
                     b.Property<int>("Id")
@@ -140,7 +122,6 @@ namespace web_api_for_books_app.Migrations
                         .HasColumnName("id");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("longtext")
                         .HasColumnName("description");
 
@@ -202,24 +183,13 @@ namespace web_api_for_books_app.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("web_api_for_books_app.Models.Reviewer", "Reviewer")
+                    b.HasOne("web_api_for_books_app.Models.User", "User")
                         .WithMany("Reviews")
                         .HasForeignKey("ReviwerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Book");
-
-                    b.Navigation("Reviewer");
-                });
-
-            modelBuilder.Entity("web_api_for_books_app.Models.Reviewer", b =>
-                {
-                    b.HasOne("web_api_for_books_app.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
 
                     b.Navigation("User");
                 });
@@ -234,7 +204,7 @@ namespace web_api_for_books_app.Migrations
                     b.Navigation("Reviews");
                 });
 
-            modelBuilder.Entity("web_api_for_books_app.Models.Reviewer", b =>
+            modelBuilder.Entity("web_api_for_books_app.Models.User", b =>
                 {
                     b.Navigation("Reviews");
                 });
