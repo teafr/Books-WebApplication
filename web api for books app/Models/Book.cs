@@ -13,14 +13,13 @@ namespace web_api_for_books_app.Models
 
         [Column("name")]
         [Required]
-        public string Name { get; set; }
+        public required string Name { get; set; }
 
         [ForeignKey("Author")]
         [Column("author_id")]
         [Required]
         public int AuthorId { get; set; }
 
-        [JsonIgnore]
         public Author? Author { get; set; }
 
         [JsonIgnore]

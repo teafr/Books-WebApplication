@@ -4,10 +4,10 @@ using web_api_for_books_app.Models;
 
 namespace web_api_for_books_app.Repositories
 {
-    public class AuthorRepositiry : IRepository<Author>
+    public class AuthorRepository : IRepository<Author>
     {
         private readonly LibraryContext _context;
-        public AuthorRepositiry(LibraryContext libraryContext)
+        public AuthorRepository(LibraryContext libraryContext)
         {
             _context = libraryContext;
         }

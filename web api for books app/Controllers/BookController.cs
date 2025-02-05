@@ -10,11 +10,13 @@ namespace web_api_for_books_app.Controllers
     public class BookController : ControllerBase
     {
         private readonly IRepository<Book> _bookRepository;
+        private readonly IRepository<Author> _authorRepository;
         private readonly ILogger<BookController> _logger;
 
-        public BookController(IRepository<Book> bookRepository, ILogger<BookController> logger)
+        public BookController(IRepository<Book> bookRepository, IRepository<Author> authorRepository, ILogger<BookController> logger)
         {
             _bookRepository = bookRepository;
+            _authorRepository = authorRepository;
             _logger = logger;
         }
 
@@ -72,7 +74,23 @@ namespace web_api_for_books_app.Controllers
         {
             try
             {
-                var createdBook = await _bookRepository.CreateAsync(book);
+                if (book.Author == null && book.AuthorId != 0)
+                {
+                    Author author = await _authorRepository.GetByIdAsync(book.AuthorId);
+
+                    if (author == null)
+                    {
+                        return NotFound(new
+                        {
+                            statusCode = 404,
+                            message = "author not found by id"
+                        });
+                    }
+
+                    book.Author = author;
+                }
+
+                Book createdBook = await _bookRepository.CreateAsync(book);
                 return CreatedAtAction(nameof(Post), createdBook);
             }
             catch (Exception exception)

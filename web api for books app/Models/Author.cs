@@ -13,7 +13,7 @@ namespace web_api_for_books_app.Models
         public int Id { get; set; }
 
         [Column("full_name")]
-        public string Name { get; set; }
+        public required string Name { get; set; }
 
         [JsonIgnore]
         public List<Book>? Books { get; set; }

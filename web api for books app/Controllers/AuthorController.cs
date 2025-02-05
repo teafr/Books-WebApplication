@@ -105,7 +105,7 @@ namespace web_api_for_books_app.Controllers
                 author.Name = authorToUpdate.Name;
                 // books????????
 
-                await _authorRepository.UpdateAsync(authorToUpdate);
+                await _authorRepository.UpdateAsync(author);
                 return NoContent();
             }
             catch (Exception exception)
