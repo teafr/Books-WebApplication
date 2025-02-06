@@ -26,6 +26,6 @@ namespace web_api_for_books_app.Models
         public string? Description { get; set; }
 
         [JsonIgnore]
-        public List<Review>? Reviews { get; set; }
+        public List<Review>? Reviews { get; set; } = new List<Review>();
     }
 }

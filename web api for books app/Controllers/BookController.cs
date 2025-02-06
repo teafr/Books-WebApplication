@@ -74,22 +74,6 @@ namespace web_api_for_books_app.Controllers
         {
             try
             {
-                if (book.Author == null && book.AuthorId != 0)
-                {
-                    Author author = await _authorRepository.GetByIdAsync(book.AuthorId);
-
-                    if (author == null)
-                    {
-                        return NotFound(new
-                        {
-                            statusCode = 404,
-                            message = "author not found by id"
-                        });
-                    }
-
-                    book.Author = author;
-                }
-
                 Book createdBook = await _bookRepository.CreateAsync(book);
                 return CreatedAtAction(nameof(Post), createdBook);
             }

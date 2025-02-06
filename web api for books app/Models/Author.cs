@@ -16,7 +16,7 @@ namespace web_api_for_books_app.Models
         public required string Name { get; set; }
 
         [JsonIgnore]
-        public List<Book>? Books { get; set; }
+        public List<Book>? Books { get; set; } = new List<Book>();
 
     }
 }

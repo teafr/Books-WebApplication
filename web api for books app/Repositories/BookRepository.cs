@@ -15,7 +15,7 @@ namespace web_api_for_books_app.Repositories
 
         public async Task<List<Book>> GetAsync()
         {
-            var books = await _context.Books.ToListAsync();
+            var books = await _context.Books.Include(a => a.Author).ToListAsync();
             return books;
         }
 
@@ -25,6 +25,16 @@ namespace web_api_for_books_app.Repositories
         }
         public async Task<Book> CreateAsync(Book book)
         {
+            Author author = await _context.Authors.FindAsync(book.Author.Id);
+
+            if (author != null)
+            {
+                author!.Books!.Add(book);
+                book.Author = author;
+                book.AuthorId = author.Id;
+                _context.Attach(author);
+            }
+
             _context.Books.Add(book);
             await _context.SaveChangesAsync();
             return book;

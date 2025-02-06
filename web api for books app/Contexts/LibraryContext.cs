@@ -4,13 +4,11 @@ using web_api_for_books_app.Models;
 namespace web_api_for_books_app.Contexts;
 public class LibraryContext : DbContext
 {
-    private readonly IConfiguration _configuration;
     private readonly string _connectionString;
 
     public LibraryContext(IConfiguration configuration)
     {
-        _configuration = configuration;
-        _connectionString = _configuration.GetConnectionString("default")!;
+        _connectionString = configuration.GetConnectionString("default")!;
     }
 
     public DbSet<Book> Books { get; set; }
