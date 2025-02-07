@@ -22,8 +22,10 @@ public class LibraryContext : DbContext
         optionsBuilder.UseMySQL(_connectionString);
     }
 
-    //protected override void OnModelCreating(ModelBuilder modelBuilder)
-    //{
-    //    base.OnModelCreating(modelBuilder);
-    //}
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<BookAndUser>().HasNoKey();
+    }
 }

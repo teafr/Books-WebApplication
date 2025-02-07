@@ -27,5 +27,9 @@ namespace web_api_for_books_app.Models
 
         [JsonIgnore]
         public List<Review>? Reviews { get; set; } = new List<Review>();
+
+        [JsonIgnore]
+        [NotMapped]
+        public List<BookAndUser>? SavedBooks { get; set; } = new List<BookAndUser>();
     }
 }

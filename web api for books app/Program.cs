@@ -4,13 +4,11 @@ using web_api_for_books_app.Repositories;
 
 namespace web_api_for_books_app
 {
-    public class Program
+    public static class Program
     {
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
-            // Add services to the container.
 
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
@@ -18,10 +16,10 @@ namespace web_api_for_books_app
             builder.Services.AddTransient<LibraryContext>();
             builder.Services.AddTransient<IRepository<Book>, BookRepository>();
             builder.Services.AddTransient<IRepository<Author>, AuthorRepository>();
+            builder.Services.AddTransient<IRepository<User>, UserRepository>();
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
@@ -29,10 +27,7 @@ namespace web_api_for_books_app
             }
 
             app.UseHttpsRedirection();
-
             app.UseAuthorization();
-
-
             app.MapControllers();
 
             app.Run();

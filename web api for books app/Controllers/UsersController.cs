@@ -6,16 +6,16 @@ using web_api_for_books_app.Repositories;
 
 namespace web_api_for_books_app.Controllers
 {
-    [Route("api/[controller]s")]
+    [Route("api/[controller]")]
     [ApiController]
-    public class AuthorController : ControllerBase
+    public class UsersController : ControllerBase
     {
-        private readonly IRepository<Author> _authorRepository;
-        private readonly ILogger<AuthorController> _logger;
+        private readonly IRepository<User> _userRepository;
+        private readonly ILogger<UsersController> _logger;
 
-        public AuthorController(IRepository<Author> authorRepository, ILogger<AuthorController> logger)
+        public UsersController(IRepository<User> userRepository, ILogger<UsersController> logger)
         {
-            _authorRepository = authorRepository;
+            _userRepository = userRepository;
             _logger = logger;
         }
 
@@ -24,8 +24,8 @@ namespace web_api_for_books_app.Controllers
         {
             try
             {
-                var authors = await _authorRepository.GetAsync();
-                return Ok(authors);
+                var users = await _userRepository.GetAsync();
+                return Ok(users);
             }
             catch (Exception exception)
             {
@@ -43,9 +43,9 @@ namespace web_api_for_books_app.Controllers
         {
             try
             {
-                var author = await _authorRepository.GetByIdAsync(id);
+                var user = await _userRepository.GetByIdAsync(id);
 
-                if (author == null)
+                if (user == null)
                 {
                     return NotFound(new
                     {
@@ -54,7 +54,7 @@ namespace web_api_for_books_app.Controllers
                     });
                 }
 
-                return Ok(author);
+                return Ok(user);
             }
             catch (Exception exception)
             {
@@ -68,12 +68,12 @@ namespace web_api_for_books_app.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(Author author)
+        public async Task<IActionResult> Post(User user)
         {
             try
             {
-                var createdBook = await _authorRepository.CreateAsync(author);
-                return CreatedAtAction(nameof(Post), createdBook);
+                var createdUser = await _userRepository.CreateAsync(user);
+                return CreatedAtAction(nameof(Post), createdUser);
             }
             catch (Exception exception)
             {
@@ -87,13 +87,13 @@ namespace web_api_for_books_app.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put(Author authorToUpdate)
+        public async Task<IActionResult> Put(User UserToUpdate)
         {
             try
             {
-                var author = await _authorRepository.GetByIdAsync(authorToUpdate.Id);
+                var user = await _userRepository.GetByIdAsync(UserToUpdate.Id);
 
-                if (author == null)
+                if (user == null)
                 {
                     return NotFound(new
                     {
@@ -102,10 +102,12 @@ namespace web_api_for_books_app.Controllers
                     });
                 }
 
-                author.Name = authorToUpdate.Name;
-                // books????????
+                user.Name = UserToUpdate.Name;
+                user.Email = UserToUpdate.Email;
+                user.Description = UserToUpdate.Description;
+                user.Username = UserToUpdate.Username;
 
-                await _authorRepository.UpdateAsync(author);
+                await _userRepository.UpdateAsync(user);
                 return NoContent();
             }
             catch (Exception exception)
@@ -124,9 +126,9 @@ namespace web_api_for_books_app.Controllers
         {
             try
             {
-                var author = await _authorRepository.GetByIdAsync(id);
+                var user = await _userRepository.GetByIdAsync(id);
 
-                if (author == null)
+                if (user == null)
                 {
                     return NotFound(new
                     {
@@ -135,7 +137,7 @@ namespace web_api_for_books_app.Controllers
                     });
                 }
 
-                await _authorRepository.DeleteAsync(author);
+                await _userRepository.DeleteAsync(user);
                 return NoContent();
             }
             catch (Exception exception)
