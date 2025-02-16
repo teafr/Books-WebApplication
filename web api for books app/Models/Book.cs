@@ -15,14 +15,6 @@ namespace web_api_for_books_app.Models
         [Required]
         public required string Name { get; set; }
 
-        [ForeignKey("Author")]
-        [Column("author_id")]
-        [Required]
-        [JsonIgnore]
-        public int AuthorId { get; set; }
-
-        public Author? Author { get; set; }
-
         [JsonIgnore]
         public List<Review>? Reviews { get; set; } = new List<Review>();
 
