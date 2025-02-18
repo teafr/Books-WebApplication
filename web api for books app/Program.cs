@@ -1,6 +1,7 @@
 using web_api_for_books_app.Contexts;
 using web_api_for_books_app.Models;
 using web_api_for_books_app.Repositories;
+using web_api_for_books_app.Services;
 
 namespace web_api_for_books_app
 {
@@ -16,6 +17,10 @@ namespace web_api_for_books_app
             builder.Services.AddTransient<LibraryContext>();
             builder.Services.AddTransient<IRepository<Book>, BookRepository>();
             builder.Services.AddTransient<IRepository<User>, UserRepository>();
+            builder.Services.AddHttpClient<IOpenLibraryService, OpenLibraryService>(client =>
+            {
+                client.BaseAddress = new Uri("https://openlibrary.org/");
+            });
 
             var app = builder.Build();
 

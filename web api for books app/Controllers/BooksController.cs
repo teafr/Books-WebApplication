@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using web_api_for_books_app.Models;
 using web_api_for_books_app.Repositories;
+using web_api_for_books_app.Services;
 
 namespace web_api_for_books_app.Controllers
 {
@@ -11,12 +13,47 @@ namespace web_api_for_books_app.Controllers
     {
         private readonly IRepository<Book> _bookRepository;
         private readonly ILogger<BooksController> _logger;
+        private readonly IOpenLibraryService _openLibraryService;
 
-        public BooksController(IRepository<Book> bookRepository, ILogger<BooksController> logger)
+        public BooksController(IRepository<Book> bookRepository, ILogger<BooksController> logger, IOpenLibraryService openLibraryService)
         {
             _bookRepository = bookRepository;
             _logger = logger;
+            _openLibraryService = openLibraryService;
         }
+
+        [HttpGet("search")]
+        public async Task<IActionResult> Search([FromQuery] string query)
+        {
+            var results = await _openLibraryService.SearchBooksAsync(query);
+            return Ok(results);
+        }
+
+        [HttpGet("{editionKey}/fulltext")]
+        public async Task<IActionResult> GetFullText(string editionKey)
+        {
+            return await ExceptionHandle(async () =>
+            {
+                BookInfo bookDetails = await _openLibraryService.GetBookDetailsAsync(editionKey);
+
+                if (bookDetails == null || bookDetails.source_records == null || !bookDetails.source_records.Any())
+                {
+                    return NotFound("Full text not available for this book.");
+                }
+
+                var iaIdentifier = bookDetails.source_records[0];
+                var fullTextUrl = $"https://archive.org/download/{iaIdentifier}/{iaIdentifier}.txt";
+
+                // You could also implement logic to verify that the URL exists or support multiple formats.
+                return Ok(new { fullTextUrl });
+            });            
+        }
+
+
+
+
+
+
 
         [HttpGet]
         public async Task<IActionResult> Get()
