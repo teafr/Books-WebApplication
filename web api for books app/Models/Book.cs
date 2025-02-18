@@ -20,6 +20,6 @@ namespace web_api_for_books_app.Models
 
         [JsonIgnore]
         [NotMapped]
-        public List<BookAndUser> UsersSaved { get; set; }
+        public List<BookAndUser>? UsersSaved { get; set; }
     }
 }
