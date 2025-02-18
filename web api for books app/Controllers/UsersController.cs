@@ -2,8 +2,6 @@
 using web_api_for_books_app.Models;
 using web_api_for_books_app.Repositories;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace web_api_for_books_app.Controllers
 {
     [Route("api/[controller]")]
@@ -22,26 +20,17 @@ namespace web_api_for_books_app.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            try
+            return await ExceptionHandle(async () =>
             {
                 var users = await _userRepository.GetAsync();
                 return Ok(users);
-            }
-            catch (Exception exception)
-            {
-                _logger.LogError(exception, exception.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError, new
-                {
-                    statusCode = 500,
-                    message = exception.Message
-                });
-            }
+            });
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            try
+            return await ExceptionHandle(async () =>
             {
                 var user = await _userRepository.GetByIdAsync(id);
 
@@ -55,41 +44,23 @@ namespace web_api_for_books_app.Controllers
                 }
 
                 return Ok(user);
-            }
-            catch (Exception exception)
-            {
-                _logger.LogError(exception, exception.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError, new
-                {
-                    statusCode = 500,
-                    message = exception.Message
-                });
-            }
+            });
         }
 
         [HttpPost]
         public async Task<IActionResult> Post(User user)
         {
-            try
+            return await ExceptionHandle(async () =>
             {
                 var createdUser = await _userRepository.CreateAsync(user);
                 return CreatedAtAction(nameof(Post), createdUser);
-            }
-            catch (Exception exception)
-            {
-                _logger.LogError(exception, exception.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError, new
-                {
-                    statusCode = 500,
-                    message = exception.Message
-                });
-            }
+            });
         }
 
         [HttpPut]
         public async Task<IActionResult> Put(User UserToUpdate)
         {
-            try
+            return await ExceptionHandle(async () =>
             {
                 var user = await _userRepository.GetByIdAsync(UserToUpdate.Id);
 
@@ -109,22 +80,13 @@ namespace web_api_for_books_app.Controllers
 
                 await _userRepository.UpdateAsync(user);
                 return NoContent();
-            }
-            catch (Exception exception)
-            {
-                _logger.LogError(exception, exception.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError, new
-                {
-                    statusCode = 500,
-                    message = exception.Message
-                });
-            }
+            });
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            try
+            return await ExceptionHandle(async () =>
             {
                 var user = await _userRepository.GetByIdAsync(id);
 
@@ -139,10 +101,19 @@ namespace web_api_for_books_app.Controllers
 
                 await _userRepository.DeleteAsync(user);
                 return NoContent();
+            });
+        }
+
+        private async Task<IActionResult> ExceptionHandle(Func<Task<IActionResult>> function)
+        {
+            try
+            {
+                return await function();
             }
             catch (Exception exception)
             {
                 _logger.LogError(exception, exception.Message);
+
                 return StatusCode(StatusCodes.Status500InternalServerError, new
                 {
                     statusCode = 500,

@@ -21,27 +21,17 @@ namespace web_api_for_books_app.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            try
+            return await ExceptionHandle(async () =>
             {
                 var books = await _bookRepository.GetAsync();
                 return Ok(books);
-            }
-            catch (Exception exception)
-            {
-                _logger.LogError(exception, exception.Message);
-
-                return StatusCode(StatusCodes.Status500InternalServerError, new
-                {
-                    statusCode = 500,
-                    message = exception.Message
-                });
-            }
+            });
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
-            try
+            return await ExceptionHandle(async () =>
             {
                 var book = await _bookRepository.GetByIdAsync(id);
 
@@ -55,47 +45,29 @@ namespace web_api_for_books_app.Controllers
                 }
 
                 return Ok(book);
-            }
-            catch (Exception exception)
-            {
-                _logger.LogError(exception, exception.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError, new
-                {
-                    statusCode = 500,
-                    message = exception.Message
-                });
-            }
+            });
         }
 
         [HttpPost]
         public async Task<IActionResult> Post(Book book)
         {
-            try
+            return await ExceptionHandle(async () =>
             {
                 Book createdBook = await _bookRepository.CreateAsync(book);
                 return CreatedAtAction(nameof(Post), createdBook);
-            }
-            catch (Exception exception)
-            {
-                _logger.LogError(exception, exception.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError, new
-                {
-                    statusCode = 500,
-                    message = exception.Message
-                });
-            }
+            });
         }
 
         [HttpPut]
         public async Task<IActionResult> Put(Book bookToUpdate)
         {
-            try
+            return await ExceptionHandle(async () =>
             {
                 var existingBook = await _bookRepository.GetByIdAsync(bookToUpdate.Id);
 
                 if (existingBook == null)
                 {
-                    return NotFound(new 
+                    return NotFound(new
                     {
                         statusCode = 404,
                         message = "record not found"
@@ -107,22 +79,13 @@ namespace web_api_for_books_app.Controllers
 
                 await _bookRepository.UpdateAsync(existingBook);
                 return NoContent();
-            }
-            catch (Exception exception)
-            {
-                _logger.LogError(exception, exception.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError, new
-                {
-                    statusCode = 500,
-                    message = exception.Message
-                });
-            }
+            });
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteBook(int id)
         {
-            try
+            return await ExceptionHandle(async () =>
             {
                 var existingBook = await _bookRepository.GetByIdAsync(id);
 
@@ -137,10 +100,19 @@ namespace web_api_for_books_app.Controllers
 
                 await _bookRepository.DeleteAsync(existingBook);
                 return NoContent();
+            });
+        }
+
+        private async Task<IActionResult> ExceptionHandle(Func<Task<IActionResult>> function)
+        {
+            try
+            {
+                return await function();
             }
             catch (Exception exception)
             {
                 _logger.LogError(exception, exception.Message);
+
                 return StatusCode(StatusCodes.Status500InternalServerError, new
                 {
                     statusCode = 500,
