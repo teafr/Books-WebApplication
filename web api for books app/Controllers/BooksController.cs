@@ -5,29 +5,28 @@ using booksAPI.Models.DatabaseModels;
 using booksAPI.Models.GutendexModels;
 using booksAPI.Repositories;
 using booksAPI.Services;
+using web_api_for_books_app.Controllers;
 
 namespace booksAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BooksController : ControllerBase
+    public class BooksController : BaseController
     {
         private readonly IRepository<Book> _bookRepository;
-        private readonly ILogger<BooksController> _logger;
         private readonly IGutendexService _gutendexService;
 
-        public BooksController(IRepository<Book> bookRepository, ILogger<BooksController> logger, IGutendexService gutendexService)
+        public BooksController(IRepository<Book> bookRepository, ILogger<BooksController> logger, IGutendexService gutendexService) : base(logger)
         {
             _bookRepository = bookRepository;
-            _logger = logger;
             _gutendexService = gutendexService;
         }
 
         [HttpGet("search")]
         public async Task<IActionResult> SearchBooks([FromQuery] string query)
         {
-            SearchResult searchResult = await _gutendexService.SearchBooksAsync(query);
-            return Ok(searchResult.Books);
+            List<GutendexBook> books = await _gutendexService.SearchBooksAsync("search", query);
+            return Ok(books);
         }
 
         [HttpGet("{id}/fulltext")]
@@ -136,24 +135,6 @@ namespace booksAPI.Controllers
                 await _bookRepository.DeleteAsync(existingBook);
                 return NoContent();
             });
-        }
-
-        private async Task<IActionResult> ExceptionHandle(Func<Task<IActionResult>> function)
-        {
-            try
-            {
-                return await function();
-            }
-            catch (Exception exception)
-            {
-                _logger.LogError(exception, exception.Message);
-
-                return StatusCode(StatusCodes.Status500InternalServerError, new
-                {
-                    statusCode = 500,
-                    message = exception.Message
-                });
-            }
         }
     }
 }

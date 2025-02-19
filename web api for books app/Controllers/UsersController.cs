@@ -1,20 +1,19 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using booksAPI.Models.DatabaseModels;
 using booksAPI.Repositories;
+using web_api_for_books_app.Controllers;
 
 namespace booksAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class UsersController : BaseController
     {
         private readonly IRepository<User> _userRepository;
-        private readonly ILogger<UsersController> _logger;
 
-        public UsersController(IRepository<User> userRepository, ILogger<UsersController> logger)
+        public UsersController(IRepository<User> userRepository, ILogger<UsersController> logger) : base(logger)
         {
             _userRepository = userRepository;
-            _logger = logger;
         }
 
         [HttpGet]
@@ -102,24 +101,6 @@ namespace booksAPI.Controllers
                 await _userRepository.DeleteAsync(user);
                 return NoContent();
             });
-        }
-
-        private async Task<IActionResult> ExceptionHandle(Func<Task<IActionResult>> function)
-        {
-            try
-            {
-                return await function();
-            }
-            catch (Exception exception)
-            {
-                _logger.LogError(exception, exception.Message);
-
-                return StatusCode(StatusCodes.Status500InternalServerError, new
-                {
-                    statusCode = 500,
-                    message = exception.Message
-                });
-            }
         }
     }
 }
