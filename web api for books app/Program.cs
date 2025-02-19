@@ -1,5 +1,5 @@
 using web_api_for_books_app.Contexts;
-using web_api_for_books_app.Models;
+using web_api_for_books_app.Models.DatabaseModels;
 using web_api_for_books_app.Repositories;
 using web_api_for_books_app.Services;
 

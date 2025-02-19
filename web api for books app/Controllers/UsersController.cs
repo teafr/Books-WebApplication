@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using web_api_for_books_app.Models;
+using web_api_for_books_app.Models.DatabaseModels;
 using web_api_for_books_app.Repositories;
 
 namespace web_api_for_books_app.Controllers

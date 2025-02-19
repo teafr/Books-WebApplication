@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using web_api_for_books_app.Models;
+using web_api_for_books_app.Models.DatabaseModels;
+using web_api_for_books_app.Models.OpenLibraryModels;
 using web_api_for_books_app.Repositories;
 using web_api_for_books_app.Services;
 
@@ -14,6 +15,7 @@ namespace web_api_for_books_app.Controllers
         private readonly IRepository<Book> _bookRepository;
         private readonly ILogger<BooksController> _logger;
         private readonly IOpenLibraryService _openLibraryService;
+        private const string NO_FULL_TEXT_MESSAGE = "Full text not available for this book.";
 
         public BooksController(IRepository<Book> bookRepository, ILogger<BooksController> logger, IOpenLibraryService openLibraryService)
         {
@@ -23,37 +25,34 @@ namespace web_api_for_books_app.Controllers
         }
 
         [HttpGet("search")]
-        public async Task<IActionResult> Search([FromQuery] string query)
+        public async Task<IActionResult> SearchBooks([FromQuery] string query)
         {
-            var results = await _openLibraryService.SearchBooksAsync(query);
-            return Ok(results);
+            BookSearchResult searchResult = await _openLibraryService.SearchBooksAsync(query);
+            List<OpenLibraryBook> books = searchResult.Books.Where(b => b.HasFullText).ToList();
+
+            return Ok(books);
         }
 
-        [HttpGet("{editionKey}/fulltext")]
-        public async Task<IActionResult> GetFullText(string editionKey)
+        [HttpGet("{iaIdentifier}/fulltext")]
+        public async Task<IActionResult> GetFullText(string iaIdentifier)
         {
             return await ExceptionHandle(async () =>
             {
-                BookInfo bookDetails = await _openLibraryService.GetBookDetailsAsync(editionKey);
-
-                if (bookDetails == null || bookDetails.source_records == null || !bookDetails.source_records.Any())
+                if (iaIdentifier == null)
                 {
-                    return NotFound("Full text not available for this book.");
+                    return NotFound(NO_FULL_TEXT_MESSAGE);
                 }
 
-                var iaIdentifier = bookDetails.source_records[0];
-                var fullTextUrl = $"https://archive.org/download/{iaIdentifier}/{iaIdentifier}.txt";
+                var fullTextUrl = await _openLibraryService.GetFullTextUrlAsync(iaIdentifier);
 
-                // You could also implement logic to verify that the URL exists or support multiple formats.
+                if (fullTextUrl is null)
+                {
+                    return NotFound(NO_FULL_TEXT_MESSAGE);
+                }
+
                 return Ok(new { fullTextUrl });
             });            
         }
-
-
-
-
-
-
 
         [HttpGet]
         public async Task<IActionResult> Get()
