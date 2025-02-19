@@ -50,7 +50,8 @@ namespace web_api_for_books_app.Services
 
                         if (name.EndsWith(".txt"))
                         {
-                            return $"{_archiveDomain}/download/{iaIdentifier}/{name}";
+                            string url = $"{_archiveDomain}/download/{iaIdentifier}/{name}";
+                            return url;
                         }
                     }
                 }
@@ -59,12 +60,12 @@ namespace web_api_for_books_app.Services
             return null;
         }
 
-        public async Task<BookInfo> GetBookDetailsAsync(string editionKey)
-        {
-            HttpResponseMessage response = await _httpClient.GetAsync($"books/{editionKey}.json");
-            response.EnsureSuccessStatusCode();
+        //public async Task<BookInfo> GetBookDetailsAsync(string editionKey)
+        //{
+        //    HttpResponseMessage response = await _httpClient.GetAsync($"books/{editionKey}.json");
+        //    response.EnsureSuccessStatusCode();
 
-            return JsonSerializer.Deserialize<BookInfo>(await response.Content.ReadAsStringAsync())!;
-        }
+        //    return JsonSerializer.Deserialize<BookInfo>(await response.Content.ReadAsStringAsync())!;
+        //}
     }
 }

@@ -21,6 +21,7 @@ namespace web_api_for_books_app
             {
                 client.BaseAddress = new Uri("https://openlibrary.org/");
             });
+            builder.Services.AddHttpClient<IBookService, BookService>();
 
             var app = builder.Build();
 

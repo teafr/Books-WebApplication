@@ -7,6 +7,6 @@ namespace web_api_for_books_app.Services
         Task<BookSearchResult> SearchBooksAsync(string query);
         Task<string?> GetFullTextUrlAsync(string iaIdentifier);
 
-        Task<BookInfo> GetBookDetailsAsync(string editionKey);
+        //Task<BookInfo> GetBookDetailsAsync(string editionKey);
     }
 }

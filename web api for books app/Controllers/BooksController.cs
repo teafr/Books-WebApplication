@@ -15,13 +15,15 @@ namespace web_api_for_books_app.Controllers
         private readonly IRepository<Book> _bookRepository;
         private readonly ILogger<BooksController> _logger;
         private readonly IOpenLibraryService _openLibraryService;
+        private readonly IBookService _bookService;
         private const string NO_FULL_TEXT_MESSAGE = "Full text not available for this book.";
 
-        public BooksController(IRepository<Book> bookRepository, ILogger<BooksController> logger, IOpenLibraryService openLibraryService)
+        public BooksController(IRepository<Book> bookRepository, ILogger<BooksController> logger, IOpenLibraryService openLibraryService, IBookService bookService)
         {
             _bookRepository = bookRepository;
             _logger = logger;
             _openLibraryService = openLibraryService;
+            _bookService = bookService;
         }
 
         [HttpGet("search")]
@@ -50,7 +52,8 @@ namespace web_api_for_books_app.Controllers
                     return NotFound(NO_FULL_TEXT_MESSAGE);
                 }
 
-                return Ok(new { fullTextUrl });
+                string text = await _bookService.GetBookTextAsync(fullTextUrl);
+                return Ok(new { text });
             });            
         }
 
