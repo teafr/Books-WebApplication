@@ -15,7 +15,6 @@ namespace web_api_for_books_app.Controllers
         private readonly IRepository<Book> _bookRepository;
         private readonly ILogger<BooksController> _logger;
         private readonly IGutendexService _gutendexService;
-        private const string NO_FULL_TEXT_MESSAGE = "Full text not available for this book.";
 
         public BooksController(IRepository<Book> bookRepository, ILogger<BooksController> logger, IGutendexService gutendexService)
         {
@@ -32,13 +31,13 @@ namespace web_api_for_books_app.Controllers
         }
 
         [HttpGet("{id}/fulltext")]
-        public async Task<IActionResult> GetFullText(int id)
+        public async Task<IActionResult> GetFullTextUrl(int id)
         {
             return await ExceptionHandle(async () =>
             {
-                GutendexBook book = await _gutendexService.FindBookByIdAsync(id);
+                string? format = await _gutendexService.GetFullTextUrlAsync(id);
 
-                if (book == null)
+                if (format == null)
                 {
                     return NotFound(new
                     {
@@ -47,20 +46,12 @@ namespace web_api_for_books_app.Controllers
                     });
                 }
 
-                var format = book.formats.TxtFormat;
                 return Ok(new { format });
-
-                //var fullTextUrl = await _gutendexService.GetFullTextUrlAsync(id);
-
-                //if (fullTextUrl is null)
-                //{
-                //    return NotFound(NO_FULL_TEXT_MESSAGE);
-                //}
-
-                //string text = await _bookService.GetBookTextAsync(fullTextUrl);
-                //return Ok(new { text });
             });            
         }
+
+
+
 
         [HttpGet]
         public async Task<IActionResult> Get()

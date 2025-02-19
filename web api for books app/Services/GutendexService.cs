@@ -30,9 +30,16 @@ namespace web_api_for_books_app.Services
             return searchResult.results[0];
         }
 
-        public async Task<string?> GetFullTextUrlAsync(string? iaIdentifier)
+        public async Task<string?> GetFullTextUrlAsync(int id) // in the furure better to make Gutendex argument type
         {
-            return null;
+            GutendexBook book = await FindBookByIdAsync(id);
+
+            if (book is null)
+            {
+                return null;
+            }
+
+            return book.formats.TxtFormat;
         }
     }
 }
