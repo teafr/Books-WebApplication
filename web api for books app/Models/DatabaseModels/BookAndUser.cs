@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using web_api_for_books_app.Enums;
 
-namespace web_api_for_books_app.Models
+namespace web_api_for_books_app.Models.DatabaseModels
 {
     [Table("m2m_books_users")]
     public class BookAndUser

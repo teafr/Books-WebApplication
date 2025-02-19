@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
-namespace web_api_for_books_app.Models
+namespace web_api_for_books_app.Models.DatabaseModels
 {
     [Table("books")]
     public class Book
