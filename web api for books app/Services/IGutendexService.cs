@@ -1,10 +1,11 @@
-﻿using web_api_for_books_app.Models.GutendexModels;
+﻿using booksAPI.Models.GutendexModels;
 
-namespace web_api_for_books_app.Services
+namespace booksAPI.Services
 {
     public interface IGutendexService
     {
         Task<SearchResult> SearchBooksAsync(string query);
+        //Task<SearchResult> GetOrderedBooksAsync(string orderBy);
         Task<GutendexBook> FindBookByIdAsync(int id);
         Task<string?> GetFullTextUrlAsync(int id);
     }

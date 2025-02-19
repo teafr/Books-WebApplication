@@ -1,9 +1,9 @@
-using web_api_for_books_app.Contexts;
-using web_api_for_books_app.Models.DatabaseModels;
-using web_api_for_books_app.Repositories;
-using web_api_for_books_app.Services;
+using booksAPI.Contexts;
+using booksAPI.Models.DatabaseModels;
+using booksAPI.Repositories;
+using booksAPI.Services;
 
-namespace web_api_for_books_app
+namespace booksAPI
 {
     public static class Program
     {

@@ -1,18 +1,42 @@
-﻿namespace web_api_for_books_app.Models.GutendexModels
+﻿using System.Text.Json.Serialization;
+
+namespace booksAPI.Models.GutendexModels
 {
     public class GutendexBook
     {
-        public int id { get; set; }
-        public string title { get; set; }
-        public List<Author> authors { get; set; }
-        public List<string> summaries { get; set; }
-        public List<Translator> translators { get; set; }
-        public List<string> subjects { get; set; }
-        public List<string> bookshelves { get; set; }
-        public List<string> languages { get; set; }
-        public bool copyright { get; set; }
-        public string media_type { get; set; }
-        public Formats formats { get; set; }
+        [JsonPropertyName("id")]
+        public int Id { get; set; }
+
+        [JsonPropertyName("title")]
+        public string Title { get; set; }
+
+        [JsonPropertyName("authors")]
+        public List<Author> Authors { get; set; }
+
+        [JsonPropertyName("summaries")]
+        public List<string> Summaries { get; set; }
+
+        [JsonPropertyName("subjects")]
+        public List<string> Subjects { get; set; }
+
+        [JsonPropertyName("bookshelves")]
+        public List<string> Bookshelves { get; set; }
+
+        [JsonPropertyName("languages")]
+        public List<string> Languages { get; set; }
+
+        [JsonPropertyName("formats")]
+        public Formats Formats { get; set; }
+
+        [JsonPropertyName("copyright")]
+        public bool Copyright { get; set; }
+        
+
+        //[JsonPropertyName("media_type")]
+        //public string MediaType { get; set; }
+
+        //[JsonPropertyName("translators")]
+        //public List<Translator> Translators { get; set; }
     }
 
 }

@@ -1,4 +1,4 @@
-﻿namespace web_api_for_books_app.Helpers
+﻿namespace booksAPI.Helpers
 {
     public static class StringValidator
     {

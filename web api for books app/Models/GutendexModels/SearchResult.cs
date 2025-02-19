@@ -1,10 +1,13 @@
-﻿namespace web_api_for_books_app.Models.GutendexModels
+﻿using System.Text.Json.Serialization;
+
+namespace booksAPI.Models.GutendexModels
 {
     public class SearchResult
     {
-        public int count { get; set; }
-        public string next { get; set; }
-        public object previous { get; set; }
-        public List<GutendexBook> results { get; set; }
+        [JsonPropertyName("count")]
+        public int CountOfFoundBooks { get; set; }
+
+        [JsonPropertyName("results")]
+        public List<GutendexBook> Books { get; set; }
     }
 }

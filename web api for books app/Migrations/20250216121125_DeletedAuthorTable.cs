@@ -3,7 +3,7 @@ using MySql.EntityFrameworkCore.Metadata;
 
 #nullable disable
 
-namespace web_api_for_books_app.Migrations
+namespace booksAPI.Migrations
 {
     /// <inheritdoc />
     public partial class DeletedAuthorTable : Migration

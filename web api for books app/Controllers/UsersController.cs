@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using web_api_for_books_app.Models.DatabaseModels;
-using web_api_for_books_app.Repositories;
+using booksAPI.Models.DatabaseModels;
+using booksAPI.Repositories;
 
-namespace web_api_for_books_app.Controllers
+namespace booksAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

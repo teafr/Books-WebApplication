@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using web_api_for_books_app.Models.DatabaseModels;
+using booksAPI.Models.DatabaseModels;
 
-namespace web_api_for_books_app.Contexts;
+namespace booksAPI.Contexts;
 public class LibraryContext : DbContext
 {
     private readonly string _connectionString;

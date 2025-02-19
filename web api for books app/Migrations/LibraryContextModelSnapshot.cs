@@ -2,11 +2,11 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using web_api_for_books_app.Contexts;
+using booksAPI.Contexts;
 
 #nullable disable
 
-namespace web_api_for_books_app.Migrations
+namespace booksAPI.Migrations
 {
     [DbContext(typeof(LibraryContext))]
     partial class LibraryContextModelSnapshot : ModelSnapshot

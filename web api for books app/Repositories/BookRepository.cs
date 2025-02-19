@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using web_api_for_books_app.Contexts;
-using web_api_for_books_app.Models.DatabaseModels;
+using booksAPI.Contexts;
+using booksAPI.Models.DatabaseModels;
 
-namespace web_api_for_books_app.Repositories
+namespace booksAPI.Repositories
 {
     public class BookRepository : IRepository<Book>
     {

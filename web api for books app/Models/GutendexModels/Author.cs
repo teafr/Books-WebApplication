@@ -1,8 +1,11 @@
-﻿namespace web_api_for_books_app.Models.GutendexModels
+﻿using System.Text.Json.Serialization;
+
+namespace booksAPI.Models.GutendexModels
 {
     public class Author
     {
-        public string name { get; set; }
+        [JsonPropertyName("name")]
+        public string Name { get; set; }
     }
 
 }

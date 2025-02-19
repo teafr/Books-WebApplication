@@ -2,9 +2,9 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
-using web_api_for_books_app.Enums;
+using booksAPI.Enums;
 
-namespace web_api_for_books_app.Models.DatabaseModels
+namespace booksAPI.Models.DatabaseModels
 {
     [Table("reviews")]
     public class Review

@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace web_api_for_books_app.Models.GutendexModels
+namespace booksAPI.Models.GutendexModels
 {
     public class Formats
     {

@@ -1,4 +1,4 @@
-﻿namespace web_api_for_books_app.Enums
+﻿namespace booksAPI.Enums
 {
     public enum Status
     {

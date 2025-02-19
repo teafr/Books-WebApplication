@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
-using web_api_for_books_app.Models.GutendexModels;
+using booksAPI.Models.GutendexModels;
 
-namespace web_api_for_books_app.Services
+namespace booksAPI.Services
 {
     public class GutendexService : IGutendexService
     {
@@ -27,7 +27,7 @@ namespace web_api_for_books_app.Services
             response.EnsureSuccessStatusCode();
 
             SearchResult searchResult = JsonSerializer.Deserialize<SearchResult>(await response.Content.ReadAsStringAsync())!;
-            return searchResult.results[0];
+            return searchResult.Books[0];
         }
 
         public async Task<string?> GetFullTextUrlAsync(int id) // in the furure better to make Gutendex argument type
@@ -39,7 +39,7 @@ namespace web_api_for_books_app.Services
                 return null;
             }
 
-            return book.formats.TxtFormat;
+            return book.Formats.TxtFormat;
         }
     }
 }

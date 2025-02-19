@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using web_api_for_books_app.Models.DatabaseModels;
-using web_api_for_books_app.Models.GutendexModels;
-using web_api_for_books_app.Repositories;
-using web_api_for_books_app.Services;
+using booksAPI.Models.DatabaseModels;
+using booksAPI.Models.GutendexModels;
+using booksAPI.Repositories;
+using booksAPI.Services;
 
-namespace web_api_for_books_app.Controllers
+namespace booksAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -27,7 +27,7 @@ namespace web_api_for_books_app.Controllers
         public async Task<IActionResult> SearchBooks([FromQuery] string query)
         {
             SearchResult searchResult = await _gutendexService.SearchBooksAsync(query);
-            return Ok(searchResult.results);
+            return Ok(searchResult.Books);
         }
 
         [HttpGet("{id}/fulltext")]

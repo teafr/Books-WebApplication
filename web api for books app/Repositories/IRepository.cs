@@ -1,6 +1,6 @@
-﻿using web_api_for_books_app.Models;
+﻿using booksAPI.Models;
 
-namespace web_api_for_books_app.Repositories
+namespace booksAPI.Repositories
 {
     public interface IRepository<T>
     {
