@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using web_api_for_books_app.Contexts;
-using web_api_for_books_app.Models;
+using web_api_for_books_app.Models.DatabaseModels;
 
 namespace web_api_for_books_app.Repositories
 {
