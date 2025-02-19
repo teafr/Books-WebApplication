@@ -19,7 +19,7 @@ namespace booksAPI
             builder.Services.AddTransient<IRepository<User>, UserRepository>();
             builder.Services.AddHttpClient<IGutendexService, GutendexService>(client =>
             {
-                client.BaseAddress = new Uri("https://gutendex.com/");
+                client.BaseAddress = new Uri("https://gutendex.com/books");
             });
 
             var app = builder.Build();
