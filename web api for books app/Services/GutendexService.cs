@@ -32,16 +32,10 @@ namespace booksAPI.Services
             return searchResult.Books.FirstOrDefault()!;
         }
 
-        public async Task<string?> GetTxtUrlAsync(int id) // in the furure better to make GutendexBook argument type
+        public async Task<string?> GetTxtUrlAsync(int id)
         {
             GutendexBook book = await GetBookByIdAsync(id);
-
-            if (book is null)
-            {
-                return null;
-            }
-
-            return book.Formats.TxtFormat;
+            return book?.Formats?.TxtFormat;
         }
     }
 }
