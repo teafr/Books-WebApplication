@@ -13,26 +13,28 @@ namespace booksAPI.Services
             _httpClient = httpClient;
         }
 
-        public async Task<SearchResult> SearchBooksAsync(string query)
+        public async Task<List<GutendexBook>> SearchBooksAsync(string key, string value)
         {
-            HttpResponseMessage response = await _httpClient.GetAsync($"/books?search={Uri.EscapeDataString(query)}");
+            string url = $"?{Uri.EscapeDataString(key)}={Uri.EscapeDataString(value)}";
+            HttpResponseMessage response = await _httpClient.GetAsync(url);
             response.EnsureSuccessStatusCode();
 
-            return JsonSerializer.Deserialize<SearchResult>(await response.Content.ReadAsStringAsync())!;
+            SearchResult result = JsonSerializer.Deserialize<SearchResult>(await response.Content.ReadAsStringAsync())!;
+            return result.Books;
         }
 
-        public async Task<GutendexBook> FindBookByIdAsync(int id)
+        public async Task<GutendexBook> GetBookByIdAsync(int id)
         {
-            HttpResponseMessage response = await _httpClient.GetAsync($"/books?ids={id}");
+            HttpResponseMessage response = await _httpClient.GetAsync($"?ids={id}");
             response.EnsureSuccessStatusCode();
 
             SearchResult searchResult = JsonSerializer.Deserialize<SearchResult>(await response.Content.ReadAsStringAsync())!;
-            return searchResult.Books[0];
+            return searchResult.Books.FirstOrDefault()!;
         }
 
-        public async Task<string?> GetFullTextUrlAsync(int id) // in the furure better to make Gutendex argument type
+        public async Task<string?> GetTxtUrlAsync(int id) // in the furure better to make GutendexBook argument type
         {
-            GutendexBook book = await FindBookByIdAsync(id);
+            GutendexBook book = await GetBookByIdAsync(id);
 
             if (book is null)
             {

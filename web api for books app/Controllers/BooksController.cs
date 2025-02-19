@@ -35,7 +35,7 @@ namespace booksAPI.Controllers
         {
             return await ExceptionHandle(async () =>
             {
-                string? format = await _gutendexService.GetFullTextUrlAsync(id);
+                string? format = await _gutendexService.GetTxtUrlAsync(id);
 
                 if (format == null)
                 {
