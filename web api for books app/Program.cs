@@ -17,11 +17,10 @@ namespace web_api_for_books_app
             builder.Services.AddTransient<LibraryContext>();
             builder.Services.AddTransient<IRepository<Book>, BookRepository>();
             builder.Services.AddTransient<IRepository<User>, UserRepository>();
-            builder.Services.AddHttpClient<IOpenLibraryService, OpenLibraryService>(client =>
+            builder.Services.AddHttpClient<IGutendexService, GutendexService>(client =>
             {
-                client.BaseAddress = new Uri("https://openlibrary.org/");
+                client.BaseAddress = new Uri("https://gutendex.com/");
             });
-            builder.Services.AddHttpClient<IBookService, BookService>();
 
             var app = builder.Build();
 

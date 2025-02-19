@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using web_api_for_books_app.Models.DatabaseModels;
-using web_api_for_books_app.Models.OpenLibraryModels;
+using web_api_for_books_app.Models.GutendexModels;
 using web_api_for_books_app.Repositories;
 using web_api_for_books_app.Services;
 
@@ -14,46 +14,51 @@ namespace web_api_for_books_app.Controllers
     {
         private readonly IRepository<Book> _bookRepository;
         private readonly ILogger<BooksController> _logger;
-        private readonly IOpenLibraryService _openLibraryService;
-        private readonly IBookService _bookService;
+        private readonly IGutendexService _gutendexService;
         private const string NO_FULL_TEXT_MESSAGE = "Full text not available for this book.";
 
-        public BooksController(IRepository<Book> bookRepository, ILogger<BooksController> logger, IOpenLibraryService openLibraryService, IBookService bookService)
+        public BooksController(IRepository<Book> bookRepository, ILogger<BooksController> logger, IGutendexService gutendexService)
         {
             _bookRepository = bookRepository;
             _logger = logger;
-            _openLibraryService = openLibraryService;
-            _bookService = bookService;
+            _gutendexService = gutendexService;
         }
 
         [HttpGet("search")]
         public async Task<IActionResult> SearchBooks([FromQuery] string query)
         {
-            BookSearchResult searchResult = await _openLibraryService.SearchBooksAsync(query);
-            List<OpenLibraryBook> books = searchResult.Books.Where(b => b.HasFullText).ToList();
-
-            return Ok(books);
+            SearchResult searchResult = await _gutendexService.SearchBooksAsync(query);
+            return Ok(searchResult.results);
         }
 
-        [HttpGet("{iaIdentifier}/fulltext")]
-        public async Task<IActionResult> GetFullText(string iaIdentifier)
+        [HttpGet("{id}/fulltext")]
+        public async Task<IActionResult> GetFullText(int id)
         {
             return await ExceptionHandle(async () =>
             {
-                if (iaIdentifier == null)
+                GutendexBook book = await _gutendexService.FindBookByIdAsync(id);
+
+                if (book == null)
                 {
-                    return NotFound(NO_FULL_TEXT_MESSAGE);
+                    return NotFound(new
+                    {
+                        statusCode = 404,
+                        message = "record not found"
+                    });
                 }
 
-                var fullTextUrl = await _openLibraryService.GetFullTextUrlAsync(iaIdentifier);
+                var format = book.formats.TxtFormat;
+                return Ok(new { format });
 
-                if (fullTextUrl is null)
-                {
-                    return NotFound(NO_FULL_TEXT_MESSAGE);
-                }
+                //var fullTextUrl = await _gutendexService.GetFullTextUrlAsync(id);
 
-                string text = await _bookService.GetBookTextAsync(fullTextUrl);
-                return Ok(new { text });
+                //if (fullTextUrl is null)
+                //{
+                //    return NotFound(NO_FULL_TEXT_MESSAGE);
+                //}
+
+                //string text = await _bookService.GetBookTextAsync(fullTextUrl);
+                //return Ok(new { text });
             });            
         }
 
