@@ -8,6 +8,6 @@ namespace booksAPI.Models.GutendexModels
         public int CountOfFoundBooks { get; set; }
 
         [JsonPropertyName("results")]
-        public List<GutendexBook> Books { get; set; }
+        public List<GutendexBook>? Books { get; set; }
     }
 }
