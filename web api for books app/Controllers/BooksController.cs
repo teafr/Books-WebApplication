@@ -25,27 +25,29 @@ namespace booksAPI.Controllers
         [HttpGet("search")]
         public async Task<IActionResult> SearchBooks([FromQuery] string query)
         {
-            List<GutendexBook> books = await _gutendexService.SearchBooksAsync("search", query);
+            List<GutendexBook>? books = await _gutendexService.SearchBooksAsync("search", query);
+
+            if (books == null)
+            {
+                return NotFound(recordNotFound);
+            }
+
             return Ok(books);
         }
 
         [HttpGet("{id}/fulltext")]
-        public async Task<IActionResult> GetFullTextUrl(int id)
+        public async Task<IActionResult> GetFullText(int id)
         {
             return await ExceptionHandle(async () =>
             {
-                string? format = await _gutendexService.GetTxtUrlAsync(id);
+                string? txtUrl = await _gutendexService.GetTxtUrlAsync(id);
 
-                if (format == null)
+                if (txtUrl == null)
                 {
-                    return NotFound(new
-                    {
-                        statusCode = 404,
-                        message = "record not found"
-                    });
+                    return NotFound(recordNotFound);
                 }
 
-                return Ok(new { format });
+                return Ok(new { txtUrl });
             });            
         }
 
@@ -71,11 +73,7 @@ namespace booksAPI.Controllers
 
                 if (book == null)
                 {
-                    return NotFound(new
-                    {
-                        statusCode = 404,
-                        message = "record not found"
-                    });
+                    return NotFound(recordNotFound);
                 }
 
                 return Ok(book);
@@ -101,11 +99,7 @@ namespace booksAPI.Controllers
 
                 if (existingBook == null)
                 {
-                    return NotFound(new
-                    {
-                        statusCode = 404,
-                        message = "record not found"
-                    });
+                    return NotFound(recordNotFound);
                 }
 
                 existingBook.Id = bookToUpdate.Id;
@@ -125,11 +119,7 @@ namespace booksAPI.Controllers
 
                 if (existingBook == null)
                 {
-                    return NotFound(new
-                    {
-                        statusCode = 404,
-                        message = "record not found"
-                    });
+                    return NotFound(recordNotFound);
                 }
 
                 await _bookRepository.DeleteAsync(existingBook);

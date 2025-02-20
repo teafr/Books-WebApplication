@@ -35,11 +35,7 @@ namespace booksAPI.Controllers
 
                 if (user == null)
                 {
-                    return NotFound(new
-                    {
-                        statusCode = 404,
-                        message = "record not found"
-                    });
+                    return NotFound(recordNotFound);
                 }
 
                 return Ok(user);
@@ -65,11 +61,7 @@ namespace booksAPI.Controllers
 
                 if (user == null)
                 {
-                    return NotFound(new
-                    {
-                        statusCode = 404,
-                        message = "record not found"
-                    });
+                    return NotFound(recordNotFound);
                 }
 
                 user.Name = UserToUpdate.Name;
@@ -91,11 +83,7 @@ namespace booksAPI.Controllers
 
                 if (user == null)
                 {
-                    return NotFound(new
-                    {
-                        statusCode = 404,
-                        message = "record not found"
-                    });
+                    return NotFound(recordNotFound);
                 }
 
                 await _userRepository.DeleteAsync(user);

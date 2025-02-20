@@ -13,13 +13,13 @@ namespace booksAPI.Repositories
             _context = bookcontext;
         }
 
-        public async Task<List<Book>> GetAsync()
+        public async Task<List<Book>?> GetAsync()
         {
             var books = await _context.Books.ToListAsync();
             return books;
         }
 
-        public async Task<Book> GetByIdAsync(int id)
+        public async Task<Book?> GetByIdAsync(int id)
         {
             return await _context.Books.FindAsync(id);
         }

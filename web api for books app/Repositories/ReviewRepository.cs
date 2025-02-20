@@ -25,12 +25,12 @@ namespace booksAPI.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<Review>> GetAsync()
+        public async Task<List<Review>?> GetAsync()
         {
             return await _context.Reviews.ToListAsync();
         }
 
-        public async Task<Review> GetByIdAsync(int id)
+        public async Task<Review?> GetByIdAsync(int id)
         {
             return await _context.Reviews.FirstOrDefaultAsync(i => i.Id == id);
         }

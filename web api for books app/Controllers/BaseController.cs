@@ -8,6 +8,11 @@ namespace web_api_for_books_app.Controllers
     public abstract class BaseController : ControllerBase
     {
         protected readonly ILogger<BaseController> _logger;
+        protected readonly object recordNotFound = new
+        {
+            statusCode = 404,
+            message = "record not found"
+        };
 
         protected BaseController(ILogger<BaseController> logger)
         {

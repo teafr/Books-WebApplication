@@ -24,12 +24,12 @@ namespace booksAPI.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<User> GetByIdAsync(int id)
+        public async Task<User?> GetByIdAsync(int id)
         {
             return await _context.Users.FindAsync(id);
         }
 
-        public async Task<List<User>> GetAsync()
+        public async Task<List<User>?> GetAsync()
         {
             return await _context.Users.ToListAsync();
         }
