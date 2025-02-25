@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace web_api_for_books_app.Controllers
+namespace booksAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
