@@ -34,7 +34,7 @@ namespace booksAPI.Services
 
         public async Task<string?> GetTxtUrlAsync(int id)
         {
-            GutendexBook book = await GetBookByIdAsync(id);
+            GutendexBook? book = await GetBookByIdAsync(id);
             return book?.Formats?.TxtFormat;
         }
     }
