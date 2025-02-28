@@ -1,43 +1,18 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using booksAPI.Contexts;
 using booksAPI.Models.DatabaseModels;
+using web_api_for_books_app.Repositories;
 
 namespace booksAPI.Repositories
 {
-    public class BookRepository : IRepository<Book>
+    public class BookRepository : BaseRepository<Book>
     {
-        private readonly LibraryContext _context;
+        public BookRepository(LibraryContext context) : base(context) { }
 
-        public BookRepository(LibraryContext bookcontext)
+        public override async Task<List<Book>?> GetAsync()
         {
-            _context = bookcontext;
-        }
-
-        public async Task<List<Book>?> GetAsync()
-        {
-            var books = await _context.Books.ToListAsync();
+            var books = await dbSet.ToListAsync();
             return books;
-        }
-
-        public async Task<Book?> GetByIdAsync(int id)
-        {
-            return await _context.Books.FindAsync(id);
-        }
-        public async Task<Book> CreateAsync(Book book)
-        {
-            _context.Books.Add(book);
-            await _context.SaveChangesAsync();
-            return book;
-        }
-        public async Task UpdateAsync(Book book)
-        {
-            _context.Books.Update(book);
-            await _context.SaveChangesAsync();
-        }
-        public async Task DeleteAsync(Book book)
-        {
-            _context.Books.Remove(book);
-            await _context.SaveChangesAsync();
         }
     }
 }

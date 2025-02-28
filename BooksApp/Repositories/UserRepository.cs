@@ -1,43 +1,17 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using booksAPI.Contexts;
 using booksAPI.Models.DatabaseModels;
+using web_api_for_books_app.Repositories;
 
 namespace booksAPI.Repositories
 {
-    public class UserRepository : IRepository<User>
+    public class UserRepository : BaseRepository<User>
     {
-        private readonly LibraryContext _context;
-        public UserRepository(LibraryContext context)
-        {
-            _context = context;
-        }
-        public async Task<User> CreateAsync(User user)
-        {
-            await _context.Users.AddAsync(user);
-            await _context.SaveChangesAsync();
-            return user;
-        }
+        public UserRepository(LibraryContext context) : base(context) { }
 
-        public async Task DeleteAsync(User user)
+        public override async Task<List<User>?> GetAsync()
         {
-            _context.Users.Remove(user);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task<User?> GetByIdAsync(int id)
-        {
-            return await _context.Users.FindAsync(id);
-        }
-
-        public async Task<List<User>?> GetAsync()
-        {
-            return await _context.Users.ToListAsync();
-        }
-
-        public async Task UpdateAsync(User user)
-        {
-            _context.Update(user);
-            await _context.SaveChangesAsync();
+            return await dbSet.ToListAsync();
         }
     }
 }

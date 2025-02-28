@@ -1,44 +1,17 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using booksAPI.Contexts;
 using booksAPI.Models.DatabaseModels;
+using web_api_for_books_app.Repositories;
 
 namespace booksAPI.Repositories
 {
-    public class ReviewRepository : IRepository<Review>
+    public class ReviewRepository : BaseRepository<Review>
     {
-        private readonly LibraryContext _context;
-        public ReviewRepository(LibraryContext libraryContext)
-        {
-            _context = libraryContext;
-        }
+        public ReviewRepository(LibraryContext context) : base(context) { }
 
-        public async Task<Review> CreateAsync(Review newReview)
+        public override async Task<List<Review>?> GetAsync()
         {
-            await _context.Reviews.AddAsync(newReview);
-            await _context.SaveChangesAsync();
-            return newReview;
-        }
-
-        public async Task DeleteAsync(Review review)
-        {
-            _context.Reviews.Remove(review);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task<List<Review>?> GetAsync()
-        {
-            return await _context.Reviews.ToListAsync();
-        }
-
-        public async Task<Review?> GetByIdAsync(int id)
-        {
-            return await _context.Reviews.FirstOrDefaultAsync(i => i.Id == id);
-        }
-
-        public async Task UpdateAsync(Review review)
-        {
-            _context.Reviews.Update(review);
-            await _context.SaveChangesAsync();
+            return await dbSet.ToListAsync();
         }
     }
 }
