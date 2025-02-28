@@ -14,45 +14,11 @@ namespace booksAPI.Controllers
     public class BooksController : BaseController
     {
         private readonly IRepository<Book> _bookRepository;
-        private readonly IGutendexService _gutendexService;
 
-        public BooksController(IRepository<Book> bookRepository, ILogger<BooksController> logger, IGutendexService gutendexService) : base(logger)
+        public BooksController(IRepository<Book> bookRepository, ILogger<BooksController> logger) : base(logger)
         {
             _bookRepository = bookRepository;
-            _gutendexService = gutendexService;
         }
-
-        [HttpGet("search")]
-        public async Task<IActionResult> SearchBooks([FromQuery] string query)
-        {
-            List<GutendexBook>? books = await _gutendexService.SearchBooksAsync("search", query);
-
-            if (books == null)
-            {
-                return NotFound(recordNotFound);
-            }
-
-            return Ok(books);
-        }
-
-        [HttpGet("{id}/fulltext")]
-        public async Task<IActionResult> GetFullText(int id)
-        {
-            return await ExceptionHandle(async () =>
-            {
-                string? txtUrl = await _gutendexService.GetTxtUrlAsync(id);
-
-                if (txtUrl == null)
-                {
-                    return NotFound(recordNotFound);
-                }
-
-                return Ok(new { txtUrl });
-            });            
-        }
-
-
-
 
         [HttpGet]
         public async Task<IActionResult> Get()
