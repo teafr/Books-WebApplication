@@ -26,7 +26,7 @@ namespace web_api_for_books_app.Controllers
             });
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id:int:min(1)}")]
         public async Task<IActionResult> GetById(int id)
         {
             return await ExceptionHandle(async () =>
@@ -75,7 +75,7 @@ namespace web_api_for_books_app.Controllers
             });
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id:int:min(1)}")]
         public async Task<IActionResult> DeleteBook(int id)
         {
             return await ExceptionHandle(async () =>

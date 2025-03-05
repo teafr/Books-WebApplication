@@ -30,7 +30,7 @@ namespace booksAPI.Controllers
             });
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id:int:min(1)}")]
         public async Task<IActionResult> GetById(int id)
         {
             return await ExceptionHandle(async () =>
@@ -76,7 +76,7 @@ namespace booksAPI.Controllers
             });
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id:int:min(1)}")]
         public async Task<IActionResult> DeleteBook(int id)
         {
             return await ExceptionHandle(async () =>
