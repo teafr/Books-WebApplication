@@ -2,6 +2,7 @@ using booksAPI.Contexts;
 using booksAPI.Models.DatabaseModels;
 using booksAPI.Repositories;
 using booksAPI.Services;
+using web_api_for_books_app.DiConteinerInitialization;
 
 namespace booksAPI
 {
@@ -10,14 +11,11 @@ namespace booksAPI
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddDependensies();
             builder.Services.AddTransient<LibraryContext>();
-            builder.Services.AddTransient<IRepository<Book>, BookRepository>();
-            builder.Services.AddTransient<IRepository<User>, UserRepository>();
-            builder.Services.AddTransient<IRepository<Review>, ReviewRepository>();
             builder.Services.AddHttpClient<IGutendexService, GutendexService>(client =>
             {
                 client.BaseAddress = new Uri("https://gutendex.com/books");
