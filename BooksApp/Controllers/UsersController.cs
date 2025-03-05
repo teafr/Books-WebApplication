@@ -9,11 +9,11 @@ namespace booksAPI.Controllers
     [ApiController]
     public class UsersController : BaseController
     {
-        private readonly IRepository<User> _userRepository;
+        private readonly IRepository<User> _repository;
 
-        public UsersController(IRepository<User> userRepository, ILogger<UsersController> logger) : base(logger)
+        public UsersController(IRepository<User> repository, ILogger<UsersController> logger) : base(logger)
         {
-            _userRepository = userRepository;
+            _repository = repository;
         }
 
         [HttpGet]
@@ -21,7 +21,7 @@ namespace booksAPI.Controllers
         {
             return await ExceptionHandle(async () =>
             {
-                var users = await _userRepository.GetAsync();
+                var users = await _repository.GetAsync();
                 return Ok(users);
             });
         }
@@ -31,7 +31,7 @@ namespace booksAPI.Controllers
         {
             return await ExceptionHandle(async () =>
             {
-                var user = await _userRepository.GetByIdAsync(id);
+                var user = await _repository.GetByIdAsync(id);
 
                 if (user == null)
                 {
@@ -47,7 +47,7 @@ namespace booksAPI.Controllers
         {
             return await ExceptionHandle(async () =>
             {
-                var createdUser = await _userRepository.CreateAsync(user);
+                var createdUser = await _repository.CreateAsync(user);
                 return CreatedAtAction(nameof(Post), createdUser);
             });
         }
@@ -57,7 +57,7 @@ namespace booksAPI.Controllers
         {
             return await ExceptionHandle(async () =>
             {
-                var user = await _userRepository.GetByIdAsync(UserToUpdate.Id);
+                var user = await _repository.GetByIdAsync(UserToUpdate.Id);
 
                 if (user == null)
                 {
@@ -69,7 +69,7 @@ namespace booksAPI.Controllers
                 user.Description = UserToUpdate.Description;
                 user.Username = UserToUpdate.Username;
 
-                await _userRepository.UpdateAsync(user);
+                await _repository.UpdateAsync(user);
                 return NoContent();
             });
         }
@@ -79,14 +79,14 @@ namespace booksAPI.Controllers
         {
             return await ExceptionHandle(async () =>
             {
-                var user = await _userRepository.GetByIdAsync(id);
+                var user = await _repository.GetByIdAsync(id);
 
                 if (user == null)
                 {
                     return NotFound(recordNotFound);
                 }
 
-                await _userRepository.DeleteAsync(user);
+                await _repository.DeleteAsync(user);
                 return NoContent();
             });
         }

@@ -13,11 +13,11 @@ namespace booksAPI.Controllers
     [ApiController]
     public class BooksController : BaseController
     {
-        private readonly IRepository<Book> _bookRepository;
+        private readonly IRepository<Book> _repository;
 
-        public BooksController(IRepository<Book> bookRepository, ILogger<BooksController> logger) : base(logger)
+        public BooksController(IRepository<Book> repository, ILogger<BooksController> logger) : base(logger)
         {
-            _bookRepository = bookRepository;
+            _repository = repository;
         }
 
         [HttpGet]
@@ -25,7 +25,7 @@ namespace booksAPI.Controllers
         {
             return await ExceptionHandle(async () =>
             {
-                var books = await _bookRepository.GetAsync();
+                var books = await _repository.GetAsync();
                 return Ok(books);
             });
         }
@@ -35,7 +35,7 @@ namespace booksAPI.Controllers
         {
             return await ExceptionHandle(async () =>
             {
-                var book = await _bookRepository.GetByIdAsync(id);
+                var book = await _repository.GetByIdAsync(id);
 
                 if (book == null)
                 {
@@ -51,7 +51,7 @@ namespace booksAPI.Controllers
         {
             return await ExceptionHandle(async () =>
             {
-                Book createdBook = await _bookRepository.CreateAsync(book);
+                var createdBook = await _repository.CreateAsync(book);
                 return CreatedAtAction(nameof(Post), createdBook);
             });
         }
@@ -61,7 +61,7 @@ namespace booksAPI.Controllers
         {
             return await ExceptionHandle(async () =>
             {
-                var existingBook = await _bookRepository.GetByIdAsync(bookToUpdate.Id);
+                var existingBook = await _repository.GetByIdAsync(bookToUpdate.Id);
 
                 if (existingBook == null)
                 {
@@ -71,7 +71,7 @@ namespace booksAPI.Controllers
                 existingBook.Id = bookToUpdate.Id;
                 existingBook.Name = bookToUpdate.Name;
 
-                await _bookRepository.UpdateAsync(existingBook);
+                await _repository.UpdateAsync(existingBook);
                 return NoContent();
             });
         }
@@ -81,14 +81,14 @@ namespace booksAPI.Controllers
         {
             return await ExceptionHandle(async () =>
             {
-                var existingBook = await _bookRepository.GetByIdAsync(id);
+                var existingBook = await _repository.GetByIdAsync(id);
 
                 if (existingBook == null)
                 {
                     return NotFound(recordNotFound);
                 }
 
-                await _bookRepository.DeleteAsync(existingBook);
+                await _repository.DeleteAsync(existingBook);
                 return NoContent();
             });
         }
