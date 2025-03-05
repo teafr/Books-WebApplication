@@ -11,7 +11,7 @@ namespace booksAPI.Repositories
 
         public override async Task<List<Review>?> GetAsync()
         {
-            return await dbSet.ToListAsync();
+            return await dbSet.Include(user => user.User).Include(book => book.Book).ToListAsync();
         }
     }
 }
