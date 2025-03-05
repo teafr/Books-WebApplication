@@ -30,10 +30,8 @@ namespace booksAPI.Models.DatabaseModels
         [Required]
         public int BookId { get; set; }
 
-        [JsonIgnore]
         public required User User { get; set; }
 
-        [JsonIgnore]
         public required Book Book { get; set; }
     }
 }
