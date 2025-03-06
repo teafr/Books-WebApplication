@@ -47,6 +47,11 @@ namespace booksAPI.Controllers
         {
             return await ExceptionHandle(async () =>
             {
+                if (user is null)
+                {
+                    return BadRequest(badRequest);
+                }
+
                 var createdUser = await _repository.CreateAsync(user);
                 return CreatedAtAction(nameof(Post), createdUser);
             });
@@ -57,6 +62,11 @@ namespace booksAPI.Controllers
         {
             return await ExceptionHandle(async () =>
             {
+                if (UserToUpdate is null)
+                {
+                    return BadRequest(badRequest);
+                }
+
                 var user = await _repository.GetByIdAsync(UserToUpdate.Id);
 
                 if (user == null)

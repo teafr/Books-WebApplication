@@ -12,6 +12,11 @@ namespace booksAPI.Controllers
             statusCode = 404,
             message = "record not found"
         };
+        protected readonly object badRequest = new
+        {
+            statusCode = 400,
+            message = $"can't process the received object"
+        };
 
         protected BaseController(ILogger<BaseController> logger)
         {
