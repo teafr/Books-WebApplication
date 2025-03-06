@@ -1,13 +1,11 @@
-﻿using booksAPI.Models;
-
-namespace booksAPI.Repositories
+﻿namespace booksAPI.Repositories
 {
-    public interface IRepository<T>
+    public interface IRepository<Entity>
     {
-        Task<List<T>?> GetAsync();
-        Task<T?> GetByIdAsync(int id);
-        Task<T> CreateAsync(T newItem);
-        Task UpdateAsync(T item);
-        Task DeleteAsync(T item);
+        Task<List<Entity>?> GetAsync();
+        Task<Entity?> GetByIdAsync(int id);
+        Task<Entity> CreateAsync(Entity newItem);
+        Task UpdateAsync(Entity item);
+        Task DeleteAsync(Entity item);
     }
 }

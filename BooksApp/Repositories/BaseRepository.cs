@@ -4,42 +4,42 @@ using Microsoft.EntityFrameworkCore;
 
 namespace web_api_for_books_app.Repositories
 {
-    public abstract class BaseRepository<T> : IRepository<T> where T : class
+    public abstract class BaseRepository<Entity> : IRepository<Entity> where Entity : class
     {
         protected readonly LibraryContext _context;
-        protected readonly DbSet<T> dbSet;
+        protected readonly DbSet<Entity> dbSet;
 
         protected BaseRepository(LibraryContext context)
         {
             _context = context;
-            dbSet = context.Set<T>();
+            dbSet = context.Set<Entity>();
         }
 
-        public async virtual Task<List<T>?> GetAsync()
+        public async virtual Task<List<Entity>?> GetAsync()
         {
             var items = await dbSet.ToListAsync();
             return items;
         }
 
-        public async virtual Task<T> CreateAsync(T newItem)
+        public async virtual Task<Entity> CreateAsync(Entity newItem)
         {
             dbSet.Add(newItem);
             await _context.SaveChangesAsync();
             return newItem;
         }
 
-        public async virtual Task DeleteAsync(T item)
+        public async virtual Task DeleteAsync(Entity item)
         {
             dbSet.Remove(item);
             await _context.SaveChangesAsync();
         }
 
-        public async virtual Task<T?> GetByIdAsync(int id)
+        public async virtual Task<Entity?> GetByIdAsync(int id)
         {
             return await dbSet.FindAsync(id);
         }
 
-        public async virtual Task UpdateAsync(T item)
+        public async virtual Task UpdateAsync(Entity item)
         {
             dbSet.Update(item);
             await _context.SaveChangesAsync();
