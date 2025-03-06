@@ -31,7 +31,7 @@ namespace web_api_for_books_app.Controllers
             return Ok(books);
         }
 
-        [HttpGet("{id}/fulltext")]
+        [HttpGet("{id:int:min(1)}/fulltext")]
         public async Task<IActionResult> GetFullTextUrl(int id)
         {
             return await ExceptionHandle(async () =>
