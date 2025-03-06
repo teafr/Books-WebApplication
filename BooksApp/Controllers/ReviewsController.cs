@@ -2,6 +2,7 @@
 using booksAPI.Models.DatabaseModels;
 using booksAPI.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using web_api_for_books_app.Services;
 
 namespace web_api_for_books_app.Controllers
 {
@@ -9,11 +10,11 @@ namespace web_api_for_books_app.Controllers
     [ApiController]
     public class ReviewsController : BaseController
     {
-        private readonly IRepository<Review> _repository;
+        private readonly IReviewService _reviewService;
 
-        public ReviewsController(IRepository<Review> repository, ILogger<ReviewsController> logger) : base(logger)
+        public ReviewsController(IReviewService reviewService, ILogger<ReviewsController> logger) : base(logger)
         {
-            _repository = repository;
+            _reviewService = reviewService;
         }
 
         [HttpGet]
@@ -21,7 +22,7 @@ namespace web_api_for_books_app.Controllers
         {
             return await ExceptionHandle(async () =>
             {
-                var reviews = await _repository.GetAsync();
+                var reviews = await _reviewService.GetAsync();
                 return Ok(reviews);
             });
         }
@@ -31,7 +32,7 @@ namespace web_api_for_books_app.Controllers
         {
             return await ExceptionHandle(async () =>
             {
-                var review = await _repository.GetByIdAsync(id);
+                var review = await _reviewService.GetByIdAsync(id);
 
                 if (review == null)
                 {
@@ -47,7 +48,7 @@ namespace web_api_for_books_app.Controllers
         {
             return await ExceptionHandle(async () =>
             {
-                var createdReview = await _repository.CreateAsync(review);
+                var createdReview = await _reviewService.CreateAsync(review);
                 return CreatedAtAction(nameof(Post), createdReview);
             });
         }
@@ -57,7 +58,7 @@ namespace web_api_for_books_app.Controllers
         {
             return await ExceptionHandle(async () =>
             {
-                var existingReview = await _repository.GetByIdAsync(reviewToUpdate.Id);
+                var existingReview = await _reviewService.GetByIdAsync(reviewToUpdate.Id);
 
                 if (existingReview == null)
                 {
@@ -70,7 +71,7 @@ namespace web_api_for_books_app.Controllers
                 existingReview.Rating = reviewToUpdate.Rating;
                 existingReview.Book = reviewToUpdate.Book;
 
-                await _repository.UpdateAsync(existingReview);
+                await _reviewService.UpdateAsync(existingReview);
                 return NoContent();
             });
         }
@@ -80,14 +81,14 @@ namespace web_api_for_books_app.Controllers
         {
             return await ExceptionHandle(async () =>
             {
-                var existingReview = await _repository.GetByIdAsync(id);
+                var existingReview = await _reviewService.GetByIdAsync(id);
 
                 if (existingReview == null)
                 {
                     return NotFound(recordNotFound);
                 }
 
-                await _repository.DeleteAsync(existingReview);
+                await _reviewService.DeleteAsync(existingReview);
                 return NoContent();
             });
         }
