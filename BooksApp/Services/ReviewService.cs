@@ -3,7 +3,7 @@ using booksAPI.Repositories;
 
 namespace web_api_for_books_app.Services
 {
-    public class ReviewService : IReviewService
+    public class ReviewService : ICrudService<Review>
     {
         private readonly IRepository<Review> _reviewRepository;
         private readonly IRepository<Book> _bookRepository;
