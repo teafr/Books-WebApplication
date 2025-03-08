@@ -12,12 +12,12 @@ namespace booksAPI
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            builder.Services.AddProblemDetails();
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddObjectServices();
             builder.Services.AddSwaggerGen();
             builder.Services.AddDependensies();
-            builder.Services.AddTransient<LibraryContext>();
 
             var app = builder.Build();
 
