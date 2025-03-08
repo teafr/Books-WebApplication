@@ -2,6 +2,7 @@
 using booksAPI.Models.DatabaseModels;
 using booksAPI.Repositories;
 using booksAPI.Controllers;
+using web_api_for_books_app.Services;
 
 namespace booksAPI.Controllers
 {
@@ -9,9 +10,9 @@ namespace booksAPI.Controllers
     [ApiController]
     public class UsersController : BaseController
     {
-        private readonly IRepository<User> _repository;
+        private readonly ICrudService<User> _repository;
 
-        public UsersController(IRepository<User> repository, ILogger<UsersController> logger) : base(logger)
+        public UsersController(ICrudService<User> repository, ILogger<UsersController> logger) : base(logger)
         {
             _repository = repository;
         }

@@ -10,9 +10,9 @@ namespace web_api_for_books_app.Controllers
     [ApiController]
     public class ReviewsController : BaseController
     {
-        private readonly IReviewService _reviewService;
+        private readonly ICrudService<Review> _reviewService;
 
-        public ReviewsController(IReviewService reviewService, ILogger<ReviewsController> logger) : base(logger)
+        public ReviewsController(ICrudService<Review> reviewService, ILogger<ReviewsController> logger) : base(logger)
         {
             _reviewService = reviewService;
         }
