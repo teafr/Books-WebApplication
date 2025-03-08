@@ -20,7 +20,8 @@ namespace web_api_for_books_app.DiConteinerInitialization
 
         public static IServiceCollection AddObjectServices(this IServiceCollection services)
         {
-            services.AddTransient<IReviewService, ReviewService>();
+            services.AddTransient<ICrudService<Review>, ReviewService>();
+            services.AddTransient<ICrudService<User>, UserService>();
             services.AddHttpClient<IGutendexService, GutendexService>(client =>
             {
                 client.BaseAddress = new Uri("https://gutendex.com/books");
