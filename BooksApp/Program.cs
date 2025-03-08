@@ -26,7 +26,12 @@ namespace booksAPI
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+            else
+            {
+                app.UseExceptionHandler("/Error");
+            }
 
+            app.UseStatusCodePages();
             app.UseHttpsRedirection();
             app.UseAuthorization();
             app.MapControllers();
