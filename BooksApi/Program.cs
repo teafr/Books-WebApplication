@@ -2,8 +2,7 @@ using booksAPI.Contexts;
 using booksAPI.Models.DatabaseModels;
 using booksAPI.Repositories;
 using booksAPI.Services;
-using web_api_for_books_app.DiConteinerInitialization;
-using web_api_for_books_app.Services;
+using booksAPI.DiConteinerInitialization;
 
 namespace booksAPI
 {
@@ -13,7 +12,8 @@ namespace booksAPI
         {
             var builder = WebApplication.CreateBuilder(new WebApplicationOptions()
             {
-                EnvironmentName = Environments.Development
+                EnvironmentName = Environments.Development,
+                Args = args
             });
 
             builder.Services.AddProblemDetails();

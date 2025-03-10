@@ -2,9 +2,8 @@
 using booksAPI.Models.DatabaseModels;
 using booksAPI.Repositories;
 using booksAPI.Services;
-using web_api_for_books_app.Services;
 
-namespace web_api_for_books_app.DiConteinerInitialization
+namespace booksAPI.DiConteinerInitialization
 {
     public static class Extensions
     {

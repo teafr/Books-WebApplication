@@ -1,7 +1,7 @@
 ﻿using booksAPI.Models.DatabaseModels;
 using booksAPI.Repositories;
 
-namespace web_api_for_books_app.Services
+namespace booksAPI.Services
 {
     public class UserService : ICrudService<User>
     {

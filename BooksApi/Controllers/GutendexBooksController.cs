@@ -5,7 +5,7 @@ using booksAPI.Repositories;
 using booksAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace web_api_for_books_app.Controllers
+namespace booksAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

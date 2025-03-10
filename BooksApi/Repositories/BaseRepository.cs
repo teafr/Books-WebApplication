@@ -2,7 +2,7 @@
 using booksAPI.Repositories;
 using Microsoft.EntityFrameworkCore;
 
-namespace web_api_for_books_app.Repositories
+namespace booksAPI.Repositories
 {
     public abstract class BaseRepository<Entity> : IRepository<Entity> where Entity : class
     {

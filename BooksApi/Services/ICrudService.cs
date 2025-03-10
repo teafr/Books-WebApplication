@@ -1,6 +1,4 @@
-﻿using booksAPI.Models.DatabaseModels;
-
-namespace web_api_for_books_app.Services
+﻿namespace booksAPI.Services
 {
     public interface ICrudService<TEntity> where TEntity : class
     {
