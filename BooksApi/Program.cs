@@ -1,7 +1,3 @@
-using booksAPI.Contexts;
-using booksAPI.Models.DatabaseModels;
-using booksAPI.Repositories;
-using booksAPI.Services;
 using booksAPI.DiConteinerInitialization;
 
 namespace booksAPI
@@ -19,7 +15,7 @@ namespace booksAPI
             builder.Services.AddProblemDetails();
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddObjectServices();
+            builder.Services.ConfigureServices(builder.Configuration);
             builder.Services.AddSwaggerGen();
             builder.Services.AddDependensies();
 
