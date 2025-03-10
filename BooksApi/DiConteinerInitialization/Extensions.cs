@@ -2,6 +2,7 @@
 using booksAPI.Models.DatabaseModels;
 using booksAPI.Repositories;
 using booksAPI.Services;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace booksAPI.DiConteinerInitialization
 {
@@ -17,13 +18,15 @@ namespace booksAPI.DiConteinerInitialization
             return services;
         }
 
-        public static IServiceCollection AddObjectServices(this IServiceCollection services)
+        public static IServiceCollection ConfigureServices(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddTransient<ICrudService<Review>, ReviewService>();
             services.AddTransient<ICrudService<User>, UserService>();
             services.AddHttpClient<IGutendexService, GutendexService>(client =>
             {
-                client.BaseAddress = new Uri("https://gutendex.com/books");
+                string url = configuration["Gutendex:Endpoints:Https:Url"]!;
+                ArgumentNullException.ThrowIfNull(url);
+                client.BaseAddress = new Uri(url);
             });
 
             return services;
