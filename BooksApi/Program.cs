@@ -11,7 +11,11 @@ namespace booksAPI
     {
         public static void Main(string[] args)
         {
-            var builder = WebApplication.CreateBuilder(args);
+            var builder = WebApplication.CreateBuilder(new WebApplicationOptions()
+            {
+                EnvironmentName = Environments.Development
+            });
+
             builder.Services.AddProblemDetails();
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
