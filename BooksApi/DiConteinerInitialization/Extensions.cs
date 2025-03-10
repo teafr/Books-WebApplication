@@ -22,6 +22,7 @@ namespace booksAPI.DiConteinerInitialization
         {
             services.AddTransient<ICrudService<Review>, ReviewService>();
             services.AddTransient<ICrudService<User>, UserService>();
+            services.AddTransient<ICrudService<Book>, BookService>();
             services.AddHttpClient<IGutendexService, GutendexService>(client =>
             {
                 string url = configuration["Gutendex:Endpoints:Https:Url"]!;

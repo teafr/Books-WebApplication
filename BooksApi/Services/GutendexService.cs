@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Text.Json;
+﻿using System.Text.Json;
 using booksAPI.Models.GutendexModels;
 
 namespace booksAPI.Services
