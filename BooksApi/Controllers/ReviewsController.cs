@@ -1,6 +1,4 @@
-﻿using booksAPI.Controllers;
-using booksAPI.Models.DatabaseModels;
-using booksAPI.Repositories;
+﻿using booksAPI.Models.DatabaseModels;
 using Microsoft.AspNetCore.Mvc;
 using booksAPI.Services;
 
@@ -36,7 +34,7 @@ namespace booksAPI.Controllers
 
                 if (review == null)
                 {
-                    return NotFound(recordNotFound);
+                    return NotFoundStatusCode();
                 }
 
                 return Ok(review);
@@ -62,7 +60,7 @@ namespace booksAPI.Controllers
 
                 if (existingReview == null)
                 {
-                    return NotFound(recordNotFound);
+                    return NotFoundStatusCode();
                 }
 
                 existingReview.Id = reviewToUpdate.Id;
@@ -85,7 +83,7 @@ namespace booksAPI.Controllers
 
                 if (existingReview == null)
                 {
-                    return NotFound(recordNotFound);
+                    return NotFoundStatusCode();
                 }
 
                 await _reviewService.DeleteAsync(existingReview);

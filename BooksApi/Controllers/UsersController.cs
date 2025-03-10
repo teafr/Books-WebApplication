@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using booksAPI.Models.DatabaseModels;
 using booksAPI.Repositories;
-using booksAPI.Controllers;
 using booksAPI.Services;
 
 namespace booksAPI.Controllers
@@ -36,7 +35,7 @@ namespace booksAPI.Controllers
 
                 if (user == null)
                 {
-                    return NotFound(recordNotFound);
+                    return NotFoundStatusCode();
                 }
 
                 return Ok(user);
@@ -72,7 +71,7 @@ namespace booksAPI.Controllers
 
                 if (user == null)
                 {
-                    return NotFound(recordNotFound);
+                    return NotFoundStatusCode();
                 }
 
                 user.Name = UserToUpdate.Name;
@@ -94,7 +93,7 @@ namespace booksAPI.Controllers
 
                 if (user == null)
                 {
-                    return NotFound(recordNotFound);
+                    return NotFoundStatusCode();
                 }
 
                 await _repository.DeleteAsync(user);

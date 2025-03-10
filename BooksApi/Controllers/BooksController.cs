@@ -2,10 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using booksAPI.Models.DatabaseModels;
-using booksAPI.Models.GutendexModels;
 using booksAPI.Repositories;
-using booksAPI.Services;
-using booksAPI.Controllers;
 
 namespace booksAPI.Controllers
 {
@@ -39,7 +36,7 @@ namespace booksAPI.Controllers
 
                 if (book == null)
                 {
-                    return NotFound(recordNotFound);
+                    return NotFoundStatusCode();
                 }
 
                 return Ok(book);
@@ -75,7 +72,7 @@ namespace booksAPI.Controllers
 
                 if (existingBook == null)
                 {
-                    return NotFound(recordNotFound);
+                    return NotFoundStatusCode();
                 }
 
                 existingBook.Id = bookToUpdate.Id;
@@ -95,7 +92,7 @@ namespace booksAPI.Controllers
 
                 if (existingBook == null)
                 {
-                    return NotFound(recordNotFound);
+                    return NotFoundStatusCode();
                 }
 
                 await _repository.DeleteAsync(existingBook);

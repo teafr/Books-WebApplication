@@ -39,5 +39,11 @@ namespace booksAPI.Controllers
                 });
             }
         }
+
+        protected IActionResult NotFoundStatusCode()
+        {
+            _logger.LogWarning("{NotFoundInfo}", recordNotFound);
+            return NotFound(recordNotFound);
+        }
     }
 }

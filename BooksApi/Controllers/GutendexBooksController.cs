@@ -1,7 +1,4 @@
-﻿using booksAPI.Controllers;
-using booksAPI.Models.DatabaseModels;
-using booksAPI.Models.GutendexModels;
-using booksAPI.Repositories;
+﻿using booksAPI.Models.GutendexModels;
 using booksAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,7 +22,7 @@ namespace booksAPI.Controllers
 
             if (books == null)
             {
-                return NotFound(recordNotFound);
+                return NotFoundStatusCode();
             }
 
             return Ok(books);
@@ -40,7 +37,7 @@ namespace booksAPI.Controllers
 
                 if (txtUrl == null)
                 {
-                    return NotFound(recordNotFound);
+                    return NotFoundStatusCode();
                 }
 
                 return Ok(new { txtUrl });
