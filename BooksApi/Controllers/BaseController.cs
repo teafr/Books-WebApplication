@@ -30,7 +30,7 @@ namespace booksAPI.Controllers
             }
             catch (Exception exception)
             {
-                _logger.LogError(exception, exception.Message);
+                _logger.LogError(exception, "{Message}", new { exception.Message });
 
                 return StatusCode(StatusCodes.Status500InternalServerError, new
                 {
