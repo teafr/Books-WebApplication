@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using booksAPI.Models.DatabaseModels;
-using booksAPI.Repositories;
+using booksAPI.Services;
 
 namespace booksAPI.Controllers
 {
@@ -10,9 +10,9 @@ namespace booksAPI.Controllers
     [ApiController]
     public class BooksController : BaseController
     {
-        private readonly IRepository<Book> _repository;
+        private readonly ICrudService<Book> _repository;
 
-        public BooksController(IRepository<Book> repository, ILogger<BooksController> logger) : base(logger)
+        public BooksController(ICrudService<Book> repository, ILogger<BooksController> logger) : base(logger)
         {
             _repository = repository;
         }
