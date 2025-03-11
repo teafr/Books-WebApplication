@@ -34,7 +34,7 @@ namespace booksAPI.Controllers
 
                 if (review == null)
                 {
-                    return GetNotFoundStatusCode();
+                    return GetNotFoundResponse();
                 }
 
                 return Ok(review);
@@ -48,12 +48,12 @@ namespace booksAPI.Controllers
             {
                 if (review is null)
                 {
-                    return GetBadRequestSatusCode();
+                    return GetBadRequestResponse();
                 }
 
                 if (review.User is null && review.Book is null)
                 {
-                    return GetUnprocessableEntityStatusCode();
+                    return GetUnprocessableEntityResponse();
                 }
 
                 var createdReview = await _reviewService.CreateAsync(review);
@@ -68,19 +68,19 @@ namespace booksAPI.Controllers
             {
                 if (reviewToUpdate is null)
                 {
-                    return GetBadRequestSatusCode();
+                    return GetBadRequestResponse();
                 }
 
                 if (reviewToUpdate.User is null && reviewToUpdate.Book is null)
                 {
-                    return GetUnprocessableEntityStatusCode();
+                    return GetUnprocessableEntityResponse();
                 }
 
                 var existingReview = await _reviewService.GetByIdAsync(reviewToUpdate.Id);
 
                 if (existingReview == null)
                 {
-                    return GetNotFoundStatusCode();
+                    return GetNotFoundResponse();
                 }
 
                 existingReview.Id = reviewToUpdate.Id;
@@ -103,7 +103,7 @@ namespace booksAPI.Controllers
 
                 if (existingReview == null)
                 {
-                    return GetNotFoundStatusCode();
+                    return GetNotFoundResponse();
                 }
 
                 await _reviewService.DeleteAsync(existingReview);

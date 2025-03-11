@@ -45,18 +45,18 @@ namespace booksAPI.Controllers
             }
         }
 
-        protected IActionResult GetNotFoundStatusCode()
+        protected IActionResult GetNotFoundResponse()
         {
             _logger.LogWarning("Record was not found by user. Response: {NotFoundInfo}", recordNotFound);
             return NotFound(recordNotFound);
         }
 
-        protected IActionResult GetBadRequestSatusCode()
+        protected IActionResult GetBadRequestResponse()
         {
             _logger.LogWarning("User didn't give an argument. Response: {BadRequest}", badRequest);
             return BadRequest(badRequest);
         }
-        protected IActionResult GetUnprocessableEntityStatusCode()
+        protected IActionResult GetUnprocessableEntityResponse()
         {
             _logger.LogWarning("User gave an invalid argument. Response: {UnprocessableEntity}", unprocessableEntity);
             return UnprocessableEntity(unprocessableEntity);

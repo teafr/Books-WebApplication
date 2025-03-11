@@ -34,7 +34,7 @@ namespace booksAPI.Controllers
 
                 if (book == null)
                 {
-                    return GetNotFoundStatusCode();
+                    return GetNotFoundResponse();
                 }
 
                 return Ok(book);
@@ -48,7 +48,7 @@ namespace booksAPI.Controllers
             {
                 if (book is null)
                 {
-                    return GetBadRequestSatusCode();
+                    return GetBadRequestResponse();
                 }
 
                 var createdBook = await _repository.CreateAsync(book);
@@ -63,19 +63,19 @@ namespace booksAPI.Controllers
             {
                 if (bookToUpdate is null)
                 {
-                    return GetBadRequestSatusCode();
+                    return GetBadRequestResponse();
                 }
 
                 if (bookToUpdate.Name is null)
                 {
-                    return GetUnprocessableEntityStatusCode();
+                    return GetUnprocessableEntityResponse();
                 }
 
                 var existingBook = await _repository.GetByIdAsync(bookToUpdate.Id);
 
                 if (existingBook == null)
                 {
-                    return GetNotFoundStatusCode();
+                    return GetNotFoundResponse();
                 }
 
                 existingBook.Id = bookToUpdate.Id;
@@ -95,7 +95,7 @@ namespace booksAPI.Controllers
 
                 if (existingBook == null)
                 {
-                    return GetNotFoundStatusCode();
+                    return GetNotFoundResponse();
                 }
 
                 await _repository.DeleteAsync(existingBook);
