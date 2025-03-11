@@ -34,7 +34,7 @@ namespace booksAPI.Controllers
 
                 if (user == null)
                 {
-                    return NotFoundStatusCode();
+                    return GetNotFoundStatusCode();
                 }
 
                 return Ok(user);
@@ -48,7 +48,12 @@ namespace booksAPI.Controllers
             {
                 if (user is null)
                 {
-                    return BadRequest(badRequest);
+                    return GetBadRequestSatusCode();
+                }
+
+                if (user.Username is null && user.Email is null && user.Name is null)
+                {
+                    return GetUnprocessableEntityStatusCode();
                 }
 
                 var createdUser = await _repository.CreateAsync(user);
@@ -63,20 +68,25 @@ namespace booksAPI.Controllers
             {
                 if (UserToUpdate is null)
                 {
-                    return BadRequest(badRequest);
+                    return GetBadRequestSatusCode();
+                }
+
+                if (UserToUpdate.Username is null && UserToUpdate.Email is null && UserToUpdate.Name is null)
+                {
+                    return GetUnprocessableEntityStatusCode();
                 }
 
                 var user = await _repository.GetByIdAsync(UserToUpdate.Id);
 
                 if (user == null)
                 {
-                    return NotFoundStatusCode();
+                    return GetNotFoundStatusCode();
                 }
 
                 user.Name = UserToUpdate.Name;
-                user.Email = UserToUpdate.Email;
+                user.Email = UserToUpdate.Email!;
                 user.Description = UserToUpdate.Description;
-                user.Username = UserToUpdate.Username;
+                user.Username = UserToUpdate.Username!;
 
                 await _repository.UpdateAsync(user);
                 return NoContent();
@@ -92,7 +102,7 @@ namespace booksAPI.Controllers
 
                 if (user == null)
                 {
-                    return NotFoundStatusCode();
+                    return GetNotFoundStatusCode();
                 }
 
                 await _repository.DeleteAsync(user);

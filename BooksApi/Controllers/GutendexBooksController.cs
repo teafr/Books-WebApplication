@@ -22,7 +22,7 @@ namespace booksAPI.Controllers
 
             if (books == null)
             {
-                return NotFoundStatusCode();
+                return GetNotFoundStatusCode();
             }
 
             return Ok(books);
@@ -37,7 +37,7 @@ namespace booksAPI.Controllers
 
                 if (txtUrl == null)
                 {
-                    return NotFoundStatusCode();
+                    return GetNotFoundStatusCode();
                 }
 
                 return Ok(new { txtUrl });

@@ -34,7 +34,7 @@ namespace booksAPI.Controllers
 
                 if (review == null)
                 {
-                    return NotFoundStatusCode();
+                    return GetNotFoundStatusCode();
                 }
 
                 return Ok(review);
@@ -46,6 +46,16 @@ namespace booksAPI.Controllers
         {
             return await ExceptionHandle(async () =>
             {
+                if (review is null)
+                {
+                    return GetBadRequestSatusCode();
+                }
+
+                if (review.User is null && review.Book is null)
+                {
+                    return GetUnprocessableEntityStatusCode();
+                }
+
                 var createdReview = await _reviewService.CreateAsync(review);
                 return CreatedAtAction(nameof(Post), createdReview);
             });
@@ -56,18 +66,28 @@ namespace booksAPI.Controllers
         {
             return await ExceptionHandle(async () =>
             {
+                if (reviewToUpdate is null)
+                {
+                    return GetBadRequestSatusCode();
+                }
+
+                if (reviewToUpdate.User is null && reviewToUpdate.Book is null)
+                {
+                    return GetUnprocessableEntityStatusCode();
+                }
+
                 var existingReview = await _reviewService.GetByIdAsync(reviewToUpdate.Id);
 
                 if (existingReview == null)
                 {
-                    return NotFoundStatusCode();
+                    return GetNotFoundStatusCode();
                 }
 
                 existingReview.Id = reviewToUpdate.Id;
-                existingReview.Text = reviewToUpdate.Text;
-                existingReview.User = reviewToUpdate.User;
-                existingReview.Rating = reviewToUpdate.Rating;
+                existingReview.User = reviewToUpdate.User!;
                 existingReview.Book = reviewToUpdate.Book;
+                existingReview.Text = reviewToUpdate.Text;
+                existingReview.Rating = reviewToUpdate.Rating;
 
                 await _reviewService.UpdateAsync(existingReview);
                 return NoContent();
@@ -83,7 +103,7 @@ namespace booksAPI.Controllers
 
                 if (existingReview == null)
                 {
-                    return NotFoundStatusCode();
+                    return GetNotFoundStatusCode();
                 }
 
                 await _reviewService.DeleteAsync(existingReview);
