@@ -6,15 +6,20 @@ namespace booksAPI.Controllers
     public abstract class BaseController : ControllerBase
     {
         protected readonly ILogger<BaseController> _logger;
-        protected readonly object recordNotFound = new
-        {
-            statusCode = 404,
-            message = "record not found"
-        };
         protected readonly object badRequest = new
         {
             statusCode = 400,
-            message = $"can't process the received object"
+            message = $"Missing required parameter"
+        };
+        protected readonly object recordNotFound = new
+        {
+            statusCode = 404,
+            message = "Record not found"
+        };
+        protected readonly object unprocessableEntity = new
+        {
+            statusCode = 422,
+            message = $"Invalid input data"
         };
 
         protected BaseController(ILogger<BaseController> logger)
@@ -40,10 +45,21 @@ namespace booksAPI.Controllers
             }
         }
 
-        protected IActionResult NotFoundStatusCode()
+        protected IActionResult GetNotFoundStatusCode()
         {
-            _logger.LogWarning("{NotFoundInfo}", recordNotFound);
+            _logger.LogWarning("Record was not found by user. Response: {NotFoundInfo}", recordNotFound);
             return NotFound(recordNotFound);
+        }
+
+        protected IActionResult GetBadRequestSatusCode()
+        {
+            _logger.LogWarning("User didn't give an argument. Response: {BadRequest}", badRequest);
+            return BadRequest(badRequest);
+        }
+        protected IActionResult GetUnprocessableEntityStatusCode()
+        {
+            _logger.LogWarning("User gave an invalid argument. Response: {UnprocessableEntity}", unprocessableEntity);
+            return UnprocessableEntity(unprocessableEntity);
         }
     }
 }
