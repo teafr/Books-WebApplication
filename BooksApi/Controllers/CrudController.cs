@@ -47,7 +47,6 @@ namespace booksAPI.Controllers
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [Produces(MediaTypeNames.Application.Json)]
         public abstract Task<IActionResult> Post(TEntity item);
 

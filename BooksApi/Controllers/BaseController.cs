@@ -6,11 +6,6 @@ namespace booksAPI.Controllers
     public abstract class BaseController : ControllerBase
     {
         protected readonly ILogger<BaseController> _logger;
-        protected readonly object badRequest = new
-        {
-            statusCode = 400,
-            message = $"Missing required parameter"
-        };
         protected readonly object recordNotFound = new
         {
             statusCode = 404,
@@ -51,11 +46,6 @@ namespace booksAPI.Controllers
             return NotFound(recordNotFound);
         }
 
-        protected IActionResult GetBadRequestResponse()
-        {
-            _logger.LogWarning("User didn't give an argument. Response: {BadRequest}", badRequest);
-            return BadRequest(badRequest);
-        }
         protected IActionResult GetUnprocessableEntityResponse()
         {
             _logger.LogWarning("User gave an invalid argument. Response: {UnprocessableEntity}", unprocessableEntity);

@@ -13,11 +13,6 @@ namespace booksAPI.Controllers
         {
             return await ExceptionHandle(async () =>
             {
-                if (book is null)
-                {
-                    return GetBadRequestResponse();
-                }
-
                 var createdBook = await _service.CreateAsync(book);
                 return CreatedAtAction(nameof(Post), createdBook);
             });
@@ -27,11 +22,6 @@ namespace booksAPI.Controllers
         {
             return await ExceptionHandle(async () =>
             {
-                if (bookToUpdate is null)
-                {
-                    return GetBadRequestResponse();
-                }
-
                 if (bookToUpdate.Name is null)
                 {
                     return GetUnprocessableEntityResponse();

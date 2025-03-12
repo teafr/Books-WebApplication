@@ -13,11 +13,6 @@ namespace booksAPI.Controllers
         {
             return await ExceptionHandle(async () =>
             {
-                if (review is null)
-                {
-                    return GetBadRequestResponse();
-                }
-
                 if (review.User is null && review.Book is null)
                 {
                     return GetUnprocessableEntityResponse();
@@ -32,11 +27,6 @@ namespace booksAPI.Controllers
         {
             return await ExceptionHandle(async () =>
             {
-                if (reviewToUpdate is null)
-                {
-                    return GetBadRequestResponse();
-                }
-
                 if (reviewToUpdate.User is null && reviewToUpdate.Book is null)
                 {
                     return GetUnprocessableEntityResponse();
