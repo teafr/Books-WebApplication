@@ -47,6 +47,7 @@ namespace booksAPI.Controllers
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [Produces(MediaTypeNames.Application.Json)]
         [Consumes("application/json")]
         public virtual async Task<IActionResult> Post(TEntity item)
@@ -61,6 +62,7 @@ namespace booksAPI.Controllers
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [Consumes("application/json")]
         public abstract Task<IActionResult> Put(TEntity UserToUpdate);
 
