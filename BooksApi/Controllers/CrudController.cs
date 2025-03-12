@@ -48,8 +48,8 @@ namespace booksAPI.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status415UnsupportedMediaType)]
         [Produces(MediaTypeNames.Application.Json)]
-        [Consumes("application/json")]
         public virtual async Task<IActionResult> Post(TEntity item)
         {
             return await ExceptionHandle(async () =>
@@ -63,7 +63,7 @@ namespace booksAPI.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [Consumes("application/json")]
+        [ProducesResponseType(StatusCodes.Status415UnsupportedMediaType)]
         public abstract Task<IActionResult> Put(TEntity UserToUpdate);
 
         [HttpDelete("{id:int:min(1)}")]
