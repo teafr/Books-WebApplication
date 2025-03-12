@@ -5,7 +5,6 @@ using booksAPI.Services;
 namespace booksAPI.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]
     public class ReviewsController : CrudController<Review>
     {
         public ReviewsController(ICrudService<Review> service, ILogger<ReviewsController> logger) : base(service, logger) { }

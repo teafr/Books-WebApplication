@@ -4,8 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace booksAPI.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
     public abstract class CrudController<TEntity> : BaseController where TEntity : class
     {
         protected readonly ICrudService<TEntity> _service;
