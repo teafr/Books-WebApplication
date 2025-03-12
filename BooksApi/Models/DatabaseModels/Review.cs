@@ -21,14 +21,14 @@ namespace booksAPI.Models.DatabaseModels
 
         [Column("reviewer_id")]
         [ForeignKey("User")]
-        public required int ReviwerId { get; set; }
+        public required int UserId { get; set; }
 
         [Column("book_id")]
         [ForeignKey("Book")]
         public required int BookId { get; set; }
 
-        public required User User { get; set; }
-
         public required Book Book { get; set; }
+
+        public required User User { get; set; }
     }
 }

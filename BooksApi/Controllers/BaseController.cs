@@ -12,6 +12,11 @@ namespace booksAPI.Controllers
             statusCode = 404,
             message = "Record not found"
         };
+        protected readonly object childNotFound = new
+        {
+            statusCode = 404,
+            message = "Child not found"
+        };
 
         protected BaseController(ILogger<BaseController> logger)
         {

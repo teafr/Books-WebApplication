@@ -29,10 +29,10 @@ namespace booksAPI.Models.DatabaseModels
         public required string Password { get; set; }
 
         [JsonIgnore]
-        public List<Review>? Reviews { get; set; } = new List<Review>();
+        public List<Review>? Reviews { get; set; } = [];
 
         [JsonIgnore]
         [NotMapped]
-        public List<BookAndUser>? SavedBooks { get; set; } = new List<BookAndUser>();
+        public List<BookAndUser>? SavedBooks { get; set; } = [];
     }
 }

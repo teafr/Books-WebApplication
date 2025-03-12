@@ -56,9 +56,9 @@ namespace booksAPI.Services
 
         private async Task InitializeUser(Review review)
         {
-            if (review.ReviwerId != 0)
+            if (review.UserId != 0)
             {
-                User? user = await _userRepository.GetByIdAsync(review.ReviwerId);
+                User? user = await _userRepository.GetByIdAsync(review.UserId);
                 if (user != null)
                 {
                     review.User = user;

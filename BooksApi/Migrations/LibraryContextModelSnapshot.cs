@@ -32,7 +32,7 @@ namespace booksAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("books");
+                    b.ToTable("books", (string)null);
                 });
 
             modelBuilder.Entity("booksAPI.Models.DatabaseModels.BookAndUser", b =>
@@ -53,7 +53,7 @@ namespace booksAPI.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("m2m_books_users");
+                    b.ToTable("m2m_books_users", (string)null);
                 });
 
             modelBuilder.Entity("booksAPI.Models.DatabaseModels.Review", b =>
@@ -85,7 +85,7 @@ namespace booksAPI.Migrations
 
                     b.HasIndex("ReviwerId");
 
-                    b.ToTable("reviews");
+                    b.ToTable("reviews", (string)null);
                 });
 
             modelBuilder.Entity("booksAPI.Models.DatabaseModels.User", b =>
@@ -120,7 +120,7 @@ namespace booksAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("users");
+                    b.ToTable("users", (string)null);
                 });
 
             modelBuilder.Entity("booksAPI.Models.DatabaseModels.BookAndUser", b =>

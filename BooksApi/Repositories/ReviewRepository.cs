@@ -37,7 +37,7 @@ namespace booksAPI.Repositories
 
         private void TryToAttachUser(Review item)
         {
-            if (item.ReviwerId != 0)
+            if (item.UserId != 0)
             {
                 _context.Attach(item.User);
             }
