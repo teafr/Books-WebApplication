@@ -48,12 +48,18 @@ namespace booksAPI.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [Produces(MediaTypeNames.Application.Json)]
-        public abstract Task<IActionResult> Post(TEntity item);
+        public virtual async Task<IActionResult> Post(TEntity item)
+        {
+            return await ExceptionHandle(async () =>
+            {
+                var createdReview = await _service.CreateAsync(item);
+                return CreatedAtAction(nameof(Post), createdReview);
+            });
+        }
 
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
         public abstract Task<IActionResult> Put(TEntity UserToUpdate);
 
         [HttpDelete("{id:int:min(1)}")]

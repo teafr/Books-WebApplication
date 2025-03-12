@@ -9,29 +9,10 @@ namespace booksAPI.Controllers
     {
         public ReviewsController(ICrudService<Review> service, ILogger<ReviewsController> logger) : base(service, logger) { }
 
-        public override async Task<IActionResult> Post(Review review)
-        {
-            return await ExceptionHandle(async () =>
-            {
-                if (review.User is null && review.Book is null)
-                {
-                    return GetUnprocessableEntityResponse();
-                }
-
-                var createdReview = await _service.CreateAsync(review);
-                return CreatedAtAction(nameof(Post), createdReview);
-            });
-        }
-
         public override async Task<IActionResult> Put(Review reviewToUpdate)
         {
             return await ExceptionHandle(async () =>
             {
-                if (reviewToUpdate.User is null && reviewToUpdate.Book is null)
-                {
-                    return GetUnprocessableEntityResponse();
-                }
-
                 var existingReview = await _service.GetByIdAsync(reviewToUpdate.Id);
 
                 if (existingReview == null)

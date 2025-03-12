@@ -11,11 +11,6 @@ namespace booksAPI.Controllers
             statusCode = 404,
             message = "Record not found"
         };
-        protected readonly object unprocessableEntity = new
-        {
-            statusCode = 422,
-            message = $"Invalid input data"
-        };
 
         protected BaseController(ILogger<BaseController> logger)
         {
@@ -44,12 +39,6 @@ namespace booksAPI.Controllers
         {
             _logger.LogWarning("Record was not found by user. Response: {NotFoundInfo}", recordNotFound);
             return NotFound(recordNotFound);
-        }
-
-        protected IActionResult GetUnprocessableEntityResponse()
-        {
-            _logger.LogWarning("User gave an invalid argument. Response: {UnprocessableEntity}", unprocessableEntity);
-            return UnprocessableEntity(unprocessableEntity);
         }
     }
 }

@@ -9,24 +9,10 @@ namespace booksAPI.Controllers
     {
         public BooksController(ICrudService<Book> service, ILogger<BooksController> logger) : base(service, logger) { }
 
-        public override async Task<IActionResult> Post(Book book)
-        {
-            return await ExceptionHandle(async () =>
-            {
-                var createdBook = await _service.CreateAsync(book);
-                return CreatedAtAction(nameof(Post), createdBook);
-            });
-        }
-
         public override async Task<IActionResult> Put(Book bookToUpdate)
         {
             return await ExceptionHandle(async () =>
             {
-                if (bookToUpdate.Name is null)
-                {
-                    return GetUnprocessableEntityResponse();
-                }
-
                 var existingBook = await _service.GetByIdAsync(bookToUpdate.Id);
 
                 if (existingBook == null)

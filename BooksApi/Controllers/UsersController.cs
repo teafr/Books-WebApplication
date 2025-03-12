@@ -9,29 +9,10 @@ namespace booksAPI.Controllers
     {
         public UsersController(ICrudService<User> service, ILogger<UsersController> logger) : base(service, logger) { }
 
-        public override async Task<IActionResult> Post(User user)
-        {
-            return await ExceptionHandle(async () =>
-            {
-                if (user.Username is null && user.Email is null && user.Name is null)
-                {
-                    return GetUnprocessableEntityResponse();
-                }
-
-                var createdUser = await _service.CreateAsync(user);
-                return CreatedAtAction(nameof(Post), createdUser);
-            });
-        }
-
         public override async Task<IActionResult> Put(User UserToUpdate)
         {
             return await ExceptionHandle(async () =>
             {
-                if (UserToUpdate.Username is null && UserToUpdate.Email is null && UserToUpdate.Name is null)
-                {
-                    return GetUnprocessableEntityResponse();
-                }
-
                 var user = await _service.GetByIdAsync(UserToUpdate.Id);
 
                 if (user == null)
