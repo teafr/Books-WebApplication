@@ -25,7 +25,7 @@ namespace booksAPI.Controllers
 
             if (books == null)
             {
-                return GetNotFoundResponse();
+                return NotFound(recordNotFound);
             }
 
             return Ok(books);
@@ -43,7 +43,7 @@ namespace booksAPI.Controllers
 
                 if (txtUrl == null)
                 {
-                    return GetNotFoundResponse();
+                    return NotFound(recordNotFound);
                 }
 
                 return Ok(new { txtUrl });

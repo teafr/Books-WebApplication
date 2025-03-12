@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace booksAPI.Controllers
 {
@@ -35,10 +36,16 @@ namespace booksAPI.Controllers
             }
         }
 
-        protected IActionResult GetNotFoundResponse()
+        public override NotFoundObjectResult NotFound([ActionResultObjectValue] object? value)
         {
             _logger.LogWarning("Record was not found by user. Response: {NotFoundInfo}", recordNotFound);
-            return NotFound(recordNotFound);
+            return base.NotFound(value);
+        }
+
+        public override NoContentResult NoContent()
+        {
+            _logger.LogInformation("Response contain no content.");
+            return base.NoContent();
         }
     }
 }

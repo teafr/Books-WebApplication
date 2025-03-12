@@ -17,7 +17,7 @@ namespace booksAPI.Controllers
 
                 if (existingReview == null)
                 {
-                    return GetNotFoundResponse();
+                    return NotFound(recordNotFound);
                 }
 
                 existingReview.Id = reviewToUpdate.Id;

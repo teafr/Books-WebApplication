@@ -17,7 +17,7 @@ namespace booksAPI.Controllers
 
                 if (user == null)
                 {
-                    return GetNotFoundResponse();
+                    return NotFound(recordNotFound);
                 }
 
                 user.Name = UserToUpdate.Name;

@@ -38,7 +38,7 @@ namespace booksAPI.Controllers
 
                 if (user == null)
                 {
-                    return GetNotFoundResponse();
+                    return NotFound(recordNotFound);
                 }
 
                 return Ok(user);
@@ -77,7 +77,7 @@ namespace booksAPI.Controllers
 
                 if (user == null)
                 {
-                    return GetNotFoundResponse();
+                    return NotFound(recordNotFound);
                 }
 
                 await _service.DeleteAsync(user);
