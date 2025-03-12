@@ -38,7 +38,7 @@ namespace booksAPI.Controllers
 
         public override NotFoundObjectResult NotFound([ActionResultObjectValue] object? value)
         {
-            _logger.LogWarning("Record was not found by user. Response: {NotFoundInfo}", recordNotFound);
+            _logger.LogWarning("Record was not found by user. Response: {Response}", value);
             return base.NotFound(value);
         }
 
@@ -46,6 +46,12 @@ namespace booksAPI.Controllers
         {
             _logger.LogInformation("Response contain no content.");
             return base.NoContent();
+        }
+
+        public override OkObjectResult Ok([ActionResultObjectValue] object? value)
+        {
+            _logger.LogInformation("Record(s) was/were found by user. Response: {Response}", value);
+            return base.Ok(value);
         }
     }
 }
