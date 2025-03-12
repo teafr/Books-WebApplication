@@ -6,7 +6,7 @@ using booksAPI.Enums;
 namespace booksAPI.Models.DatabaseModels
 {
     [Table("reviews")]
-    public class Review
+    public class Review : IDatabaseModel
     {
         [Key]
         [Column("id")]

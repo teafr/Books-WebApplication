@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 namespace booksAPI.Models.DatabaseModels
 {
     [Table("users")]
-    public class User
+    public class User : IDatabaseModel
     {
         [Key]
         [Required]
