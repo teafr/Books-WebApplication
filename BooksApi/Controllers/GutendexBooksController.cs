@@ -16,6 +16,8 @@ namespace booksAPI.Controllers
         }
 
         [HttpGet("search")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> SearchBooks([FromQuery] string query)
         {
             List<GutendexBook>? books = await _gutendexService.SearchBooksAsync("search", query);
@@ -29,6 +31,8 @@ namespace booksAPI.Controllers
         }
 
         [HttpGet("{id:int:min(1)}/fulltext")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetFullTextUrl(int id)
         {
             return await ExceptionHandle(async () =>

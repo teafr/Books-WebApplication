@@ -16,6 +16,7 @@ namespace booksAPI.Controllers
         }
 
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Get()
         {
             return await ExceptionHandle(async () =>
@@ -26,6 +27,8 @@ namespace booksAPI.Controllers
         }
 
         [HttpGet("{id:int:min(1)}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetById(int id)
         {
             return await ExceptionHandle(async () =>
@@ -42,6 +45,8 @@ namespace booksAPI.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Post(Book book)
         {
             return await ExceptionHandle(async () =>
@@ -57,6 +62,9 @@ namespace booksAPI.Controllers
         }
 
         [HttpPut]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
         public async Task<IActionResult> Put(Book bookToUpdate)
         {
             return await ExceptionHandle(async () =>
@@ -87,6 +95,8 @@ namespace booksAPI.Controllers
         }
 
         [HttpDelete("{id:int:min(1)}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteBook(int id)
         {
             return await ExceptionHandle(async () =>
