@@ -24,19 +24,18 @@ namespace booksAPI.Services
 
         public async Task<User> CreateAsync(User user)
         {
-            user.Password = Encrypter.Encrypt(user.Password!);
+            user.Password = Encrypter.Encrypt(user.Password);
             return await _userRepository.CreateAsync(user);
         }
 
         public async Task UpdateAsync(User existingUser, User userToUpdate)
         {
             existingUser.Name = userToUpdate.Name;
-            existingUser.Email = userToUpdate.Email!;
+            existingUser.Email = userToUpdate.Email;
             existingUser.Description = userToUpdate.Description;
-            existingUser.Username = userToUpdate.Username!;
-            existingUser.Password = userToUpdate.Password;
+            existingUser.Username = userToUpdate.Username;
+            existingUser.Password = Encrypter.Encrypt(userToUpdate.Password);
 
-            existingUser.Password = Encrypter.Encrypt(existingUser.Password!);
             await _userRepository.UpdateAsync(existingUser);
         }
 

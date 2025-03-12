@@ -26,7 +26,7 @@ namespace booksAPI.Models.DatabaseModels
         public string? Description { get; set; }
 
         [Column("password")]
-        public string? Password { get; set; }
+        public required string Password { get; set; }
 
         [JsonIgnore]
         public List<Review>? Reviews { get; set; } = new List<Review>();
