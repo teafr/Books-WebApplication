@@ -1,5 +1,4 @@
 ﻿using booksAPI.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
 
@@ -34,14 +33,8 @@ namespace booksAPI.Controllers
         {
             return await ExceptionHandle(async () =>
             {
-                var user = await _service.GetByIdAsync(id);
-
-                if (user == null)
-                {
-                    return NotFound(recordNotFound);
-                }
-
-                return Ok(user);
+                var item = await _service.GetByIdAsync(id);
+                return item == null ? NotFound(recordNotFound) : Ok(item);
             });
         }
 
@@ -54,8 +47,8 @@ namespace booksAPI.Controllers
         {
             return await ExceptionHandle(async () =>
             {
-                var createdReview = await _service.CreateAsync(item);
-                return CreatedAtAction(nameof(Post), createdReview);
+                var createdItem = await _service.CreateAsync(item);
+                return CreatedAtAction(nameof(Post), createdItem);
             });
         }
 
@@ -64,7 +57,7 @@ namespace booksAPI.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status415UnsupportedMediaType)]
-        public abstract Task<IActionResult> Put(TEntity UserToUpdate);
+        public abstract Task<IActionResult> Put(TEntity itemToUpdate);
 
         [HttpDelete("{id:int:min(1)}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -73,14 +66,14 @@ namespace booksAPI.Controllers
         {
             return await ExceptionHandle(async () =>
             {
-                var user = await _service.GetByIdAsync(id);
+                var item = await _service.GetByIdAsync(id);
 
-                if (user == null)
+                if (item == null)
                 {
                     return NotFound(recordNotFound);
                 }
 
-                await _service.DeleteAsync(user);
+                await _service.DeleteAsync(item);
                 return NoContent();
             });
         }
