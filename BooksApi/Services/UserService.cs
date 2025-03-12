@@ -1,4 +1,5 @@
-﻿using booksAPI.Models.DatabaseModels;
+﻿using booksAPI.Helpers;
+using booksAPI.Models.DatabaseModels;
 using booksAPI.Repositories;
 
 namespace booksAPI.Services
@@ -21,19 +22,21 @@ namespace booksAPI.Services
             return await _userRepository.GetByIdAsync(id);
         }
 
-        public async Task<User> CreateAsync(User review)
+        public async Task<User> CreateAsync(User user)
         {
-            return await _userRepository.CreateAsync(review);
+            user.Password = Encrypter.Encrypt(user.Password!);
+            return await _userRepository.CreateAsync(user);
         }
 
-        public async Task UpdateAsync(User review)
+        public async Task UpdateAsync(User user)
         {
-            await _userRepository.UpdateAsync(review);
+            user.Password = Encrypter.Encrypt(user.Password!);
+            await _userRepository.UpdateAsync(user);
         }
 
-        public async Task DeleteAsync(User review)
+        public async Task DeleteAsync(User user)
         {
-            await _userRepository.DeleteAsync(review);
+            await _userRepository.DeleteAsync(user);
         }
     }
 }

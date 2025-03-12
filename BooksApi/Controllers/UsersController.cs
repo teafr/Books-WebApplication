@@ -24,6 +24,7 @@ namespace booksAPI.Controllers
                 user.Email = UserToUpdate.Email!;
                 user.Description = UserToUpdate.Description;
                 user.Username = UserToUpdate.Username!;
+                user.Password = UserToUpdate.Password;
 
                 await _service.UpdateAsync(user);
                 return NoContent();
