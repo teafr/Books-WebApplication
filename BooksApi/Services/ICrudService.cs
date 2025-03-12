@@ -1,11 +1,13 @@
-﻿namespace booksAPI.Services
+﻿using booksAPI.Models.DatabaseModels;
+
+namespace booksAPI.Services
 {
-    public interface ICrudService<TEntity> where TEntity : class
+    public interface ICrudService<TEntity> where TEntity : IDatabaseModel
     {
         Task<List<TEntity>?> GetAsync();
         Task<TEntity?> GetByIdAsync(int id);
-        Task<TEntity> CreateAsync(TEntity review);
-        Task DeleteAsync(TEntity review);
-        Task UpdateAsync(TEntity review);
+        Task<TEntity> CreateAsync(TEntity newItem);
+        Task DeleteAsync(TEntity item);
+        Task UpdateAsync(TEntity existingItem, TEntity itemToUpdate);
     }
 }

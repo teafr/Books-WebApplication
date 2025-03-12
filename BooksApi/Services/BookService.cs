@@ -22,19 +22,22 @@ namespace booksAPI.Services
             return await _bookRepository.GetByIdAsync(id);
         }
 
-        public async Task<Book> CreateAsync(Book review)
+        public async Task<Book> CreateAsync(Book book)
         {
-            return await _bookRepository.CreateAsync(review);
+            return await _bookRepository.CreateAsync(book);
         }
 
-        public async Task UpdateAsync(Book review)
+        public async Task UpdateAsync(Book existingBook, Book bookToUpdate)
         {
-            await _bookRepository.UpdateAsync(review);
+            existingBook.Id = bookToUpdate.Id;
+            existingBook.Name = bookToUpdate.Name;
+
+            await _bookRepository.UpdateAsync(existingBook);
         }
 
-        public async Task DeleteAsync(Book review)
+        public async Task DeleteAsync(Book book)
         {
-            await _bookRepository.DeleteAsync(review);
+            await _bookRepository.DeleteAsync(book);
         }
     }
 }

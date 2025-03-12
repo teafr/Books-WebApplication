@@ -1,10 +1,11 @@
-﻿using booksAPI.Services;
+﻿using booksAPI.Models.DatabaseModels;
+using booksAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
 
 namespace booksAPI.Controllers
 {
-    public abstract class CrudController<TEntity> : BaseController where TEntity : class
+    public abstract class CrudController<TEntity> : BaseController where TEntity : IDatabaseModel
     {
         protected readonly ICrudService<TEntity> _service;
 
@@ -34,7 +35,7 @@ namespace booksAPI.Controllers
             return await ExceptionHandle(async () =>
             {
                 var item = await _service.GetByIdAsync(id);
-                return item == null ? NotFound(recordNotFound) : Ok(item);
+                return item is null ? NotFound(recordNotFound) : Ok(item);
             });
         }
 
@@ -57,7 +58,21 @@ namespace booksAPI.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status415UnsupportedMediaType)]
-        public abstract Task<IActionResult> Put(TEntity itemToUpdate);
+        public virtual async Task<IActionResult> Put(TEntity itemToUpdate)
+        {
+            return await ExceptionHandle(async () =>
+            {
+                var existingItem = await _service.GetByIdAsync(itemToUpdate.Id);
+
+                if (existingItem is null)
+                {
+                    return NotFound(recordNotFound);
+                }
+
+                await _service.UpdateAsync(existingItem, itemToUpdate);
+                return NoContent();
+            });
+        }
 
         [HttpDelete("{id:int:min(1)}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -68,7 +83,7 @@ namespace booksAPI.Controllers
             {
                 var item = await _service.GetByIdAsync(id);
 
-                if (item == null)
+                if (item is null)
                 {
                     return NotFound(recordNotFound);
                 }

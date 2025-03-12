@@ -4,7 +4,7 @@ using booksAPI.Enums;
 namespace booksAPI.Models.DatabaseModels
 {
     [Table("m2m_books_users")]
-    public class BookAndUser : IDatabaseModel
+    public class BookAndUser
     {
         [ForeignKey("User")]
         [Column("user_id")]
