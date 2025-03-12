@@ -19,6 +19,11 @@ namespace booksAPI.Repositories
             var items = await dbSet.ToListAsync();
             return items;
         }
+        
+        public async virtual Task<Entity?> GetByIdAsync(int id)
+        {
+            return await dbSet.FindAsync(id);
+        }
 
         public async virtual Task<Entity> CreateAsync(Entity newItem)
         {
@@ -27,20 +32,15 @@ namespace booksAPI.Repositories
             return newItem;
         }
 
-        public async virtual Task DeleteAsync(Entity item)
-        {
-            dbSet.Remove(item);
-            await _context.SaveChangesAsync();
-        }
-
-        public async virtual Task<Entity?> GetByIdAsync(int id)
-        {
-            return await dbSet.FindAsync(id);
-        }
-
         public async virtual Task UpdateAsync(Entity item)
         {
             dbSet.Update(item);
+            await _context.SaveChangesAsync();
+        }
+
+        public async virtual Task DeleteAsync(Entity item)
+        {
+            dbSet.Remove(item);
             await _context.SaveChangesAsync();
         }
     }
