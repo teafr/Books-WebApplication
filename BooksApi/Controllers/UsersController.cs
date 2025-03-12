@@ -6,48 +6,11 @@ namespace booksAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : BaseController
+    public class UsersController : CrudController<User>
     {
-        private readonly ICrudService<User> _repository;
+        public UsersController(ICrudService<User> service, ILogger<UsersController> logger) : base(service, logger) { }
 
-        public UsersController(ICrudService<User> repository, ILogger<UsersController> logger) : base(logger)
-        {
-            _repository = repository;
-        }
-
-        [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> Get()
-        {
-            return await ExceptionHandle(async () =>
-            {
-                var users = await _repository.GetAsync();
-                return Ok(users);
-            });
-        }
-
-        [HttpGet("{id:int:min(1)}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetById(int id)
-        {
-            return await ExceptionHandle(async () =>
-            {
-                var user = await _repository.GetByIdAsync(id);
-
-                if (user == null)
-                {
-                    return GetNotFoundResponse();
-                }
-
-                return Ok(user);
-            });
-        }
-
-        [HttpPost]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Post(User user)
+        public override async Task<IActionResult> Post(User user)
         {
             return await ExceptionHandle(async () =>
             {
@@ -61,16 +24,12 @@ namespace booksAPI.Controllers
                     return GetUnprocessableEntityResponse();
                 }
 
-                var createdUser = await _repository.CreateAsync(user);
+                var createdUser = await _service.CreateAsync(user);
                 return CreatedAtAction(nameof(Post), createdUser);
             });
         }
 
-        [HttpPut]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
-        public async Task<IActionResult> Put(User UserToUpdate)
+        public override async Task<IActionResult> Put(User UserToUpdate)
         {
             return await ExceptionHandle(async () =>
             {
@@ -84,7 +43,7 @@ namespace booksAPI.Controllers
                     return GetUnprocessableEntityResponse();
                 }
 
-                var user = await _repository.GetByIdAsync(UserToUpdate.Id);
+                var user = await _service.GetByIdAsync(UserToUpdate.Id);
 
                 if (user == null)
                 {
@@ -96,26 +55,7 @@ namespace booksAPI.Controllers
                 user.Description = UserToUpdate.Description;
                 user.Username = UserToUpdate.Username!;
 
-                await _repository.UpdateAsync(user);
-                return NoContent();
-            });
-        }
-
-        [HttpDelete("{id:int:min(1)}")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Delete(int id)
-        {
-            return await ExceptionHandle(async () =>
-            {
-                var user = await _repository.GetByIdAsync(id);
-
-                if (user == null)
-                {
-                    return GetNotFoundResponse();
-                }
-
-                await _repository.DeleteAsync(user);
+                await _service.UpdateAsync(user);
                 return NoContent();
             });
         }

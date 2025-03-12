@@ -6,48 +6,11 @@ namespace booksAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ReviewsController : BaseController
+    public class ReviewsController : CrudController<Review>
     {
-        private readonly ICrudService<Review> _reviewService;
+        public ReviewsController(ICrudService<Review> service, ILogger<ReviewsController> logger) : base(service, logger) { }
 
-        public ReviewsController(ICrudService<Review> reviewService, ILogger<ReviewsController> logger) : base(logger)
-        {
-            _reviewService = reviewService;
-        }
-
-        [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> Get()
-        {
-            return await ExceptionHandle(async () =>
-            {
-                var reviews = await _reviewService.GetAsync();
-                return Ok(reviews);
-            });
-        }
-
-        [HttpGet("{id:int:min(1)}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetById(int id)
-        {
-            return await ExceptionHandle(async () =>
-            {
-                var review = await _reviewService.GetByIdAsync(id);
-
-                if (review == null)
-                {
-                    return GetNotFoundResponse();
-                }
-
-                return Ok(review);
-            });
-        }
-
-        [HttpPost]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Post(Review review)
+        public override async Task<IActionResult> Post(Review review)
         {
             return await ExceptionHandle(async () =>
             {
@@ -61,16 +24,12 @@ namespace booksAPI.Controllers
                     return GetUnprocessableEntityResponse();
                 }
 
-                var createdReview = await _reviewService.CreateAsync(review);
+                var createdReview = await _service.CreateAsync(review);
                 return CreatedAtAction(nameof(Post), createdReview);
             });
         }
 
-        [HttpPut]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
-        public async Task<IActionResult> Put(Review reviewToUpdate)
+        public override async Task<IActionResult> Put(Review reviewToUpdate)
         {
             return await ExceptionHandle(async () =>
             {
@@ -84,7 +43,7 @@ namespace booksAPI.Controllers
                     return GetUnprocessableEntityResponse();
                 }
 
-                var existingReview = await _reviewService.GetByIdAsync(reviewToUpdate.Id);
+                var existingReview = await _service.GetByIdAsync(reviewToUpdate.Id);
 
                 if (existingReview == null)
                 {
@@ -97,26 +56,7 @@ namespace booksAPI.Controllers
                 existingReview.Text = reviewToUpdate.Text;
                 existingReview.Rating = reviewToUpdate.Rating;
 
-                await _reviewService.UpdateAsync(existingReview);
-                return NoContent();
-            });
-        }
-
-        [HttpDelete("{id:int:min(1)}")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> DeleteBook(int id)
-        {
-            return await ExceptionHandle(async () =>
-            {
-                var existingReview = await _reviewService.GetByIdAsync(id);
-
-                if (existingReview == null)
-                {
-                    return GetNotFoundResponse();
-                }
-
-                await _reviewService.DeleteAsync(existingReview);
+                await _service.UpdateAsync(existingReview);
                 return NoContent();
             });
         }
