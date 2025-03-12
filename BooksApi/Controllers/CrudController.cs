@@ -48,6 +48,7 @@ namespace booksAPI.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [Produces(MediaTypeNames.Application.Json)]
+        [Consumes("application/json")]
         public virtual async Task<IActionResult> Post(TEntity item)
         {
             return await ExceptionHandle(async () =>
@@ -60,6 +61,7 @@ namespace booksAPI.Controllers
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [Consumes("application/json")]
         public abstract Task<IActionResult> Put(TEntity UserToUpdate);
 
         [HttpDelete("{id:int:min(1)}")]
