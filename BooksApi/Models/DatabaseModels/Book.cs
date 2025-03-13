@@ -15,7 +15,6 @@ namespace booksAPI.Models.DatabaseModels
         [Required]
         public required string Name { get; set; }
 
-        [JsonIgnore]
         public List<Review>? Reviews { get; set; } = new List<Review>();
 
         [JsonIgnore]
