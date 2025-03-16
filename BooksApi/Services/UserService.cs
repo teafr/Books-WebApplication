@@ -28,14 +28,8 @@ namespace booksAPI.Services
             return await _userRepository.CreateAsync(user);
         }
 
-        public async Task UpdateAsync(User existingUser, User userToUpdate)
+        public async Task UpdateAsync(User existingUser)
         {
-            existingUser.Name = userToUpdate.Name;
-            existingUser.Email = userToUpdate.Email;
-            existingUser.Description = userToUpdate.Description;
-            existingUser.Username = userToUpdate.Username;
-            existingUser.Password = Encrypter.Encrypt(userToUpdate.Password);
-
             await _userRepository.UpdateAsync(existingUser);
         }
 

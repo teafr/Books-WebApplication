@@ -31,14 +31,8 @@ namespace booksAPI.Services
             return await _reviewRepository.CreateAsync(review);
         }
 
-        public async Task UpdateAsync(Review existingReview, Review reviewToUpdate)
+        public async Task UpdateAsync(Review existingReview)
         {
-            existingReview.Id = reviewToUpdate.Id;
-            existingReview.User = reviewToUpdate.User!;
-            existingReview.Book = reviewToUpdate.Book;
-            existingReview.Text = reviewToUpdate.Text;
-            existingReview.Rating = reviewToUpdate.Rating;
-
             await InitializeObjectsOfReview(existingReview);
             await _reviewRepository.UpdateAsync(existingReview);
         }

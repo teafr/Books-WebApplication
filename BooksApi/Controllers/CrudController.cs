@@ -69,7 +69,13 @@ namespace booksAPI.Controllers
                     return NotFound(recordNotFound);
                 }
 
-                await _service.UpdateAsync(existingItem, itemToUpdate);
+                var itemProperties = typeof(TEntity).GetProperties();
+                foreach (var property in itemProperties)
+                {
+                    property.SetValue(existingItem, property.GetValue(itemToUpdate));
+                }
+
+                await _service.UpdateAsync(existingItem);
                 return NoContent();
             });
         }

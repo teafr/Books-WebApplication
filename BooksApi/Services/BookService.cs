@@ -27,11 +27,8 @@ namespace booksAPI.Services
             return await _bookRepository.CreateAsync(book);
         }
 
-        public async Task UpdateAsync(Book existingBook, Book bookToUpdate)
+        public async Task UpdateAsync(Book existingBook)
         {
-            existingBook.Id = bookToUpdate.Id;
-            existingBook.Name = bookToUpdate.Name;
-
             await _bookRepository.UpdateAsync(existingBook);
         }
 

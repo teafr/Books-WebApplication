@@ -8,6 +8,6 @@ namespace booksAPI.Services
         Task<TEntity?> GetByIdAsync(int id);
         Task<TEntity> CreateAsync(TEntity newItem);
         Task DeleteAsync(TEntity item);
-        Task UpdateAsync(TEntity existingItem, TEntity itemToUpdate);
+        Task UpdateAsync(TEntity existingItem);
     }
 }
