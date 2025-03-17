@@ -70,9 +70,12 @@ namespace booksAPI.Controllers
                 }
 
                 var itemProperties = typeof(TEntity).GetProperties();
-                foreach (var property in itemProperties)
+                if (itemProperties != null)
                 {
-                    property.SetValue(existingItem, property.GetValue(itemToUpdate));
+                    foreach (var property in itemProperties)
+                    {
+                        property.SetValue(existingItem, property.GetValue(itemToUpdate));
+                    }
                 }
 
                 await _service.UpdateAsync(existingItem);
