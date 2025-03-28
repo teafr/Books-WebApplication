@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 namespace booksAPI.Entities
 {
     [Table("books")]
-    public class Book : IDatabaseModel
+    public class Book : IDatabaseEntity
     {
         [Key]
         [Column("id")]

@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 namespace booksAPI.Entities
 {
     [Table("users")]
-    public class User : IDatabaseModel
+    public class User : IDatabaseEntity
     {
         [Key]
         [Required]
@@ -18,7 +18,6 @@ namespace booksAPI.Entities
         [Column("name")]
         public required string Name { get; set; }
 
-        [EmailAddress]
         [Column("email")]
         public required string Email { get; set; }
 

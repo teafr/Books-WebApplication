@@ -6,7 +6,7 @@ using booksAPI.Enums;
 namespace booksAPI.Entities
 {
     [Table("reviews")]
-    public class Review : IDatabaseModel
+    public class Review : IDatabaseEntity
     {
         [Key]
         [Column("id")]
@@ -16,7 +16,6 @@ namespace booksAPI.Entities
         public string? Text { get; set; }
 
         [Column("rating")]
-        [Range(1, 5)]
         public required Rate Rating { get; set; }
 
         [Column("reviewer_id")]

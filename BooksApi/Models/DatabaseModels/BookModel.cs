@@ -1,12 +1,18 @@
-﻿using booksAPI.Entities;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace booksAPI.Models.DatabaseModels
 {
-    public class BookModel
+    public class BookModel : IDatabaseModel
     {
+        public BookModel(int id, string name)
+        {
+            Id = id;
+            Name = name;
+        }
+
         public int Id { get; set; }
 
-        public required string Name { get; set; }
+        [Required]
+        public string Name { get; set; }
     }
 }

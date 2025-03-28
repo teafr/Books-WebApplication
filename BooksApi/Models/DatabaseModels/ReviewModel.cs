@@ -1,21 +1,32 @@
 ﻿using booksAPI.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace booksAPI.Models.DatabaseModels
 {
-    public class ReviewModel
+    public class ReviewModel : IDatabaseModel
     {
-        public required int Id { get; set; }
+        public ReviewModel(int id, string? text, Rate rating, BookModel book, UserModel user)
+        {
+            Id = id;
+            Text = text;
+            Rating = rating;
+            Book = book;
+            User = user;
+        }
+
+        [Required]
+        public int Id { get; set; }
 
         public string? Text { get; set; }
 
-        public required Rate Rating { get; set; }
+        [Required]
+        [Range(1, 5)]
+        public Rate Rating { get; set; }
 
-        public required int UserId { get; set; }
+        [Required]
+        public BookModel Book { get; set; }
 
-        public required int BookId { get; set; }
-
-        public required BookModel Book { get; set; }
-
-        public required UserModel User { get; set; }
+        [Required]
+        public UserModel User { get; set; }
     }
 }
