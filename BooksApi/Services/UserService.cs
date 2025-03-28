@@ -1,41 +1,45 @@
 ﻿using booksAPI.Entities;
 using booksAPI.Helpers;
+using booksAPI.Models.DatabaseModels;
 using booksAPI.Repositories;
 
 namespace booksAPI.Services
 {
-    public class UserService : ICrudService<User>
+    public class UserService : AbstractCrudService<UserModel, User>
     {
-        private readonly IRepository<User> _userRepository;
+        public UserService(IRepository<User> repository) : base(repository) { }
 
-        public UserService(IRepository<User> user)
+        public override async Task UpdateAsync(UserModel userToUpdate)
         {
-            this._userRepository = user;
-        }
-        public async Task<List<User>?> GetAsync()
-        {
-            return await _userRepository.GetAsync();
-        }
+            var existingUser = await _repository.GetByIdAsync(userToUpdate.Id);
+            //existingUser = GetEntityObject(userToUpdate);
 
-        public async Task<User?> GetByIdAsync(int id)
-        {
-            return await _userRepository.GetByIdAsync(id);
-        }
+            existingUser!.Id = userToUpdate.Id;
+            existingUser.Username = userToUpdate.Username;
+            existingUser.Name = userToUpdate.Name;
+            existingUser.Email = userToUpdate.Email;
+            existingUser.Description = userToUpdate.Description;
+            existingUser.Password = Encrypter.Encrypt(userToUpdate.Password);
 
-        public async Task<User> CreateAsync(User user)
-        {
-            user.Password = Encrypter.Encrypt(user.Password);
-            return await _userRepository.CreateAsync(user);
+            await _repository.UpdateAsync(existingUser);
         }
 
-        public async Task UpdateAsync(User existingUser)
+        protected override UserModel GetModelObject(User user)
         {
-            await _userRepository.UpdateAsync(existingUser);
+            return new UserModel(user.Id, user.Username, user.Name, user.Email, user.Description, user.Password);
         }
 
-        public async Task DeleteAsync(User user)
+        protected override User GetEntityObject(UserModel user)
         {
-            await _userRepository.DeleteAsync(user);
+            return new User()
+            {
+                Id = user.Id,
+                Name = user.Name,
+                Username = user.Username,
+                Email = user.Email,
+                Description = user.Description,
+                Password = Encrypter.Encrypt(user.Password)
+            };
         }
     }
 }

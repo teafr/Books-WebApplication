@@ -1,45 +1,39 @@
 ﻿using booksAPI.Entities;
+using booksAPI.Models.DatabaseModels;
 using booksAPI.Repositories;
 
 namespace booksAPI.Services
 {
-    public class ReviewService : ICrudService<Review>
+    public class ReviewService : AbstractCrudService<ReviewModel, Review>
     {
-        private readonly IRepository<Review> _reviewRepository;
         private readonly IRepository<Book> _bookRepository;
         private readonly IRepository<User> _userRepository;
 
-        public ReviewService(IRepository<Review> repository, IRepository<Book> book, IRepository<User> user)
+        public ReviewService(IRepository<Review> reviewRepository, IRepository<Book> bookRepository, IRepository<User> userRepository) : base(reviewRepository)
         {
-            this._reviewRepository = repository;
-            this._bookRepository = book;
-            this._userRepository = user;
-        }
-        public async Task<List<Review>?> GetAsync()
-        {
-            return await _reviewRepository.GetAsync();
+            this._bookRepository = bookRepository;
+            this._userRepository = userRepository;
         }
 
-        public async Task<Review?> GetByIdAsync(int id)
+        public override async Task<ReviewModel> CreateAsync(ReviewModel review)
         {
-            return await _reviewRepository.GetByIdAsync(id);
+            var entity = GetEntityObject(review);
+            await InitializeObjectsOfReview(entity);
+            return GetModelObject(await _repository.CreateAsync(entity));
         }
 
-        public async Task<Review> CreateAsync(Review review)
+        public override async Task UpdateAsync(ReviewModel reviewToUpdate)
         {
-            await InitializeObjectsOfReview(review);
-            return await _reviewRepository.CreateAsync(review);
-        }
+            var existingReview = await _repository.GetByIdAsync(reviewToUpdate.Id);
 
-        public async Task UpdateAsync(Review existingReview)
-        {
+            existingReview!.Id = reviewToUpdate.Id;
+            existingReview.Rating = reviewToUpdate.Rating;
+            existingReview.Text = reviewToUpdate.Text;
+            existingReview.UserId = reviewToUpdate.User.Id;
+            existingReview.BookId = reviewToUpdate.Book.Id;
+
             await InitializeObjectsOfReview(existingReview);
-            await _reviewRepository.UpdateAsync(existingReview);
-        }
-
-        public async Task DeleteAsync(Review review)
-        {
-            await _reviewRepository.DeleteAsync(review);
+            await _repository.UpdateAsync(existingReview);
         }
 
         private async Task InitializeObjectsOfReview(Review review)
@@ -50,26 +44,39 @@ namespace booksAPI.Services
 
         private async Task InitializeUser(Review review)
         {
-            if (review.UserId != 0)
+            User? user = await _userRepository.GetByIdAsync(review.UserId);
+            if (user != null)
             {
-                User? user = await _userRepository.GetByIdAsync(review.UserId);
-                if (user != null)
-                {
-                    review.User = user;
-                }
+                review.User = user;
             }
         }
 
         private async Task InitializeBook(Review review)
         {
-            if (review.BookId != 0)
+            Book? book = await _bookRepository.GetByIdAsync(review.BookId);
+            if (book != null)
             {
-                Book? book = await _bookRepository.GetByIdAsync(review.BookId);
-                if (book != null)
-                {
-                    review.Book = book;
-                }
+                review.Book = book;
             }
+        }
+
+        protected override ReviewModel GetModelObject(Review entity)
+        {
+            return new ReviewModel(entity.Id, entity.Text, entity.Rating, new BookModel(entity.Book.Id, entity.Book.Name), new UserModel(entity.User.Id, entity.User.Username, entity.User.Name, entity.User.Email, entity.User.Description, entity.User.Password));
+        }
+
+        protected override Review GetEntityObject(ReviewModel model)
+        {
+            return new Review()
+            {
+                Id = model.Id,
+                Text = model.Text,
+                Rating = model.Rating,
+                UserId = model.User.Id,
+                BookId = model.Book.Id,
+                Book = new Book() { Id = model.Book.Id, Name = model.Book.Name },
+                User = new User() { Id = model.User.Id, Username = model.User.Username, Name = model.User.Name, Email = model.User.Email, Description = model.User.Description, Password = model.User.Password }
+            };
         }
     }
 }

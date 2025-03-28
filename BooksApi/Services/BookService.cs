@@ -1,40 +1,31 @@
 ﻿using booksAPI.Entities;
+using booksAPI.Models.DatabaseModels;
 using booksAPI.Repositories;
 
 namespace booksAPI.Services
 {
-    public class BookService : ICrudService<Book>
+    public class BookService : AbstractCrudService<BookModel, Book>
     {
-        private readonly IRepository<Book> _bookRepository;
+        public BookService(IRepository<Book> repository) : base(repository) { }
 
-        public BookService(IRepository<Book> bookRepository)
+        public override async Task UpdateAsync(BookModel bookToUpdate)
         {
-            _bookRepository = bookRepository;
+            var existingBook = await _repository.GetByIdAsync(bookToUpdate.Id);
+
+            existingBook!.Id = bookToUpdate.Id;
+            existingBook.Name = bookToUpdate.Name;
+
+            await _repository.UpdateAsync(existingBook);
         }
 
-        public async Task<List<Book>?> GetAsync()
+        protected override Book GetEntityObject(BookModel model)
         {
-            return await _bookRepository.GetAsync();
+            return new Book { Id = model.Id, Name = model.Name };
         }
 
-        public async Task<Book?> GetByIdAsync(int id)
+        protected override BookModel GetModelObject(Book entity)
         {
-            return await _bookRepository.GetByIdAsync(id);
-        }
-
-        public async Task<Book> CreateAsync(Book book)
-        {
-            return await _bookRepository.CreateAsync(book);
-        }
-
-        public async Task UpdateAsync(Book existingBook)
-        {
-            await _bookRepository.UpdateAsync(existingBook);
-        }
-
-        public async Task DeleteAsync(Book book)
-        {
-            await _bookRepository.DeleteAsync(book);
+            return new BookModel(entity.Id, entity.Name);
         }
     }
 }
