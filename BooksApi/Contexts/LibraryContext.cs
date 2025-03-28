@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using booksAPI.Models.DatabaseModels;
+using booksAPI.Entities;
 
 namespace booksAPI.Contexts;
 public class LibraryContext : DbContext

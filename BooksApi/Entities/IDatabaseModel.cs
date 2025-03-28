@@ -1,4 +1,4 @@
-﻿namespace booksAPI.Models.DatabaseModels
+﻿namespace booksAPI.Entities
 {
     public interface IDatabaseModel
     {

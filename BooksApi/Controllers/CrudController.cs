@@ -1,4 +1,4 @@
-﻿using booksAPI.Models.DatabaseModels;
+﻿using booksAPI.Entities;
 using booksAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;

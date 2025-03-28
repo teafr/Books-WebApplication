@@ -1,5 +1,5 @@
-﻿using booksAPI.Helpers;
-using booksAPI.Models.DatabaseModels;
+﻿using booksAPI.Entities;
+using booksAPI.Helpers;
 using booksAPI.Repositories;
 
 namespace booksAPI.Services

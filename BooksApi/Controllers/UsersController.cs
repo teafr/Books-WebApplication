@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using booksAPI.Models.DatabaseModels;
 using booksAPI.Services;
+using booksAPI.Entities;
 
 namespace booksAPI.Controllers
 {

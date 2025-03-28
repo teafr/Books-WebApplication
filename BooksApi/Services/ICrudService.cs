@@ -1,4 +1,4 @@
-﻿using booksAPI.Models.DatabaseModels;
+﻿using booksAPI.Entities;
 
 namespace booksAPI.Services
 {

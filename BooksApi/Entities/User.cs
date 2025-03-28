@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
-namespace booksAPI.Models.DatabaseModels
+namespace booksAPI.Entities
 {
     [Table("users")]
     public class User : IDatabaseModel

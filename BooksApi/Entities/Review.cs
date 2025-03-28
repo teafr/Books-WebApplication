@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using booksAPI.Enums;
 
-namespace booksAPI.Models.DatabaseModels
+namespace booksAPI.Entities
 {
     [Table("reviews")]
     public class Review : IDatabaseModel

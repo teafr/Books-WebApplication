@@ -1,12 +1,12 @@
 ﻿using booksAPI.Contexts;
-using booksAPI.Models.DatabaseModels;
+using booksAPI.Entities;
 using booksAPI.Repositories;
 using booksAPI.Services;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace booksAPI.DiConteinerInitialization
+namespace booksAPI.Infrastructure
 {
-    public static class Extensions
+    public static class ServiceCollectionExtensions
     {
         public static IServiceCollection AddDependensies(this IServiceCollection services)
         {
