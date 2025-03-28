@@ -1,4 +1,5 @@
 ﻿using booksAPI.Entities;
+using booksAPI.Models.DatabaseModels;
 using booksAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
@@ -48,8 +49,7 @@ namespace booksAPI.Controllers
         {
             return await ExceptionHandle(async () =>
             {
-                var createdItem = await _service.CreateAsync(item);
-                return CreatedAtAction(nameof(Post), createdItem);
+                return CreatedAtAction(nameof(Post), await _service.CreateAsync(item));
             });
         }
 
@@ -69,16 +69,16 @@ namespace booksAPI.Controllers
                     return NotFound(recordNotFound);
                 }
 
-                var itemProperties = typeof(TEntity).GetProperties();
-                if (itemProperties != null)
-                {
-                    foreach (var property in itemProperties)
-                    {
-                        property.SetValue(existingItem, property.GetValue(itemToUpdate));
-                    }
-                }
+                //var itemProperties = typeof(TEntity).GetProperties();
+                //if (itemProperties != null)
+                //{
+                //    foreach (var property in itemProperties)
+                //    {
+                //        property.SetValue(existingItem, property.GetValue(itemToUpdate));
+                //    }
+                //}
 
-                await _service.UpdateAsync(existingItem);
+                await _service.UpdateAsync(itemToUpdate);
                 return NoContent();
             });
         }
@@ -97,7 +97,7 @@ namespace booksAPI.Controllers
                     return NotFound(recordNotFound);
                 }
 
-                await _service.DeleteAsync(item);
+                await _service.DeleteAsync(id);
                 return NoContent();
             });
         }

@@ -43,5 +43,12 @@ namespace booksAPI.Repositories
             dbSet.Remove(item);
             await _context.SaveChangesAsync();
         }
+
+        public async Task DeleteByIdAsync(int id)
+        {
+            var entity = await this.dbSet.FindAsync(id);
+            this.dbSet.Remove(entity!);
+            await this._context.SaveChangesAsync();
+        }
     }
 }

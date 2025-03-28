@@ -1,5 +1,6 @@
 ﻿using booksAPI.Contexts;
 using booksAPI.Entities;
+using booksAPI.Models.DatabaseModels;
 using booksAPI.Repositories;
 using booksAPI.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,9 +21,9 @@ namespace booksAPI.Infrastructure
 
         public static IServiceCollection ConfigureServices(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddTransient<ICrudService<Review>, ReviewService>();
-            services.AddTransient<ICrudService<User>, UserService>();
-            services.AddTransient<ICrudService<Book>, BookService>();
+            services.AddTransient<ICrudService<ReviewModel>, ReviewService>();
+            services.AddTransient<ICrudService<UserModel>, UserService>();
+            services.AddTransient<ICrudService<BookModel>, BookService>();
             services.AddHttpClient<IGutendexService, GutendexService>(client =>
             {
                 string url = configuration["Gutendex:Endpoints:Https:Url"]!;

@@ -7,5 +7,6 @@
         Task<Entity> CreateAsync(Entity newItem);
         Task UpdateAsync(Entity item);
         Task DeleteAsync(Entity item);
+        Task DeleteByIdAsync(int id);
     }
 }

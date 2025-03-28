@@ -1,12 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using booksAPI.Services;
 using booksAPI.Entities;
+using booksAPI.Models.DatabaseModels;
 
 namespace booksAPI.Controllers
 {
     [Route("api/[controller]")]
-    public class BooksController : CrudController<Book>
+    public class BooksController : CrudController<BookModel>
     {
-        public BooksController(ICrudService<Book> service, ILogger<BooksController> logger) : base(service, logger) { }
+        public BooksController(ICrudService<BookModel> service, ILogger<BooksController> logger) : base(service, logger) { }
     }
 }
