@@ -25,7 +25,7 @@ namespace booksAPI.Services
 
         protected override BookModel GetModelObject(Book entity)
         {
-            return new BookModel(entity.Id, entity.Name);
+            return new BookModel(entity);
         }
     }
 }

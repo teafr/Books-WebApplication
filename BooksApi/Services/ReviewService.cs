@@ -62,7 +62,7 @@ namespace booksAPI.Services
 
         protected override ReviewModel GetModelObject(Review entity)
         {
-            return new ReviewModel(entity.Id, entity.Text, entity.Rating, new BookModel(entity.Book.Id, entity.Book.Name), new UserModel(entity.User.Id, entity.User.Username, entity.User.Name, entity.User.Email, entity.User.Description, entity.User.Password));
+            return new ReviewModel(entity);
         }
 
         protected override Review GetEntityObject(ReviewModel model)

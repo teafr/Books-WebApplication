@@ -26,7 +26,7 @@ namespace booksAPI.Services
 
         protected override UserModel GetModelObject(User user)
         {
-            return new UserModel(user.Id, user.Username, user.Name, user.Email, user.Description, user.Password);
+            return new UserModel(user);
         }
 
         protected override User GetEntityObject(UserModel user)
