@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using booksAPI.Entities;
+using System.ComponentModel.DataAnnotations;
 
 namespace booksAPI.Models.DatabaseModels
 {
@@ -14,6 +15,16 @@ namespace booksAPI.Models.DatabaseModels
             Password = password;
         }
 
+        public UserModel(User user)
+        {
+            Id = user.Id;
+            Username = user.Username;
+            Name = user.Name;
+            Email = user.Email;
+            Description = user.Description;
+            Password = user.Password;
+        }
+
         public int Id { get; set; }
 
         [Required]
@@ -22,8 +33,7 @@ namespace booksAPI.Models.DatabaseModels
         [Required]
         public string Name { get; set; }
 
-        [Required]
-        [EmailAddress]
+        [Required, EmailAddress]
         public string Email { get; set; }
 
         public string? Description { get; set; }

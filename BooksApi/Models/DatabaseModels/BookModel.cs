@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using booksAPI.Entities;
+using System.ComponentModel.DataAnnotations;
 
 namespace booksAPI.Models.DatabaseModels
 {
@@ -10,9 +11,15 @@ namespace booksAPI.Models.DatabaseModels
             Name = name;
         }
 
+        public BookModel(Book book)
+        {
+            Id = book.Id;
+            Name = book.Name;
+        }
+
         public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Min 2 and max 20 literals"), Range(2, 20)]
         public string Name { get; set; }
     }
 }
