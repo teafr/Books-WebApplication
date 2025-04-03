@@ -27,7 +27,7 @@ namespace booksAPI.Services
 
         public virtual async Task<TModel> CreateAsync(TModel newItem)
         {
-            var createdItem = await _repository.CreateAsync(TModel(newItem));
+            var createdItem = await _repository.CreateAsync(GetEntityObject(newItem));
             return GetModelObject(createdItem);
         }
 
