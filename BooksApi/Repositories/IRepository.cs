@@ -1,12 +1,17 @@
 ﻿namespace booksAPI.Repositories
 {
-    public interface IRepository<Entity>
+    public interface IRepository<TEntity>
     {
-        Task<List<Entity>?> GetAsync();
-        Task<Entity?> GetByIdAsync(int id);
-        Task<Entity> CreateAsync(Entity newItem);
-        Task UpdateAsync(Entity item);
-        Task DeleteAsync(Entity item);
+        Task<List<TEntity>?> GetAsync();
+
+        Task<TEntity?> GetByIdAsync(int id);
+
+        Task<TEntity> CreateAsync(TEntity newItem);
+
+        Task UpdateAsync(TEntity item);
+
+        Task DeleteAsync(TEntity item);
+
         Task DeleteByIdAsync(int id);
     }
 }

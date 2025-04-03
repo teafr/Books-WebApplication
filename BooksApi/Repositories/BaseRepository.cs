@@ -5,7 +5,7 @@ namespace booksAPI.Repositories
 {
     public abstract class BaseRepository<Entity> : IRepository<Entity> where Entity : class
     {
-        protected readonly LibraryContext _context;
+        private readonly LibraryContext _context;
         protected readonly DbSet<Entity> dbSet;
 
         protected BaseRepository(LibraryContext context)
@@ -14,37 +14,37 @@ namespace booksAPI.Repositories
             dbSet = context.Set<Entity>();
         }
 
-        public async virtual Task<List<Entity>?> GetAsync()
+        public virtual async Task<List<Entity>?> GetAsync()
         {
             var items = await dbSet.ToListAsync();
             return items;
         }
-        
-        public async virtual Task<Entity?> GetByIdAsync(int id)
+
+        public virtual async Task<Entity?> GetByIdAsync(int id)
         {
             return await dbSet.FindAsync(id);
         }
 
-        public async virtual Task<Entity> CreateAsync(Entity newItem)
+        public virtual async Task<Entity> CreateAsync(Entity newItem)
         {
             dbSet.Add(newItem);
             await _context.SaveChangesAsync();
             return newItem;
         }
 
-        public async virtual Task UpdateAsync(Entity item)
+        public virtual async Task UpdateAsync(Entity item)
         {
             dbSet.Update(item);
             await _context.SaveChangesAsync();
         }
 
-        public async virtual Task DeleteAsync(Entity item)
+        public virtual async Task DeleteAsync(Entity item)
         {
             dbSet.Remove(item);
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteByIdAsync(int id)
+        public virtual async Task DeleteByIdAsync(int id)
         {
             var entity = await this.dbSet.FindAsync(id);
             this.dbSet.Remove(entity!);

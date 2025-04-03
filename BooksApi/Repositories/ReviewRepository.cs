@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace booksAPI.Repositories
 {
-    public class ReviewRepository : BaseRepository<Review>
+    public class ReviewRepository : BaseRepository<Review>, IRepository<Review>
     {
         public ReviewRepository(LibraryContext context) : base(context) { }
 
