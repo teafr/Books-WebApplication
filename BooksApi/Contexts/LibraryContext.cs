@@ -8,7 +8,7 @@ public class LibraryContext : DbContext
 
     public LibraryContext(IConfiguration configuration)
     {
-        _connectionString = configuration.GetConnectionString("default")!;
+        _connectionString = configuration.GetConnectionString("LibraryDB")!;
     }
 
     public DbSet<Book> Books { get; set; }
