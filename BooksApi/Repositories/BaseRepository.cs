@@ -5,7 +5,7 @@ namespace booksAPI.Repositories
 {
     public abstract class BaseRepository<Entity> : IRepository<Entity> where Entity : class
     {
-        private readonly LibraryContext _context;
+        protected readonly LibraryContext _context;
         protected readonly DbSet<Entity> dbSet;
 
         protected BaseRepository(LibraryContext context)

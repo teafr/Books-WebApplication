@@ -9,7 +9,7 @@ namespace booksAPI.Extensions
         {
             using IServiceScope scope = app.Services.CreateScope();
 
-            using IdentityContext libraryDbContext = scope.ServiceProvider.GetRequiredService<IdentityContext>();
+            using LibraryContext libraryDbContext = scope.ServiceProvider.GetRequiredService<LibraryContext>();
             using IdentityContext identityDbContext = scope.ServiceProvider.GetRequiredService<IdentityContext>();
 
             libraryDbContext.Database.Migrate();
