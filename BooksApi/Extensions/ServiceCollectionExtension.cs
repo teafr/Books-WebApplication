@@ -23,7 +23,7 @@ namespace booksAPI.Infrastructure
 
         public static IServiceCollection ConfigureServices(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddIdentity<LoginUser, IdentityRole>().AddEntityFrameworkStores<IdentityContext>().AddApiEndpoints();
+            services.AddIdentityCore<LoginUser>().AddEntityFrameworkStores<IdentityContext>().AddApiEndpoints();
             services.AddDbContext<LibraryContext>();
             services.AddDbContext<IdentityContext>(options =>
             {
