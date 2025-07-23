@@ -25,16 +25,26 @@ namespace booksAPI.Controllers
             return books == null ? NotFound(recordNotFound) : Ok(books);
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetBookById(int id)
+        {
+            return await ExceptionHandle(async () =>
+            {
+                GutendexBook? book = await _gutendexService.GetBookByIdAsync(id);
+                return book == null ? NotFound(recordNotFound) : Ok(book);
+            });
+        }
+
         [HttpGet("{id:int:min(1)}/fulltext")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [Produces(MediaTypeNames.Application.Json)]
-        public async Task<IActionResult> GetFullTextUrl(int id)
+        public async Task<IActionResult> GetFullText(int id)
         {
             return await ExceptionHandle(async () =>
             {
-                string? txtUrl = await _gutendexService.GetTxtUrlAsync(id);
-                return txtUrl == null ? NotFound(recordNotFound) : Ok(new { txtUrl });
+                string? text = await _gutendexService.GetFullTextByBookIdAsync(id);
+                return text == null ? NotFound(recordNotFound) : Ok(new { text });
             });
         }
     }
