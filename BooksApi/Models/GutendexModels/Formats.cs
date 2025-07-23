@@ -6,6 +6,9 @@ namespace booksAPI.Models.GutendexModels
     {
         [JsonPropertyName("text/plain; charset=us-ascii")]
         public string? TxtFormat { get; set; }
+
+        [JsonPropertyName("image/jpeg")]
+        public string? Image { get; set; }
     }
 
 }
