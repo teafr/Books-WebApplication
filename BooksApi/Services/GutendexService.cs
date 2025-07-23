@@ -46,11 +46,20 @@ namespace booksAPI.Services
 
             var matches = Regex.Matches(text, @"\*{3} (START|END) OF THE PROJECT GUTENBERG EBOOK .+? \*{3}");
             if (matches.Count == 2)
-            {                
+            {
                 text = string.Concat(text.Take(new Range(matches[0].Index + matches[0].Value.Length, matches[1].Index - 1)));
             }
 
-            return text;
+            return text.Replace("Progjed Gutenberg EBook", "").Replace("[Illustration]", "").Trim();
+        }
+
+        public async Task<List<GutendexBook>?> GetBooksByIdsAsync(List<int> ids)
+        {
+            HttpResponseMessage response = await _httpClient.GetAsync($"{gutendexUrl}?ids={string.Join(",", ids)}");
+            response.EnsureSuccessStatusCode();
+
+            SearchResult searchResult = JsonSerializer.Deserialize<SearchResult>(await response.Content.ReadAsStringAsync())!;
+            return searchResult?.Books;
         }
     }
 }

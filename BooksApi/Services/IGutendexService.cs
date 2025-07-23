@@ -7,5 +7,6 @@ namespace booksAPI.Services
         Task<List<GutendexBook>?> SearchBooksAsync(string key, string value);
         Task<GutendexBook?> GetBookByIdAsync(int id);
         Task<string?> GetFullTextByBookIdAsync(int id);
+        Task<List<GutendexBook>?> GetBooksByIdsAsync(List<int> ids);
     }
 }
