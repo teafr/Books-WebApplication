@@ -1,13 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using booksAPI.Services;
-using booksAPI.Entities;
-using booksAPI.Models.DatabaseModels;
 
 namespace booksAPI.Controllers
 {
     [Route("api/[controller]")]
-    public class BooksController : CrudController<BookModel>
+    public class BooksController : BaseController
     {
-        public BooksController(ICrudService<BookModel> service, ILogger<BooksController> logger) : base(service, logger) { }
+        private readonly IBookService service;
+
+        public BooksController(IBookService service, ILogger<BooksController> logger) : base(logger)
+        {
+            this.service = service;
+        }
     }
 }

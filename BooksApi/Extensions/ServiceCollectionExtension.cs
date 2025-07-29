@@ -1,7 +1,6 @@
 ﻿using booksAPI.Contexts;
 using booksAPI.Entities;
 using booksAPI.Models;
-using booksAPI.Models.DatabaseModels;
 using booksAPI.Repositories;
 using booksAPI.Services;
 using Microsoft.AspNetCore.Identity;
@@ -13,20 +12,17 @@ namespace booksAPI.Infrastructure
     {
         public static IServiceCollection AddDependensies(this IServiceCollection services)
         {
-            services.AddScoped<IRepository<Book>, BookRepository>();
-            services.AddScoped<IRepository<User>, UserRepository>();
-            services.AddScoped<IRepository<Review>, ReviewRepository>();
+            services.AddScoped<IRepository<ReviewEntity>, ReviewRepository>();
 
-            services.AddScoped<ICrudService<ReviewModel>, ReviewService>();
-            services.AddScoped<ICrudService<UserModel>, UserService>();
-            services.AddScoped<ICrudService<BookModel>, BookService>();
+            services.AddScoped<IReviewService, ReviewService>();
+            services.AddScoped<IBookService, BookService>();
 
             return services;
         }
 
         public static IServiceCollection ConfigureServices(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddIdentityCore<LoginUser>().AddEntityFrameworkStores<IdentityContext>().AddApiEndpoints();
+            services.AddIdentityCore<ApplicationUser>().AddEntityFrameworkStores<IdentityContext>().AddApiEndpoints();
 
             services.AddDbContext<LibraryContext>();
             services.AddDbContext<IdentityContext>(options =>
@@ -34,14 +30,7 @@ namespace booksAPI.Infrastructure
                 options.UseMySQL(configuration.GetConnectionString("IdentityDB")!);
             });
 
-            services.AddHttpClient<IGutendexService, GutendexService>(
-            //    client =>
-            //{
-            //    string url = configuration["Gutendex:Endpoints:Https:Url"]!;
-            //    ArgumentNullException.ThrowIfNull(url);
-            //    client.BaseAddress = new Uri(url);
-            //}
-            );
+            services.AddHttpClient<IGutendexService, GutendexService>();
 
             return services;
         }

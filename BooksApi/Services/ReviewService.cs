@@ -1,82 +1,37 @@
-﻿using booksAPI.Entities;
-using booksAPI.Models.DatabaseModels;
-using booksAPI.Repositories;
+﻿using booksAPI.Models;
 
 namespace booksAPI.Services
 {
-    public class ReviewService : AbstractCrudService<ReviewModel, Review>
+    public class ReviewService : IReviewService
     {
-        private readonly IRepository<Book> _bookRepository;
-        private readonly IRepository<User> _userRepository;
-
-        public ReviewService(IRepository<Review> reviewRepository, IRepository<Book> bookRepository, IRepository<User> userRepository) : base(reviewRepository)
+        public Task<ReviewModel> AddReviewAsync(int bookId, ReviewModel review)
         {
-            this._bookRepository = bookRepository;
-            this._userRepository = userRepository;
+            throw new NotImplementedException();
         }
 
-        public override async Task<ReviewModel> CreateAsync(ReviewModel review)
+        public Task<bool> DeleteReviewAsync(int reviewId)
         {
-            var entity = GetEntityObject(review);
-            await InitializeObjectsOfReview(entity);
-            return GetModelObject(await _repository.CreateAsync(entity));
+            throw new NotImplementedException();
         }
 
-        public override async Task UpdateAsync(ReviewModel reviewToUpdate)
+        public Task<ReviewModel?> GetReviewByIdAsync(int reviewId)
         {
-            var existingReview = await _repository.GetByIdAsync(reviewToUpdate.Id);
-
-            existingReview!.Id = reviewToUpdate.Id;
-            existingReview.Rating = reviewToUpdate.Rating;
-            existingReview.Text = reviewToUpdate.Text;
-            existingReview.UserId = reviewToUpdate.User.Id;
-            existingReview.BookId = reviewToUpdate.Book.Id;
-
-            await InitializeObjectsOfReview(existingReview);
-            await _repository.UpdateAsync(existingReview);
+            throw new NotImplementedException();
         }
 
-        private async Task InitializeObjectsOfReview(Review review)
+        public Task<ICollection<ReviewModel>> GetReviewsByBookIdAsync(int bookId)
         {
-            await InitializeUser(review);
-            await InitializeBook(review);
+            throw new NotImplementedException();
         }
 
-        private async Task InitializeUser(Review review)
+        public Task<ICollection<ReviewModel>> GetReviewsByUserIdAsync(string userId)
         {
-            User? user = await _userRepository.GetByIdAsync(review.UserId);
-            if (user != null)
-            {
-                review.User = user;
-            }
+            throw new NotImplementedException();
         }
 
-        private async Task InitializeBook(Review review)
+        public Task<bool> UpdateReviewAsync(int reviewId, ReviewModel review)
         {
-            Book? book = await _bookRepository.GetByIdAsync(review.BookId);
-            if (book != null)
-            {
-                review.Book = book;
-            }
-        }
-
-        protected override ReviewModel GetModelObject(Review entity)
-        {
-            return new ReviewModel(entity);
-        }
-
-        protected override Review GetEntityObject(ReviewModel model)
-        {
-            return new Review()
-            {
-                Id = model.Id,
-                Text = model.Text,
-                Rating = model.Rating,
-                UserId = model.User.Id,
-                BookId = model.Book.Id,
-                Book = new Book() { Id = model.Book.Id, Name = model.Book.Name },
-                User = new User() { Id = model.User.Id, Username = model.User.Username, Name = model.User.Name, Email = model.User.Email, Description = model.User.Description, Password = model.User.Password }
-            };
+            throw new NotImplementedException();
         }
     }
 }

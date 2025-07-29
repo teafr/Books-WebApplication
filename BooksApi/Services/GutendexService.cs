@@ -6,14 +6,14 @@ namespace booksAPI.Services
 {
     public class GutendexService : IGutendexService
     {
-        private readonly HttpClient _httpClient;
+        private readonly HttpClient httpClient;
 
         private readonly string gutendexUrl;
         private readonly string gutenbergUrl;
 
         public GutendexService(HttpClient httpClient, IConfiguration configuration)
         {
-            _httpClient = httpClient;
+            this.httpClient = httpClient;
 
             gutendexUrl = configuration["Gutendex:Endpoints:Https:GutendexUrl"];
             gutenbergUrl = configuration["Gutendex:Endpoints:Https:GutenbergUrl"];
@@ -22,7 +22,7 @@ namespace booksAPI.Services
         public async Task<List<GutendexBook>?> SearchBooksAsync(string key, string value)
         {
             string url = $"{gutendexUrl}?{Uri.EscapeDataString(key)}={Uri.EscapeDataString(value)}";
-            HttpResponseMessage response = await _httpClient.GetAsync(url);
+            HttpResponseMessage response = await httpClient.GetAsync(url);
             response.EnsureSuccessStatusCode();
 
             SearchResult result = JsonSerializer.Deserialize<SearchResult>(await response.Content.ReadAsStringAsync())!;
@@ -31,16 +31,21 @@ namespace booksAPI.Services
 
         public async Task<GutendexBook?> GetBookByIdAsync(int id)
         {
-            HttpResponseMessage response = await _httpClient.GetAsync($"{gutendexUrl}?ids={id}");
+            //HttpResponseMessage response = await _httpClient.GetAsync($"{gutendexUrl}?ids={id}");
+            //response.EnsureSuccessStatusCode();
+
+            //SearchResult searchResult = JsonSerializer.Deserialize<SearchResult>(await response.Content.ReadAsStringAsync())!;
+            //return searchResult?.Books?.FirstOrDefault();
+
+            HttpResponseMessage response = await httpClient.GetAsync($"{gutendexUrl}{id}");
             response.EnsureSuccessStatusCode();
 
-            SearchResult searchResult = JsonSerializer.Deserialize<SearchResult>(await response.Content.ReadAsStringAsync())!;
-            return searchResult?.Books?.FirstOrDefault();
+            return JsonSerializer.Deserialize<GutendexBook>(await response.Content.ReadAsStringAsync())!;
         }
 
         public async Task<string?> GetFullTextByBookIdAsync(int id)
         {
-            HttpResponseMessage response = await _httpClient.GetAsync($"{gutenbergUrl}{id}/pg{id}.txt").ConfigureAwait(false);
+            HttpResponseMessage response = await httpClient.GetAsync($"{gutenbergUrl}{id}/pg{id}.txt").ConfigureAwait(false);
             response.EnsureSuccessStatusCode();
             var text = await response.Content.ReadAsStringAsync();
 
@@ -55,7 +60,7 @@ namespace booksAPI.Services
 
         public async Task<List<GutendexBook>?> GetBooksByIdsAsync(List<int> ids)
         {
-            HttpResponseMessage response = await _httpClient.GetAsync($"{gutendexUrl}?ids={string.Join(",", ids)}");
+            HttpResponseMessage response = await httpClient.GetAsync($"{gutendexUrl}?ids={string.Join(",", ids)}");
             response.EnsureSuccessStatusCode();
 
             SearchResult searchResult = JsonSerializer.Deserialize<SearchResult>(await response.Content.ReadAsStringAsync())!;

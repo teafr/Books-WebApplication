@@ -1,31 +1,38 @@
-﻿using booksAPI.Entities;
-using booksAPI.Models.DatabaseModels;
-using booksAPI.Repositories;
+﻿using booksAPI.Models;
+using booksAPI.Models.GutendexModels;
 
 namespace booksAPI.Services
 {
-    public class BookService : AbstractCrudService<BookModel, Book>
+    public class BookService : IBookService
     {
-        public BookService(IRepository<Book> repository) : base(repository) { }
-
-        public override async Task UpdateAsync(BookModel bookToUpdate)
+        public Task<ICollection<BookModel>> GetAllBooksAsync()
         {
-            var existingBook = await _repository.GetByIdAsync(bookToUpdate.Id);
-
-            existingBook!.Id = bookToUpdate.Id;
-            existingBook.Name = bookToUpdate.Name;
-
-            await _repository.UpdateAsync(existingBook);
+            throw new NotImplementedException();
         }
 
-        protected override Book GetEntityObject(BookModel model)
+        public Task<BookModel?> GetBookByIdAsync(int id)
         {
-            return new Book { Id = model.Id, Name = model.Name };
+            throw new NotImplementedException();
         }
 
-        protected override BookModel GetModelObject(Book entity)
+        public Task<List<GutendexBook>?> GetBooksByIdsAsync(List<int> id)
         {
-            return new BookModel(entity);
+            throw new NotImplementedException();
+        }
+
+        public Task<ICollection<BookModel>> SearchBooksByPatternAsync(string query)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ICollection<BookModel>> SearchBooksByTopicAsync(string topic)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ICollection<BookModel>> SortBooksAsync(string query)
+        {
+            throw new NotImplementedException();
         }
     }
 }

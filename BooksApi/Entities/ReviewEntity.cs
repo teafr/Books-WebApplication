@@ -6,28 +6,23 @@ using booksAPI.Enums;
 namespace booksAPI.Entities
 {
     [Table("reviews")]
-    public class Review : IDatabaseEntity
+    public class ReviewEntity
     {
         [Key]
         [Column("id")]
-        public required int Id { get; set; }
+        public int Id { get; set; }
 
         [Column("text")]
         public string? Text { get; set; }
 
         [Column("rating")]
-        public required Rate Rating { get; set; }
+        [Required, Range(1, 5)]
+        public Rate Rating { get; set; }
 
         [Column("reviewer_id")]
-        [ForeignKey("User")]
-        public required int UserId { get; set; }
+        public string UserId { get; set; } = string.Empty;
 
         [Column("book_id")]
-        [ForeignKey("Book")]
-        public required int BookId { get; set; }
-
-        public required Book Book { get; set; }
-
-        public required User User { get; set; }
+        public int BookId { get; set; }
     }
 }

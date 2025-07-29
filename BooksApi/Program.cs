@@ -51,7 +51,7 @@ namespace booksAPI
             app.UseStatusCodePages();
             app.UseHttpsRedirection();
 
-            app.MapIdentityApi<LoginUser>();
+            app.MapIdentityApi<ApplicationUser>();
             app.MapControllers();
 
             app.Run();

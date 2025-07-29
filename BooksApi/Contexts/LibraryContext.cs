@@ -11,9 +11,7 @@ public class LibraryContext : DbContext
         _connectionString = configuration.GetConnectionString("LibraryDB")!;
     }
 
-    public DbSet<Book> Books { get; set; }
-    public DbSet<Review> Reviews { get; set; }
-    public DbSet<User> Users { get; set; }
+    public DbSet<ReviewEntity> Reviews { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -21,10 +19,14 @@ public class LibraryContext : DbContext
         optionsBuilder.UseMySQL(_connectionString);
     }
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        base.OnModelCreating(modelBuilder);
+    //protected override void OnModelCreating(ModelBuilder modelBuilder)
+    //{
+    //    base.OnModelCreating(modelBuilder);
 
-        modelBuilder.Entity<BookAndUser>().HasNoKey();
-    }
+    //    modelBuilder.Entity<ReviewEntity>().Navigation(r => r.User).AutoInclude();
+    //    modelBuilder.Entity<ReviewEntity>().Navigation(r => r.Book).AutoInclude();
+
+    //    modelBuilder.Entity<BookAndUserEntity>().HasOne(book => book.Book).WithMany(b => b.UsersSaved).HasForeignKey(u => u.BookId);
+    //    modelBuilder.Entity<BookAndUserEntity>().HasOne(user => user.User).WithMany(u => u.SavedBooks).HasForeignKey(b => b.UserId);
+    //}
 }

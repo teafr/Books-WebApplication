@@ -46,9 +46,9 @@ namespace booksAPI.Repositories
 
         public virtual async Task DeleteByIdAsync(int id)
         {
-            var entity = await this.dbSet.FindAsync(id);
-            this.dbSet.Remove(entity!);
-            await this._context.SaveChangesAsync();
+            var entity = await dbSet.FindAsync(id);
+            dbSet.Remove(entity!);
+            await _context.SaveChangesAsync();
         }
     }
 }

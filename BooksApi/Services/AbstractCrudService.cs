@@ -1,45 +1,23 @@
-﻿using booksAPI.Entities;
-using booksAPI.Helpers;
-using booksAPI.Models.DatabaseModels;
-using booksAPI.Repositories;
+﻿using booksAPI.Repositories;
+using System.Reflection;
 
 namespace booksAPI.Services
 {
-    public abstract class AbstractCrudService<TModel, TEntity> : ICrudService<TModel> where TModel : IDatabaseModel where TEntity : IDatabaseEntity
+    public abstract class AbstractCrudService<TModel, TEntity>
     {
-        protected readonly IRepository<TEntity> _repository;
+        //protected readonly IRepository<TEntity> _repository;
 
-        protected AbstractCrudService(IRepository<TEntity> repository)
-        {
-            this._repository = repository;
-        }
-        public virtual async Task<List<TModel>?> GetAsync()
-        {
-            var items = await _repository.GetAsync() ?? [];
-            return [.. items.Select(item => GetModelObject(item))];
-        }
+        //protected AbstractCrudService(IRepository<TEntity> repository)
+        //{
+        //    _repository = repository;
+        //}
 
-        public virtual async Task<TModel?> GetByIdAsync(int id)
-        {
-            var item = await _repository.GetByIdAsync(id);
-            return item is null ? default : GetModelObject(item);
-        }
+        //public virtual async Task UpdateAsync(TEntity entityToUpdate)
+        //{
+        //    var existingEntity = await _repository.GetByIdAsync(entityToUpdate.Id);
 
-        public virtual async Task<TModel> CreateAsync(TModel newItem)
-        {
-            var createdItem = await _repository.CreateAsync(GetEntityObject(newItem));
-            return GetModelObject(createdItem);
-        }
-
-        public abstract Task UpdateAsync(TModel itemToUpdate);
-
-        public virtual async Task DeleteAsync(int id)
-        {
-            await _repository.DeleteByIdAsync(id);
-        }
-
-        protected abstract TModel GetModelObject(TEntity entity);
-
-        protected abstract TEntity GetEntityObject(TModel model);
+        //    PropertyInfo[] propertiesInfo = typeof(TEntity).GetProperties();
+        //    Array.ForEach(propertiesInfo, propertyInfo => propertyInfo.SetValue(existingEntity, propertyInfo.GetValue(entityToUpdate)));
+        //}
     }
 }

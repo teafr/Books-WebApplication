@@ -1,13 +1,17 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using booksAPI.Services;
-using booksAPI.Entities;
-using booksAPI.Models.DatabaseModels;
+using Microsoft.AspNetCore.Identity;
+using booksAPI.Models;
 
 namespace booksAPI.Controllers
 {
     [Route("api/[controller]")]
-    public class UsersController : CrudController<UserModel>
+    public class UsersController : BaseController
     {
-        public UsersController(ICrudService<UserModel> service, ILogger<UsersController> logger) : base(service, logger) { }
+        private readonly UserManager<ApplicationUser> userManager;
+
+        public UsersController(UserManager<ApplicationUser> userManager, ILogger<UsersController> logger) : base(logger)
+        {
+            this.userManager = userManager;
+        }
     }
 }
