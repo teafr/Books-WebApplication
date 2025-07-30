@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace booksAPI.Models
+namespace booksAPI.Data.Identity
 {
     [Table("SavedBooks")]
     public class SavedBook
@@ -18,6 +18,6 @@ namespace booksAPI.Models
         [Range(0, 2, ErrorMessage = "Status must be between 0 and 2.")]
         public Status Status{ get; set; }
 
-        public ApplicationUser User { get; set; }
+        public ApplicationUser User { get; set; } = new ApplicationUser();
     }
 }

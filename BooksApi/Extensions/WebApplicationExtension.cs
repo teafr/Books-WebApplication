@@ -1,4 +1,5 @@
 ﻿using booksAPI.Contexts;
+using booksAPI.Data.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace booksAPI.Extensions

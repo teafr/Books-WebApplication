@@ -4,15 +4,15 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using booksAPI.Contexts;
+using booksAPI.Data.Identity;
 
 #nullable disable
 
 namespace booksAPI.Migrations.Identity
 {
     [DbContext(typeof(IdentityContext))]
-    [Migration("20250403084934_InitializeIdentityDB")]
-    partial class InitializeIdentityDB
+    [Migration("20250730135446_IdentityInitialization")]
+    partial class IdentityInitialization
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -150,7 +150,7 @@ namespace booksAPI.Migrations.Identity
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("booksAPI.Models.LoginUser", b =>
+            modelBuilder.Entity("booksAPI.Data.Identity.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("varchar(255)");
@@ -217,6 +217,27 @@ namespace booksAPI.Migrations.Identity
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("booksAPI.Data.Identity.SavedBook", b =>
+                {
+                    b.Property<int>("BookId")
+                        .HasColumnType("int")
+                        .HasColumnName("BookId");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("UserId");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int")
+                        .HasColumnName("Status");
+
+                    b.HasKey("BookId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("SavedBooks");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -228,7 +249,7 @@ namespace booksAPI.Migrations.Identity
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("booksAPI.Models.LoginUser", null)
+                    b.HasOne("booksAPI.Data.Identity.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -237,7 +258,7 @@ namespace booksAPI.Migrations.Identity
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("booksAPI.Models.LoginUser", null)
+                    b.HasOne("booksAPI.Data.Identity.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -252,7 +273,7 @@ namespace booksAPI.Migrations.Identity
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("booksAPI.Models.LoginUser", null)
+                    b.HasOne("booksAPI.Data.Identity.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -261,11 +282,27 @@ namespace booksAPI.Migrations.Identity
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("booksAPI.Models.LoginUser", null)
+                    b.HasOne("booksAPI.Data.Identity.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("booksAPI.Data.Identity.SavedBook", b =>
+                {
+                    b.HasOne("booksAPI.Data.Identity.ApplicationUser", "User")
+                        .WithMany("SavedBooks")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("booksAPI.Data.Identity.ApplicationUser", b =>
+                {
+                    b.Navigation("SavedBooks");
                 });
 #pragma warning restore 612, 618
         }

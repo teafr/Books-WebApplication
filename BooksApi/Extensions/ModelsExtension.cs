@@ -1,4 +1,4 @@
-﻿using booksAPI.Entities;
+﻿using booksAPI.Data;
 using booksAPI.Models;
 
 namespace booksAPI.Extensions
@@ -13,7 +13,7 @@ namespace booksAPI.Extensions
                 Text = review.Text,
                 Rating = review.Rating,
                 BookId = bookId,
-                UserId = userId
+                ReviewerId = userId
             };
         }
     }

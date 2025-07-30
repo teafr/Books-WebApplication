@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using booksAPI.Entities;
+using booksAPI.Data;
 
 namespace booksAPI.Contexts;
 public class LibraryContext : DbContext
@@ -8,7 +8,7 @@ public class LibraryContext : DbContext
 
     public LibraryContext(IConfiguration configuration)
     {
-        _connectionString = configuration.GetConnectionString("LibraryDB")!;
+        _connectionString = configuration.GetConnectionString("ApplicationDB")!;
     }
 
     public DbSet<ReviewEntity> Reviews { get; set; }

@@ -7,7 +7,7 @@ using MySql.EntityFrameworkCore.Metadata;
 namespace booksAPI.Migrations.Identity
 {
     /// <inheritdoc />
-    public partial class InitializeIdentityDB : Migration
+    public partial class IdentityInitialization : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -168,6 +168,26 @@ namespace booksAPI.Migrations.Identity
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
+            migrationBuilder.CreateTable(
+                name: "SavedBooks",
+                columns: table => new
+                {
+                    UserId = table.Column<string>(type: "varchar(255)", nullable: false),
+                    BookId = table.Column<int>(type: "int", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SavedBooks", x => new { x.BookId, x.UserId });
+                    table.ForeignKey(
+                        name: "FK_SavedBooks_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -204,6 +224,11 @@ namespace booksAPI.Migrations.Identity
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SavedBooks_UserId",
+                table: "SavedBooks",
+                column: "UserId");
         }
 
         /// <inheritdoc />
@@ -223,6 +248,9 @@ namespace booksAPI.Migrations.Identity
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "SavedBooks");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

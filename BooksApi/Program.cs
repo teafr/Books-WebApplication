@@ -1,7 +1,6 @@
-using booksAPI.Contexts;
+using booksAPI.Data.Identity;
 using booksAPI.Extensions;
 using booksAPI.Infrastructure;
-using booksAPI.Models;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 

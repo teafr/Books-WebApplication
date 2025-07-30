@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace booksAPI.Models
+namespace booksAPI.Data.Identity
 {
     public class ApplicationUser : IdentityUser
     {

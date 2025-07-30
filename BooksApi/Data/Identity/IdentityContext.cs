@@ -1,8 +1,7 @@
-﻿using booksAPI.Models;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace booksAPI.Contexts
+namespace booksAPI.Data.Identity
 {
     public class IdentityContext : IdentityDbContext<ApplicationUser>
     {
@@ -14,9 +13,9 @@ namespace booksAPI.Contexts
         {
             base.OnModelCreating(builder);
 
+            builder.Entity<SavedBook>().HasKey(sb => new { sb.BookId, sb.UserId });
+            builder.Entity<SavedBook>().HasOne(user => user.User).WithMany(u => u.SavedBooks).HasForeignKey(b => b.UserId);
             builder.Entity<ApplicationUser>().Property(LoginUser => LoginUser.Name);
-
-            //builder.HasDefaultSchema("identity");
         }
     }
 }

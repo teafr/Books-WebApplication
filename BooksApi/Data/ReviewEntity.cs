@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using booksAPI.Enums;
 
-namespace booksAPI.Entities
+namespace booksAPI.Data
 {
     [Table("reviews")]
     public class ReviewEntity
@@ -20,7 +20,8 @@ namespace booksAPI.Entities
         public Rate Rating { get; set; }
 
         [Column("reviewer_id")]
-        public string UserId { get; set; } = string.Empty;
+        [Required, StringLength(40)]
+        public string ReviewerId { get; set; } = string.Empty;
 
         [Column("book_id")]
         public int BookId { get; set; }

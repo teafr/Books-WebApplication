@@ -1,5 +1,4 @@
-﻿using booksAPI.Entities;
-using booksAPI.Models.GutendexModels;
+﻿using booksAPI.Models.GutendexModels;
 
 namespace booksAPI.Models
 {

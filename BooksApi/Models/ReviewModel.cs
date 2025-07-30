@@ -1,4 +1,4 @@
-﻿using booksAPI.Entities;
+﻿using booksAPI.Data;
 using booksAPI.Enums;
 using System.ComponentModel.DataAnnotations;
 
@@ -11,7 +11,7 @@ namespace booksAPI.Models
             Id = review.Id;
             Text = review.Text;
             Rating = review.Rating;
-            UserId = review.UserId;
+            UserId = review.ReviewerId;
         }
 
         public int Id { get; set; }
@@ -21,7 +21,7 @@ namespace booksAPI.Models
         [Required, Range(1, 5)]
         public Rate Rating { get; set; }
 
-        [Required]
+        [Required, StringLength(40)]
         public string UserId { get; set; }
     }
 }

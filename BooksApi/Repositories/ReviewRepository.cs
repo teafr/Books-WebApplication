@@ -1,5 +1,5 @@
 ﻿using booksAPI.Contexts;
-using booksAPI.Entities;
+using booksAPI.Data;
 
 namespace booksAPI.Repositories
 {
