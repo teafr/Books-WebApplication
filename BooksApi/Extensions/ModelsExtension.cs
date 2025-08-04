@@ -5,7 +5,7 @@ namespace booksAPI.Extensions
 {
     public static class ModelsExtension
     {
-        public static ReviewEntity ConvertToEntity(this ReviewModel review, int bookId, string userId)
+        public static ReviewEntity ConvertToEntity(this ReviewModel review, int bookId)
         {
             return new ReviewEntity()
             {
@@ -13,7 +13,20 @@ namespace booksAPI.Extensions
                 Text = review.Text,
                 Rating = review.Rating,
                 BookId = bookId,
-                ReviewerId = userId
+                ReviewerId = review.ReviewerId,
+                ReviewDate = review.ReviewDate,
+            };
+        }
+
+        public static ReviewModel ConvertToModel(this ReviewEntity review)
+        {
+            return new ReviewModel()
+            {
+                Id = review.Id,
+                Text = review.Text,
+                Rating = review.Rating,
+                ReviewerId = review.ReviewerId,
+                ReviewDate = review.ReviewDate,
             };
         }
     }

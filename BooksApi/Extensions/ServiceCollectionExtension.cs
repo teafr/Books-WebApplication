@@ -12,7 +12,7 @@ namespace booksAPI.Infrastructure
     {
         public static IServiceCollection AddDependensies(this IServiceCollection services)
         {
-            services.AddScoped<IRepository<ReviewEntity>, ReviewRepository>();
+            services.AddScoped<IReviewRepository, ReviewRepository>();
 
             services.AddScoped<IReviewService, ReviewService>();
             services.AddScoped<IBookService, BookService>();

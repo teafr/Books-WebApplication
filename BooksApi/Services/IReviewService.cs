@@ -5,10 +5,16 @@ namespace booksAPI.Services
     public interface IReviewService
     {
         /// <summary>
+        /// Gets all reviews.
+        /// </summary>
+        /// <returns>All reviews.</returns>
+        Task<List<ReviewModel>?> GetAllReviewsAsync();
+
+        /// <summary>
         /// Gets review by its ID.
         /// </summary>
         /// <param name="reviewId">The ID of the review.</param>
-        /// <returns></returns>
+        /// <returns>Review by specific ID.</returns>
         Task<ReviewModel?> GetReviewByIdAsync(int reviewId);
 
         /// <summary>
@@ -39,14 +45,13 @@ namespace booksAPI.Services
         /// <param name="reviewId">The ID of the review.</param>
         /// <param name="review">The review to update.</param>
         /// <returns>True if operation successfull.</returns>
-        Task<bool> UpdateReviewAsync(int reviewId, ReviewModel review);
+        Task UpdateReviewAsync(ReviewModel review);
 
         /// <summary>
         /// Deletes a review by its ID.
         /// </summary>
         /// <param name="reviewId">The ID of the review to delete.</param>
         /// <returns>A task representing the asynchronous operation.</returns>
-        Task<bool> DeleteReviewAsync(int reviewId);
-
+        Task DeleteReviewAsync(int reviewId);
     }
 }

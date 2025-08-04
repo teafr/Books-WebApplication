@@ -7,16 +7,6 @@ namespace booksAPI.Controllers
     public abstract class BaseController : ControllerBase
     {
         protected readonly ILogger<BaseController> _logger;
-        protected readonly object recordNotFound = new
-        {
-            statusCode = 404,
-            message = "Record not found"
-        };
-        protected readonly object childNotFound = new
-        {
-            statusCode = 404,
-            message = "Child not found"
-        };
 
         protected BaseController(ILogger<BaseController> logger)
         {
@@ -29,6 +19,24 @@ namespace booksAPI.Controllers
             {
                 return await function();
             }
+            catch (ArgumentNullException argumentNullException)
+            {
+                _logger.LogWarning(argumentNullException, "{Message}", new { argumentNullException.Message });
+                return BadRequest(new
+                {
+                    statusCode = StatusCodes.Status400BadRequest,
+                    message = argumentNullException.Message
+                });
+            }
+            catch (KeyNotFoundException keyNotFoundException)
+            {
+                _logger.LogWarning(keyNotFoundException, "{Message}", new { keyNotFoundException.Message });
+                return NotFound(new
+                {
+                    statusCode = StatusCodes.Status404NotFound,
+                    message = keyNotFoundException.Message
+                });
+            }
             catch (Exception exception)
             {
                 _logger.LogError(exception, "{Message}", new { exception.Message });
@@ -39,12 +47,6 @@ namespace booksAPI.Controllers
                     message = exception.Message
                 });
             }
-        }
-
-        public override NotFoundObjectResult NotFound([ActionResultObjectValue] object? value)
-        {
-            _logger.LogWarning("Record was not found by user. Response: {Response}", value);
-            return base.NotFound(value);
         }
 
         public override NoContentResult NoContent()

@@ -1,5 +1,4 @@
 using booksAPI.Data.Identity;
-using booksAPI.Extensions;
 using booksAPI.Infrastructure;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
@@ -33,8 +32,6 @@ namespace booksAPI
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
-
-                app.ApplyMigrations();
             }
             else
             {

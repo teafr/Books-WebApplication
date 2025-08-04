@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace booksAPI.Repositories
 {
-    public abstract class BaseRepository<Entity> : IRepository<Entity> where Entity : class
+    public abstract class BaseRepository<Entity> : ICrudRepository<Entity> where Entity : class
     {
         protected readonly LibraryContext _context;
         protected readonly DbSet<Entity> dbSet;

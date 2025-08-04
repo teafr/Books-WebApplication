@@ -19,8 +19,10 @@ namespace booksAPI.Data
         [Required, Range(1, 5)]
         public Rate Rating { get; set; }
 
+        public DateTime ReviewDate { get; set; }
+
         [Column("reviewer_id")]
-        [Required, StringLength(40)]
+        [Required, StringLength(36, MinimumLength = 36)]
         public string ReviewerId { get; set; } = string.Empty;
 
         [Column("book_id")]

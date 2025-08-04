@@ -1,6 +1,6 @@
 ﻿namespace booksAPI.Repositories
 {
-    public interface IRepository<TEntity>
+    public interface ICrudRepository<TEntity>
     {
         Task<List<TEntity>?> GetAsync();
 

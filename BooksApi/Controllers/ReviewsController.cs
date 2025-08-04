@@ -15,17 +15,21 @@ namespace booksAPI.Controllers
             this.service = service;
         }
 
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [Produces(MediaTypeNames.Application.Json)]
+        public virtual async Task<IActionResult> Get()
+        {
+            return await ExceptionHandle(async () => Ok(await service.GetAllReviewsAsync()));
+        }
+
         [HttpGet("{id:int:min(1)}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [Produces(MediaTypeNames.Application.Json)]
         public virtual async Task<IActionResult> GetById(int id)
         {
-            return await ExceptionHandle(async () =>
-            {
-                var item = await service.GetReviewByIdAsync(id);
-                return item is null ? NotFound(recordNotFound) : Ok(item);
-            });
+            return await ExceptionHandle(async () => Ok((await service.GetReviewByIdAsync(id)) ?? throw new KeyNotFoundException($"Review with ID {id} not found.")));
         }
 
         [HttpPost("book/{bookId}")]
@@ -37,27 +41,23 @@ namespace booksAPI.Controllers
         {
             return await ExceptionHandle(async () =>
             {
+                item.ReviewDate = DateTime.UtcNow;
                 return CreatedAtAction(nameof(Post), await service.AddReviewAsync(bookId, item));
             });
         }
 
 
-        [HttpPut("{reviewId")]
+        [HttpPut("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status415UnsupportedMediaType)]
-        public virtual async Task<IActionResult> Put(int reviewId, ReviewModel itemToUpdate)
+        public virtual async Task<IActionResult> Put(int id, ReviewModel itemToUpdate)
         {
             return await ExceptionHandle(async () =>
             {
-                var existingItem = await service.GetReviewByIdAsync(itemToUpdate.Id);
-                if (existingItem is null)
-                {
-                    return NotFound(recordNotFound);
-                }
-
-                await service.UpdateReviewAsync(reviewId, itemToUpdate);
+                itemToUpdate.Id = id;
+                await service.UpdateReviewAsync(itemToUpdate);
                 return NoContent();
             });
         }
@@ -69,22 +69,8 @@ namespace booksAPI.Controllers
         {
             return await ExceptionHandle(async () =>
             {
-                var item = await service.GetReviewByIdAsync(id);
-                if (item is null)
-                {
-                    return NotFound(recordNotFound);
-                }
-
-                if (await service.DeleteReviewAsync(id))
-                {
-                    _logger.LogInformation($"Review with ID {id} deleted successfully.");
-                    return NoContent();
-                }
-                else
-                {
-                    _logger.LogWarning($"Failed to delete review with ID {id}.");
-                    throw new InvalidOperationException("Failed to delete the review.");
-                }
+                await service.DeleteReviewAsync(id);
+                return NoContent();
             });
         }
     }

@@ -22,7 +22,7 @@ namespace booksAPI.Controllers
         public async Task<IActionResult> SearchBooks([FromQuery] string query)
         {
             List<GutendexBook>? books = await _gutendexService.SearchBooksAsync("search", query);
-            return books == null ? NotFound(recordNotFound) : Ok(books);
+            return books == null ? NotFound() : Ok(books);
         }
 
         [HttpGet("{id}")]
@@ -31,7 +31,7 @@ namespace booksAPI.Controllers
             return await ExceptionHandle(async () =>
             {
                 GutendexBook? book = await _gutendexService.GetBookByIdAsync(id);
-                return book == null ? NotFound(recordNotFound) : Ok(book);
+                return book == null ? NotFound() : Ok(book);
             });
         }
 
@@ -44,7 +44,7 @@ namespace booksAPI.Controllers
             return await ExceptionHandle(async () =>
             {
                 string? text = await _gutendexService.GetFullTextByBookIdAsync(id);
-                return text == null ? NotFound(recordNotFound) : Ok(new { text });
+                return text == null ? NotFound() : Ok(new { text });
             });
         }
     }
