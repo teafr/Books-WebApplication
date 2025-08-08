@@ -29,5 +29,14 @@ namespace booksAPI.Extensions
                 ReviewDate = review.ReviewDate,
             };
         }
+
+        public static SavedBookModel ConvertToSavedBook(this SavedBookModel savedBookModel)
+        {
+            return new SavedBookModel()
+            {
+                BookId = savedBookModel.BookId,
+                Status = savedBookModel.Status
+            };
+        }
     }
 }

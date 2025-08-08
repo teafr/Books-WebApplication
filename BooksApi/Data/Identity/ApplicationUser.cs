@@ -6,6 +6,6 @@ namespace booksAPI.Data.Identity
     {
         public string? Name { get; set; }
 
-        public List<SavedBook> SavedBooks { get; set; } = new List<SavedBook>();
+        public List<SavedBookEntity> SavedBooks { get; set; } = new List<SavedBookEntity>();
     }
 }

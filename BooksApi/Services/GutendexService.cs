@@ -15,28 +15,29 @@ namespace booksAPI.Services
         {
             this.httpClient = httpClient;
 
-            gutendexUrl = configuration["Gutendex:Endpoints:Https:GutendexUrl"];
-            gutenbergUrl = configuration["Gutendex:Endpoints:Https:GutenbergUrl"];
+            gutendexUrl = configuration["Gutendex:Endpoints:Https:GutendexUrl"] ?? throw new JsonException("Couldn't get Gutendex url from application.json file.");
+            gutenbergUrl = configuration["Gutendex:Endpoints:Https:GutenbergUrl"] ?? throw new JsonException("Couldn't get Gutenberg url from application.json file.");
         }
 
-        public async Task<List<GutendexBook>?> SearchBooksAsync(string key, string value)
+        public async Task<SearchResult?> GetAllBooksAsync(string? url = null)
         {
-            string url = $"{gutendexUrl}?{Uri.EscapeDataString(key)}={Uri.EscapeDataString(value)}";
-            HttpResponseMessage response = await httpClient.GetAsync(url);
+            HttpResponseMessage response = await httpClient.GetAsync(url ?? gutendexUrl);
             response.EnsureSuccessStatusCode();
-
-            SearchResult result = JsonSerializer.Deserialize<SearchResult>(await response.Content.ReadAsStringAsync())!;
-            return result.Books;
+            return JsonSerializer.Deserialize<SearchResult>(await response.Content.ReadAsStringAsync())!;
         }
+
+        //public async Task<SearchResult?> SearchBooksAsync(string? query, string sort = "popular")
+        //{
+        //    string url = $"{gutendexUrl}?sort={Uri.EscapeDataString(sort)}&{Uri.EscapeDataString(query ?? "")}";
+            
+        //    HttpResponseMessage response = await httpClient.GetAsync(url);
+        //    response.EnsureSuccessStatusCode();
+
+        //    return JsonSerializer.Deserialize<SearchResult>(await response.Content.ReadAsStringAsync())!;
+        //}
 
         public async Task<GutendexBook?> GetBookByIdAsync(int id)
         {
-            //HttpResponseMessage response = await _httpClient.GetAsync($"{gutendexUrl}?ids={id}");
-            //response.EnsureSuccessStatusCode();
-
-            //SearchResult searchResult = JsonSerializer.Deserialize<SearchResult>(await response.Content.ReadAsStringAsync())!;
-            //return searchResult?.Books?.FirstOrDefault();
-
             HttpResponseMessage response = await httpClient.GetAsync($"{gutendexUrl}{id}");
             response.EnsureSuccessStatusCode();
 

@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace booksAPI.Data.Identity
 {
     [Table("SavedBooks")]
-    public class SavedBook
+    public class SavedBookEntity
     {
         [Column("UserId")]
         [ForeignKey("User")]

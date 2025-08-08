@@ -7,5 +7,4 @@ namespace booksAPI.Models.GutendexModels
         [JsonPropertyName("name")]
         public string? Name { get; set; }
     }
-
 }

@@ -37,22 +37,22 @@ namespace booksAPI.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status415UnsupportedMediaType)]
         [Produces(MediaTypeNames.Application.Json)]
-        public virtual async Task<IActionResult> Post(int bookId, ReviewModel item)
+        public virtual async Task<IActionResult> Create(int bookId, ReviewModel item)
         {
             return await ExceptionHandle(async () =>
             {
                 item.ReviewDate = DateTime.UtcNow;
-                return CreatedAtAction(nameof(Post), await service.AddReviewAsync(bookId, item));
+                return CreatedAtAction(nameof(Create), await service.AddReviewAsync(bookId, item));
             });
         }
 
 
-        [HttpPut("{id}")]
+        [HttpPut("{id:int:min(1)}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status415UnsupportedMediaType)]
-        public virtual async Task<IActionResult> Put(int id, ReviewModel itemToUpdate)
+        public virtual async Task<IActionResult> Update(int id, ReviewModel itemToUpdate)
         {
             return await ExceptionHandle(async () =>
             {
