@@ -1,20 +1,37 @@
-export interface ShortBook {
+export interface User {
     id: number;
-    title: string;
-    authors: string[];
-    subjects: string[];
-    image: string;
+    name: string;
+    email: string;
+    username: string;
+    statusCounts: Record<string, number>;
 }
 
-export interface FullBook {
+export interface SearchResult {
+    count: number;
+    results: Book[];
+    next: string | null;
+    previous: string | null;
+}
+
+export interface Book {
     id: number;
     title: string;
-    authors: string[];
+    authors: Author[];
     summaries: string[];
     subjects: string[];
     languages: string[];
     image: string;
     reviews: Review[];
+    formats: Formats;
+}
+
+export interface Author {
+    name: string;
+}
+
+export interface Formats {
+    "text/plain; charset=us-ascii": string | null;
+    "image/jpeg": string | null;
 }
 
 export interface Review {
@@ -29,12 +46,6 @@ export interface SavedBook {
     bookId: number;
     status: Status;
 }
-
-//export enum Status {
-//    WantToRead,
-//    AlreadyRead,
-//    InProgress
-//}
 
 export const Statuses = {
     0: 'WantToRead',
