@@ -19,20 +19,10 @@ namespace booksAPI.Services
             gutenbergUrl = configuration["Gutendex:Endpoints:Https:GutenbergUrl"] ?? throw new JsonException("Couldn't get Gutenberg url from application.json file.");
         }
 
-        public async Task<SearchResult?> GetAllBooksAsync(string? url = null)
-        {
-            HttpResponseMessage response = await httpClient.GetAsync(url ?? gutendexUrl);
-            response.EnsureSuccessStatusCode();
-            return JsonSerializer.Deserialize<SearchResult>(await response.Content.ReadAsStringAsync())!;
-        }
-
-        //public async Task<SearchResult?> SearchBooksAsync(string? query, string sort = "popular")
+        //public async Task<SearchResult?> GetAllBooksAsync(string? url = null)
         //{
-        //    string url = $"{gutendexUrl}?sort={Uri.EscapeDataString(sort)}&{Uri.EscapeDataString(query ?? "")}";
-            
-        //    HttpResponseMessage response = await httpClient.GetAsync(url);
+        //    HttpResponseMessage response = await httpClient.GetAsync(url ?? gutendexUrl);
         //    response.EnsureSuccessStatusCode();
-
         //    return JsonSerializer.Deserialize<SearchResult>(await response.Content.ReadAsStringAsync())!;
         //}
 

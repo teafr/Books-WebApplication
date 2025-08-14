@@ -4,9 +4,7 @@ namespace booksAPI.Services
 {
     public interface IGutendexService
     {
-        Task<SearchResult?> GetAllBooksAsync(string? url = null);
-
-        //Task<SearchResult?> SearchBooksAsync(string query, string sort = "popular");
+        //Task<SearchResult?> GetAllBooksAsync(string? url = null);
         
         Task<GutendexBook?> GetBookByIdAsync(int id);
 

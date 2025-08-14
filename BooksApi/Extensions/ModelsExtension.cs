@@ -1,4 +1,5 @@
 ﻿using booksAPI.Data;
+using booksAPI.Data.Identity;
 using booksAPI.Models;
 
 namespace booksAPI.Extensions
@@ -27,15 +28,6 @@ namespace booksAPI.Extensions
                 Rating = review.Rating,
                 ReviewerId = review.ReviewerId,
                 ReviewDate = review.ReviewDate,
-            };
-        }
-
-        public static SavedBookModel ConvertToSavedBook(this SavedBookModel savedBookModel)
-        {
-            return new SavedBookModel()
-            {
-                BookId = savedBookModel.BookId,
-                Status = savedBookModel.Status
             };
         }
     }

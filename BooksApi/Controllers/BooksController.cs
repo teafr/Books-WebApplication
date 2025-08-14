@@ -1,6 +1,4 @@
-﻿using booksAPI.Models;
-using booksAPI.Models.GutendexModels;
-using booksAPI.Services;
+﻿using booksAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Mime;
 
@@ -18,17 +16,6 @@ namespace booksAPI.Controllers
             this.reviewService = reviewService;
         }
 
-        [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [Produces(MediaTypeNames.Application.Json)]
-        public async Task<IActionResult> GetAllBooks()
-        {
-            return await ExceptionHandle(async () =>
-            {
-                return Ok(await _gutendexService.GetAllBooksAsync());
-            });
-        }
-
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -40,14 +27,6 @@ namespace booksAPI.Controllers
                 return Ok(await _gutendexService.GetBookByIdAsync(id));
             });
         }
-
-        //[HttpGet("sortBy/{sort}/search")]
-        //[ProducesResponseType(StatusCodes.Status200OK)]
-        //[Produces(MediaTypeNames.Application.Json)]
-        //public async Task<IActionResult> SearchAndSortBooks([FromQuery] string query, string sort)
-        //{
-        //    return Ok(await _gutendexService.SearchBooksAsync(query, sort));
-        //}
 
         [HttpGet("{id:int:min(1)}/text")]
         [ProducesResponseType(StatusCodes.Status200OK)]

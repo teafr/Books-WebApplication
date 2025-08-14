@@ -25,6 +25,7 @@ namespace booksAPI
             builder.Services.AddAuthentication().AddCookie(IdentityConstants.ApplicationScheme);
 
             builder.Services.ConfigureServices(builder.Configuration).AddDependensies();
+            builder.Services.AddCors();
 
             var app = builder.Build();
 
@@ -47,8 +48,17 @@ namespace booksAPI
             app.UseStatusCodePages();
             app.UseHttpsRedirection();
 
+            app.UseCors(app => app.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+
+            app.UseAuthorization();
+
             app.MapIdentityApi<ApplicationUser>();
             app.MapControllers();
+
+            app.MapPost("/logout", (SignInManager<ApplicationUser> signInManager) =>
+            {
+                return signInManager.SignOutAsync();
+            }).RequireAuthorization();
 
             app.Run();
         }
