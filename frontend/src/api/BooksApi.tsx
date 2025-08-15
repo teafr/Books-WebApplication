@@ -4,8 +4,8 @@ import type { SearchResult, Book, Review } from './ApiModels';
 const API_BASE_URL = 'http://localhost:7092/api/books/';
 const GUTENDEX_API_BASE_URL = 'https://gutendex.com/books/';
 
-export async function fetchBooks(url: string = GUTENDEX_API_BASE_URL): Promise<SearchResult[]> {
-    const response = await axios.get<SearchResult[]>(url);
+export async function fetchBooks(url: string = GUTENDEX_API_BASE_URL): Promise<SearchResult> {
+    const response = await axios.get<SearchResult>(url);
     return response.data;
 }
 
@@ -14,18 +14,18 @@ export async function fetchBookById(id: number): Promise<Book> {
     return response.data;
 }
 
-export async function fetchBooksByIds(ids: number[]): Promise<SearchResult[]> {
-    const response = await axios.get<SearchResult[]>(`${GUTENDEX_API_BASE_URL}?ids=${ids.join(',')}`);
+export async function fetchBooksByIds(ids: number[]): Promise<SearchResult> {
+    const response = await axios.get<SearchResult>(`${GUTENDEX_API_BASE_URL}?ids=${ids.join(',')}`);
     return response.data;
 }
 
-export async function searchBooks(key: string, value: string): Promise<SearchResult[]> {
-    const response = await axios.get<SearchResult[]>(`${GUTENDEX_API_BASE_URL}?${key}=${value}`);
+export async function searchBooks(key: string, value: string): Promise<SearchResult> {
+    const response = await axios.get<SearchResult>(`${GUTENDEX_API_BASE_URL}?${key}=${value}`);
     return response.data;
 }
 
-export async function searchBooksByQueryString(query: string): Promise<SearchResult[]> {
-    const response = await axios.get<SearchResult[]>(`${GUTENDEX_API_BASE_URL}?${query}`);
+export async function searchBooksByQueryString(query: string): Promise<SearchResult> {
+    const response = await axios.get<SearchResult>(`${GUTENDEX_API_BASE_URL}?${query}`);
     return response.data;
 }
 

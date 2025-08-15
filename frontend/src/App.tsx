@@ -1,17 +1,17 @@
 import { useState, useEffect } from 'react';
-import { fetchBookById } from './api/BooksApi';
+import { fetchBooks } from './api/BooksApi';
 import './App.css';
-import BookInfo from './Components/BookItem/BookInfo';
-import type { Book } from './api/ApiModels';
+import type { SearchResult } from './api/ApiModels';
+import BookList from './Components/BookList/BookList';
 
 function App() {
-    const [book, setBook] = useState<Book | null>(null);
+    const [searchResult, setSearchResult] = useState<SearchResult | null>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         async function loadBook() {
-            const result = await fetchBookById(222);
-            setBook(result);
+            const result = await fetchBooks();
+            setSearchResult(result);
             setLoading(false);
         }
         loadBook();
@@ -23,16 +23,8 @@ function App() {
 
     return (
         <>
-            {book && (
-                <BookInfo
-                    id={book.id}
-                    title={book.title}
-                    authors={book.authors.map(b => b.name)}
-                    image={book.formats['image/jpeg'] || ""}
-                    languages={book.languages}
-                    subjects={book.subjects}
-                    summaries={book.summaries}
-                />
+            {searchResult && (
+                <BookList books={searchResult.results} />
             )}
         </>
     );
